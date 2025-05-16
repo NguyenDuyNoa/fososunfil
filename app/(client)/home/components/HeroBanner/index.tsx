@@ -69,18 +69,18 @@ const HeroBanner = ({
               <img
                 src={slide.image}
                 alt="banner-image"
-                className="w-full h-full object-fill"
+                className="w-full h-full objtec-fill"
               />
             </SwiperSlide>
           ))}
         </Swiper> */}
-        <div
+        {/* <div
           className="w-full h-full overflow-hidden bg-cover bg-center flex items-center justify-between px-10"
           style={{
             backgroundImage: "url('/home/TopBanner/bgTopBanner.png')",
           }}
         >
-          {/* Nội dung bên trái */}
+         
           <div className="flex-1  h-full pt-[10%]">
             <h2 className="text-[40px] leading-6 font-bold text-white">
               Bộ lọc dầu xe hơi cao cấp
@@ -99,8 +99,45 @@ const HeroBanner = ({
             </h1>
             <p className="italic text-2xl  text-[#1C252E]">*Số lượng có hạn</p>
           </div>
-          {/* Hình ảnh sản phẩm bên phải */}
+     
           <div className="relative size-[500px]">
+            <Image
+              src="/home/TopBanner/image1.png"
+              alt="Lọc dầu xe"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div> */}
+        <div
+          className="w-full h-full overflow-hidden bg-cover bg-center flex items-center justify-between px-4 md:px-6 lg:px-10 py-6 gap-4"
+          style={{
+            backgroundImage: "url('/home/TopBanner/bgTopBanner.png')",
+          }}
+        >
+          {/* Text bên trái */}
+          <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis h-full pt-[10%]">
+            <h2 className="xxl:text-[40px]  text-2xl font-bold text-white">
+              Bộ lọc dầu xe hơi cao cấp
+            </h2>
+            <h1
+              className="3xl:text-8xl xxl:text-[80px] text-6xl italic font-extrabold leading-[1.1] my-3"
+              style={{
+                background:
+                  "var(--gradient-warning-light, linear-gradient(135deg, var(--warning-lighter, #FFF5CC) 0%, var(--warning-light, #FFD666) 100%))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Mua 10 tặng 2
+            </h1>
+            <p className="italic 3xl:text-2xl xl:text-2xl text-lg text-[#1C252E]">
+              *Số lượng có hạn
+            </p>
+          </div>
+
+          {/* Ảnh bên phải */}
+          <div className="relative 2xl:size-[500px] xxl:size-[400px] size-[350px]">
             <Image
               src="/home/TopBanner/image1.png"
               alt="Lọc dầu xe"
