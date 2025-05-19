@@ -14,6 +14,7 @@ const config: Config = {
       fontFamily: {
         spaceGrotesk: ["var(--font-space-grotesk)"],
         montserrat: ["var(--font-montserrat)"],
+        epilogue: ['Epilogue', 'sans-serif'],
       },
       backgroundImage: {
         discountCodeBanner: "url('/home/discountCodeBanner.png')",

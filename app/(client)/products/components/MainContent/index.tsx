@@ -4,7 +4,7 @@ import ProductSection from "../ProductSection";
 
 const MainContent = () => {
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 relative">
       <SidebarFilter />
       <ProductSection />
     </div>

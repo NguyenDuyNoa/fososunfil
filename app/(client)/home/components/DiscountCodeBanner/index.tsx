@@ -4,7 +4,7 @@ import { IMAGES } from "@/constants/Images";
 
 const DiscountCodeBanner = () => {
   return (
-    <div className="relative flex flex-col gap-4 justify-center items-center bg-discountCodeBanner bg-cover bg-center bg-no-repeat w-full h-[165px] rounded-xl">
+    <div className="relative py-7 flex flex-col 3xl:gap-4 gap-3 justify-center items-center bg-discountCodeBanner bg-cover bg-center bg-no-repeat w-full rounded-xl">
       <div className="absolute top-1/2 -translate-y-1/2 left-[25%] 3xl:left-[30%]">
         <Image src={IMAGES.union} alt="union" width={158} height={124} />
         <div className="text-error-main absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-[60%] rotate-[-15deg]">

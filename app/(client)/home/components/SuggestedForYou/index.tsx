@@ -12,7 +12,6 @@ const breakpoints = {
   768: { slidesPerView: 2 },
   1024: { slidesPerView: 3 },
   1280: { slidesPerView: 4 },
-  1536: { slidesPerView: 5 },
 };
 
 const productImages = [
@@ -53,13 +52,21 @@ const SuggestedForYou = () => {
             <DoubleArrowRightIcon className="text-brand-500 size-5 transition-transform duration-300 group-hover:translate-x-1" />
           </div>
         </div>
-        <div className="flex gap-4 w-full">
-          <Image src={IMAGES.banner2} alt="" width={500} height={600} />
-          <div className="w-[calc(100%-500px)]">
+        <div className="flex gap-6 w-full h-full">
+          <div className="w-[30%] flex-1">
+            <Image
+              src={IMAGES.banner2}
+              alt=""
+              width={500}
+              height={600}
+              className="w-full h-full object-cover rounded-xl"
+            />
+          </div>
+          <div className="w-[calc(70%-24px)]">
             <SwiperCarousel
               items={productCards}
               slidesPerView={4}
-              spaceBetween={8}
+              spaceBetween={16}
               breakpoints={breakpoints}
               className="viewed-products-swiper h-full"
             />

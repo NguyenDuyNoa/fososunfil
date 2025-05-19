@@ -33,22 +33,22 @@ const ListTopBanner = [
 ];
 
 const carBrands = [
-  { id: "honda", name: "Honda", logo: "home/LogoCar/Honda.png" },
-  { id: "ford", name: "Ford", logo: "home/LogoCar/Ford.png" },
-  { id: "bmw", name: "BMW", logo: "home/LogoCar/BMW.png" },
-  { id: "audi", name: "Audi", logo: "home/LogoCar/Audi.png" },
-  { id: "kia", name: "KIA-Morning", logo: "home/LogoCar/Kia.png" },
-  { id: "nissan", name: "Nissan", logo: "home/LogoCar/Nissan.png" },
-  { id: "chevrolet", name: "Chevrolet", logo: "home/LogoCar/Chevrolet.png" },
-  { id: "volkswagen", name: "Volkswagen", logo: "home/LogoCar/Volkswagen.png" },
-  { id: "lexus", name: "Lexus", logo: "home/LogoCar/Lexus.png" },
-  { id: "volvo", name: "Volvo", logo: "home/LogoCar/Volvo.png" },
-  { id: "honda1", name: "Honda", logo: "home/LogoCar/Honda.png" },
-  { id: "ford1", name: "Ford", logo: "home/LogoCar/Ford.png" },
-  { id: "bmw1", name: "BMW", logo: "home/LogoCar/BMW.png" },
-  { id: "audi1", name: "Audi", logo: "home/LogoCar/Audi.png" },
-  { id: "kia1", name: "KIA-Morning", logo: "home/LogoCar/Kia.png" },
-  { id: "nissan1", name: "Nissan", logo: "home/LogoCar/Nissan.png" },
+  { id: "honda", name: "Honda", logo: "/home/LogoCar/Honda.png" },
+  { id: "ford", name: "Ford", logo: "/home/LogoCar/Ford.png" },
+  { id: "bmw", name: "BMW", logo: "/home/LogoCar/BMW.png" },
+  { id: "audi", name: "Audi", logo: "/home/LogoCar/Audi.png" },
+  { id: "kia", name: "KIA-Morning", logo: "/home/LogoCar/Kia.png" },
+  { id: "nissan", name: "Nissan", logo: "/home/LogoCar/Nissan.png" },
+  { id: "chevrolet", name: "Chevrolet", logo: "/home/LogoCar/Chevrolet.png" },
+  { id: "volkswagen", name: "Volkswagen", logo: "/home/LogoCar/Volkswagen.png" },
+  { id: "lexus", name: "Lexus", logo: "/home/LogoCar/Lexus.png" },
+  { id: "volvo", name: "Volvo", logo: "/home/LogoCar/Volvo.png" },
+  { id: "honda1", name: "Honda", logo: "/home/LogoCar/Honda.png" },
+  { id: "ford1", name: "Ford", logo: "/home/LogoCar/Ford.png" },
+  { id: "bmw1", name: "BMW", logo: "/home/LogoCar/BMW.png" },
+  { id: "audi1", name: "Audi", logo: "/home/LogoCar/Audi.png" },
+  { id: "kia1", name: "KIA-Morning", logo: "/home/LogoCar/Kia.png" },
+  { id: "nissan1", name: "Nissan", logo: "/home/LogoCar/Nissan.png" },
 ];
 
 const Home = () => {
@@ -65,20 +65,7 @@ const Home = () => {
   }, [listCategories]);
 
   return (
-    <div className="relative bg-[#F4F6F8] w-full 3xl:px-12 2xl:px-10 xl:px-8 px-4 flex flex-col gap-8 ">
-      {/* <div className="pt-[112px] flex flex-col justify-between md:gap-0 gap-16 3xl:pb-8 2xl:pb-6 pb-3 h-full relative z-10">
-        <SectionIntroHome />
-        {isVisibleMobile && (
-          <div className="w-full h-[400px] grid grid-cols-12 bg-white">
-            <div className="col-span-12 bg-[url('/background/home/bg-home.png')] bg-cover bg-center bg-no-repeat" />
-          </div>
-        )}
-        <SectionSecondHome />
-      </div>
-      <div className="w-full h-screen md:grid grid-cols-12 bg-white md:absolute hidden top-0 left-0 z-0">
-        <div className="xl:col-span-7 col-span-8" />
-        <div className="xl:col-span-5 col-span-4 bg-[url('/background/home/bg-home.png')] bg-cover bg-center bg-no-repeat" />
-      </div> */}
+    <div className="relative bg-[#F4F6F8] w-full 3xl:px-12 2xl:px-9 xl:px-6 px-4 flex flex-col gap-6 3xl:gap-8 ">
       <HeroBanner
         items={categoryData}
         IsProducts={true}

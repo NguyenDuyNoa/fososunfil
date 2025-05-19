@@ -1,8 +1,5 @@
-import SwiperCarousel from "@/components/SwiperCarousel";
-import React, { useEffect } from "react";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 type Brand = {
   id: string;
@@ -34,9 +31,9 @@ const BrandList = ({ brands }: BrandListProps) => {
   // }, [controls]);
 
   return (
-    <div className="relative w-full overflow-hidden py-4 bg-[#F4F6F8]">
+    <div className="relative w-full overflow-hidden bg-[#F4F6F8]">
       <motion.div
-        className="flex gap-6 w-max"
+        className="flex gap-5 w-max"
         // animate={controls}
         animate={{ x: ["0%", "-100%"] }}
         transition={{
@@ -48,17 +45,19 @@ const BrandList = ({ brands }: BrandListProps) => {
         {[...brands, ...brands, ...brands, ...brands].map((brand, index) => (
           <div
             key={index}
-            className="w-[160px] p-2 aspect-square bg-white rounded-xl border border-[#919EAB] border-opacity-20 flex flex-col items-center justify-center hover:shadow-md transition-all duration-300"
+            className="w-[160px] p-2.5 aspect-square bg-white rounded-xl border border-[#919EAB] border-opacity-20 flex flex-col items-center justify-center hover:shadow-md transition-all duration-300"
           >
-            <div className="w-[60px] h-[60px] relative">
-              <img
+            {/* <div className="w-[120px] h-[120px] relative"> */}
+              <Image
+                width={500}
+                height={500}
                 src={brand.logo}
                 alt={brand.name}
-                className="object-contain w-full h-full"
+                className="object-cover w-full"
               />
-            </div>
-            <div className="w-full h-[1px] bg-[#919EAB] bg-opacity-20 my-1" />
-            <p className="text-sm font-medium text-[#454F5B]">{brand.name}</p>
+            {/* </div> */}
+            <div className="w-full h-[1px] bg-[#919EAB] bg-opacity-20 my-[5px]" />
+            <p className="text-base font-medium text-[#454F5B]">{brand.name}</p>
           </div>
         ))}
       </motion.div>

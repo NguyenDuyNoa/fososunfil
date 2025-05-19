@@ -25,20 +25,20 @@ const BannerProduct = () => {
     <div className="rounded-xl bg-brand-600 overflow-hidden">
       <div className="relative h-[500px] w-full flex justify-center items-center bg-bannerProduct bg-cover bg-center bg-no-repeat">
         <div className="absolute top-10 left-0 rounded-r-full bg-gradient-to-r from-warning-lighter to-warning-light px-12 py-2.5">
-          <p className="text-2xl font-bold text-error-darker uppercase">
+          <p className="3xl:text-2xl text-xl font-bold text-error-darker uppercase">
             mới cực hot!
           </p>
         </div>
         <div className="absolute top-1/2 -translate-y-1/2 left-10 flex flex-col gap-5 max-w-[60%]">
-          <div className="relative inline-block text-8xl font-extrabold uppercase select-none">
+          <div className="relative inline-block text-7xl 3xl:text-8xl font-epilogue font-extrabold uppercase tracking-tighter select-none">
             <h2
-              className="absolute top-0 left-0  text-[#1250EF]"
+              className="absolute top-0 left-0 text-[#1250EF]"
               style={{ WebkitTextStroke: "8px #1250EF" }}
             >
               tải app nhận quà
             </h2>
 
-            <h2 className="relative  text-white">
+            <h2 className="relative text-white">
               tải app nhận quà
             </h2>
           </div>

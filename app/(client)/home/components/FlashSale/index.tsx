@@ -27,7 +27,7 @@ const productCards = Array(8)
 const FlashSale = () => {
   // Thiết lập thời gian kết thúc cụ thể: 12:30, ngày 15 tháng 5 năm 2025
   const endTime = useMemo(() => {
-    const specificEndTime = new Date("2025-05-15T12:30:00");
+    const specificEndTime = new Date("2025-05-19T12:30:00");
     return specificEndTime;
   }, []);
 
@@ -37,7 +37,7 @@ const FlashSale = () => {
   };
 
   return (
-    <div className="relative mt-8 3xl:p-12 2xl:p-10 xl:p-8 p-4 bg-gradient-to-r from-[#FFEDD933] to-[#FFE8CE4D] w-full h-fit rounded-xl overflow-hidden">
+    <div className="relative 3xl:p-12 2xl:p-9 xl:p-6 p-4 bg-gradient-to-r from-[#FFEDD933] to-[#FFE8CE4D] w-full h-fit rounded-xl overflow-hidden">
       <div className="flex flex-col gap-5 z-[5] relative">
         <div className="flex justify-between gap-2 z-10">
           <div className="flex flex-col md:flex-row items-center gap-5">
@@ -60,7 +60,7 @@ const FlashSale = () => {
         <SwiperCarousel
           items={productCards}
           slidesPerView={6}
-          spaceBetween={8}
+          spaceBetween={16}
           autoplay={true}
           autoplayDelay={2000}
           className="flash-sale-swiper z-10"

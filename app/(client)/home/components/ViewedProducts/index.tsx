@@ -22,7 +22,7 @@ const productCards = Array(8)
 
 const ViewedProducts = () => {
   return (
-    <div className="relative 3xl:p-12 2xl:p-10 xl:p-8 p-4 w-full rounded-md">
+    <div className="relative 3xl:p-12 2xl:p-9 xl:p-6 p-4 w-full rounded-md">
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <Image src={IMAGES.viewed} alt="" width={40} height={40} />
@@ -34,7 +34,7 @@ const ViewedProducts = () => {
         <SwiperCarousel
           items={productCards}
           slidesPerView={6}
-          spaceBetween={8}
+          spaceBetween={16}
           className="viewed-products-swiper"
         />
       </div>

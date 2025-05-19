@@ -18,7 +18,7 @@ const ProductSummary = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
-        <h2 className="text-4xl text-[#374151] font-semibold">
+        <h2 className="3xl:text-4xl text-3xl text-[#374151] font-semibold">
           Lọc gió động cơ Air Filter – Chevrolet Colorado, Trailblazer
           (52046262)
         </h2>

@@ -22,7 +22,7 @@ const productCards = Array(8)
   
 const NewArrival = () => {
   return (
-    <div className="relative 3xl:p-12 2xl:p-10 xl:p-8 p-4 bg-brand-600 w-full h-fit rounded-xl overflow-hidden">
+    <div className="relative 3xl:p-12 2xl:p-9 xl:p-6 p-4 bg-brand-600 w-full h-fit rounded-xl overflow-hidden">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between gap-2 z-10">
           <div className="flex items-center gap-5">
@@ -43,7 +43,7 @@ const NewArrival = () => {
         <SwiperCarousel
           items={productCards}
           slidesPerView={6}
-          spaceBetween={8}
+          spaceBetween={16}
           navigationButtonBgColor="bg-brand-100"
           navigationButtonIconColor="text-brand-800"
           className="flash-sale-swiper z-10"

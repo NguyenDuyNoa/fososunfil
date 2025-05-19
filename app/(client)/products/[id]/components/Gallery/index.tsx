@@ -27,6 +27,8 @@ const Gallery = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
   const thumbnailRefs = useRef<(HTMLDivElement | null)[]>([]);
   const thumbnailContainerRef = useRef<HTMLDivElement>(null);
+  const mainImageRef = useRef<HTMLDivElement>(null);
+  const [imageHeight, setImageHeight] = useState(0);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -60,19 +62,44 @@ const Gallery = () => {
       // Tính toán vị trí cuộn để đưa thumbnail vào giữa container
       const containerRect = container.getBoundingClientRect();
       const thumbnailRect = thumbnail.getBoundingClientRect();
-      
+
       const isVertical = window.innerWidth >= 768; // Kiểm tra nếu là layout dọc (md breakpoint)
-      
+
       if (isVertical) {
         // Cuộn theo chiều dọc
-        const centerPosition = thumbnail.offsetTop - (containerRect.height / 2) + (thumbnailRect.height / 2);
+        const thumbnailTop = thumbnail.offsetTop - container.offsetTop;
+        const thumbnailHeight = thumbnailRect.height;
+        const containerHeight = containerRect.height;
+        
+        // Tính toán vị trí để thumbnail nằm chính giữa
+        let centerPosition = thumbnailTop - (containerHeight - thumbnailHeight) / 2;
+        
+        // Đảm bảo không cuộn quá đầu container
+        centerPosition = Math.max(0, centerPosition);
+        
+        // Đảm bảo không cuộn quá cuối container
+        const maxScroll = container.scrollHeight - containerHeight;
+        centerPosition = Math.min(maxScroll, centerPosition);
         container.scrollTo({
           top: centerPosition,
           behavior: 'smooth'
         });
       } else {
         // Cuộn theo chiều ngang
-        const centerPosition = thumbnail.offsetLeft - (containerRect.width / 2) + (thumbnailRect.width / 2);
+        const thumbnailLeft = thumbnail.offsetLeft;
+        const thumbnailWidth = thumbnailRect.width;
+        const containerWidth = containerRect.width;
+        
+        // Tính toán vị trí để thumbnail nằm chính giữa
+        let centerPosition = thumbnailLeft - (containerWidth - thumbnailWidth) / 2;
+        
+        // Đảm bảo không cuộn quá đầu container
+        centerPosition = Math.max(0, centerPosition);
+        
+        // Đảm bảo không cuộn quá cuối container
+        const maxScroll = container.scrollWidth - containerWidth;
+        centerPosition = Math.min(maxScroll, centerPosition);
+        
         container.scrollTo({
           left: centerPosition,
           behavior: 'smooth'
@@ -81,12 +108,30 @@ const Gallery = () => {
     }
   }, [selectedThumbnail]);
 
+  // Tính toán chiều cao của hình ảnh
+  useEffect(() => {
+    if (mainImageRef.current) {
+      const updateImageHeight = () => {
+        const height = mainImageRef.current?.offsetHeight || 0;
+        setImageHeight(height);
+      };
+      
+      updateImageHeight();
+      window.addEventListener('resize', updateImageHeight);
+      
+      return () => {
+        window.removeEventListener('resize', updateImageHeight);
+      };
+    }
+  }, []);
+
   return (
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="flex flex-row 3xl:gap-6 gap-4">
       {/* Thumbnails */}
       <div 
         ref={thumbnailContainerRef}
-        className="flex flex-shrink-0 flex-row md:flex-col gap-3 order-2 md:order-1 overflow-auto md:max-h-[684px] max-w-full"
+        className="flex flex-shrink-0 flex-row md:flex-col 3xl:gap-3 gap-2 overflow-auto max-w-full"
+        style={{ maxHeight: imageHeight }}
       >
         {images.map((image, index) => (
           <div
@@ -94,7 +139,7 @@ const Gallery = () => {
             ref={(el) => {
               thumbnailRefs.current[index] = el;
             }}
-            className={`relative w-[140px] aspect-[140/104] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
+            className={`relative 3xl:w-[140px] w-[100px] aspect-[140/104] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
               ${
                 selectedThumbnail === index
                   ? "border-blue-500"
@@ -116,12 +161,13 @@ const Gallery = () => {
       </div>
 
       {/* Main Image */}
-      <div className="relative w-full h-full order-1 md:order-2 rounded-xl overflow-hidden bg-gray-100">
+      <div ref={mainImageRef} className="relative w-fit aspect-square rounded-xl overflow-hidden bg-white">
         <Image
           src={images[currentIndex].src}
           alt={images[currentIndex].alt}
-          fill
-          className="object-cover"
+          width={1000}
+          height={1000}
+          className="object-cover w-full h-full"
         />
 
         {/* Image counter */}
