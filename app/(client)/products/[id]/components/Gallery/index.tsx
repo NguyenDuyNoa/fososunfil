@@ -161,7 +161,7 @@ const Gallery = () => {
       </div>
 
       {/* Main Image */}
-      <div ref={mainImageRef} className="relative w-fit aspect-square rounded-xl overflow-hidden bg-white">
+      <div ref={mainImageRef} className="relative w-full aspect-square rounded-xl overflow-hidden bg-white">
         <Image
           src={images[currentIndex].src}
           alt={images[currentIndex].alt}

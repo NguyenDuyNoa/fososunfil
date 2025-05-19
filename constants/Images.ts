@@ -45,4 +45,11 @@ export const IMAGES = {
   logo: "/logo/logo_sunfil.png",
   topBanner_1: "/home/TopBanner/Banner_1.png",
   topBanner_2: "/home/TopBanner/Banner_2.png",
+  avatar1: "/product/Avatar1.png",
+  avatar2: "/product/Avatar2.png",
+  avatar3: "/product/Avatar3.png",
+  avatar4: "/product/Avatar4.png",
+  avatar5: "/product/Avatar5.png",
+  avatar6: "/product/Avatar6.png",
+  
 };

@@ -1,14 +1,150 @@
-import { Rating } from "@smastrom/react-rating";
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import LikeIcon from "@/components/icons/likeIcon";
+import Rating from "@/components/Rating";
+import { IMAGES } from "@/constants/Images";
+import Image from "next/image";
 import React from "react";
 
-const StarDrawing = (
-  <path d="M13.6331 16.5003C13.4999 16.5008 13.3684 16.4694 13.2498 16.4086L8.9998 14.1836L4.7498 16.4086C4.6118 16.4812 4.4562 16.5136 4.3007 16.5021C4.1452 16.4906 3.99603 16.4358 3.87016 16.3438C3.74429 16.2517 3.64675 16.1263 3.58865 15.9816C3.53054 15.8369 3.5142 15.6788 3.54147 15.5253L4.3748 10.8336L0.941469 7.50027C0.83435 7.39338 0.758362 7.25933 0.721659 7.11252C0.684955 6.9657 0.688923 6.81167 0.733135 6.66694C0.781435 6.51883 0.870282 6.38723 0.989594 6.28707C1.10891 6.18691 1.2539 6.12219 1.40814 6.10027L6.15814 5.4086L8.2498 1.1336C8.31804 0.992712 8.42458 0.87389 8.55723 0.79075C8.68987 0.707609 8.84326 0.663513 8.9998 0.663513C9.15635 0.663513 9.30973 0.707609 9.44238 0.79075C9.57502 0.87389 9.68156 0.992712 9.7498 1.1336L11.8665 5.40027L16.6165 6.09194C16.7707 6.11386 16.9157 6.17857 17.035 6.27874C17.1543 6.3789 17.2432 6.5105 17.2915 6.6586C17.3357 6.80333 17.3396 6.95737 17.3029 7.10418C17.2662 7.251 17.1903 7.38504 17.0831 7.49194L13.6498 10.8253L14.4831 15.5169C14.5129 15.6732 14.4973 15.8347 14.4382 15.9823C14.3792 16.13 14.2791 16.2577 14.1498 16.3503C13.9989 16.456 13.8172 16.5088 13.6331 16.5003Z" />
-);
+// Component hiển thị thanh đánh giá sao
+const RatingBar = ({
+  stars,
+  count,
+  percent,
+}: {
+  stars: number;
+  count: string;
+  percent: string;
+}) => {
+  return (
+    <div className="flex gap-4 items-center w-full">
+      <h4 className="text-sm font-semibold text-primary-new whitespace-nowrap">
+        {stars} sao
+      </h4>
+      <div className="relative h-1 w-full bg-primary-new bg-opacity-30 rounded-full">
+        <div
+          className={`absolute top-0 left-0 h-1 w-[${percent}] bg-primary-new rounded-full`}
+        ></div>
+      </div>
+      <h4 className="text-sm font-normal text-secondary-new w-12 flex-shrink-0">
+        {count}
+      </h4>
+    </div>
+  );
+};
 
-const customStyles = {
-  itemShapes: StarDrawing,
-  activeFillColor: "#FFAB00",
-  inactiveFillColor: "#919EAB",
+// Component hiển thị nút Like
+const LikeButton = ({
+  active,
+  count,
+}: {
+  active?: boolean;
+  count?: number | string;
+}) => {
+  return (
+    <div className="mt-3 flex gap-2 items-center">
+      <LikeIcon color={active ? "#0373F3" : "#919EAB"} />
+      <span
+        className={`text-sm font-medium ${
+          active ? "text-primary-new" : "text-secondary-new"
+        }`}
+      >
+        {count || "Hữu ích"}
+      </span>
+    </div>
+  );
+};
+
+// Component hiển thị đánh giá của người dùng
+const UserReview = ({
+  avatarSrc,
+  username,
+  rating,
+  date,
+  comment,
+  productImages = [],
+  likeCount,
+}: {
+  avatarSrc: string;
+  username: string;
+  rating: number;
+  date: string;
+  comment: string;
+  productImages?: string[];
+  likeCount?: number;
+}) => {
+  return (
+    <div className="px-8 flex gap-4">
+      <div>
+        <Image
+          src={avatarSrc}
+          alt="avatar"
+          width={48}
+          height={48}
+          className="rounded-full object-cover"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5">
+          <h3 className="text-base font-bold text-primary-new">{username}</h3>
+          <Rating value={rating} readOnly />
+          <p className="text-disable-50 text-xs">{date}</p>
+        </div>
+        <p className="text-sm text-primary-new">{comment}</p>
+
+        {productImages.length > 0 && (
+          <div className="mt-2 flex gap-2">
+            {productImages.map((img, index) => (
+              <Image
+                key={index}
+                src={img}
+                alt="product"
+                width={64}
+                height={64}
+                className="rounded-lg object-cover"
+              />
+            ))}
+          </div>
+        )}
+
+        <LikeButton active={!!likeCount} count={likeCount} />
+      </div>
+    </div>
+  );
+};
+
+// Component hiển thị phân trang
+const Pagination = ({
+  currentPage = 1,
+  totalPages = 3,
+}: {
+  currentPage?: number;
+  totalPages?: number;
+}) => {
+  return (
+    <div className="flex justify-center items-center">
+      <div className="flex items-center gap-1.5">
+        <ArrowRightIcon className="w-6 h-6 rotate-180" />
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            className={`size-8 pt-1 rounded-lg ${
+              currentPage === index + 1
+                ? "bg-brand-500 text-white"
+                : "bg-white text-primary-new"
+            } text-sm font-semibold`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        {totalPages > 3 && (
+          <button className="size-8 pt-1 rounded-lg bg-white text-sm font-semibold text-primary-new">
+            ...
+          </button>
+        )}
+        <ArrowRightIcon className="w-6 h-6" />
+      </div>
+    </div>
+  );
 };
 
 const Review = () => {
@@ -17,18 +153,39 @@ const Review = () => {
       <h2 className="text-[28px]/[32px] font-semibold text-primary-new p-8">
         Đánh giá sản phẩm
       </h2>
-      <div className="flex border-b border-[#919EAB33]">
-        <div className="flex-1 flex flex-col items-center justify-center gap-2">
+      <div className="flex border-b border-[#919EAB33] border-dashed">
+        <div className="flex-1 flex flex-col items-center justify-center gap-2 border-r border-[#919EAB33] border-dashed">
           <h3 className="text-5xl font-extrabold text-primary-new">4/5</h3>
-          <Rating
-              value={4}
-              readOnly
-              style={{ maxWidth: 100 }}
-              itemStyles={customStyles}
-            />
+          <Rating value={4} readOnly />
           <p className="text-sm text-secondary-new">(8.24k đánh giá) </p>
         </div>
-        <div className="flex-1 flex items-center gap-2"></div>
+        <div className="flex-1 flex flex-col items-center gap-3 p-10">
+          <RatingBar stars={5} count="8.2k" percent="10%" />
+          <RatingBar stars={4} count="86.6k" percent="20%" />
+          <RatingBar stars={3} count="73.9k" percent="30%" />
+          <RatingBar stars={2} count="79k" percent="40%" />
+          <RatingBar stars={1} count="63.1k" percent="50%" />
+        </div>
+      </div>
+      <div className="py-10 flex flex-col gap-10">
+        <UserReview
+          avatarSrc={IMAGES.avatar1}
+          username="Thuy Do"
+          rating={5}
+          date="10/05/2025"
+          comment="Giờ mình tiến hành thay cho xe luôn hàng đúng như mong đợi lại giao nhanh nữa chứ. Mọi người nên mua xài nhé!"
+          productImages={[IMAGES.product1, IMAGES.product2, IMAGES.product3]}
+          likeCount={12}
+        />
+
+        <UserReview
+          avatarSrc={IMAGES.avatar1}
+          username="Phạm Văn Lập"
+          rating={2}
+          date="10/05/2025"
+          comment="Lọc gió bị gãy, lần này mua thất vọng quá Cũng may vẫn còn xài đc đã lắp vào xe"
+        />
+        <Pagination currentPage={1} totalPages={3} />
       </div>
     </div>
   );

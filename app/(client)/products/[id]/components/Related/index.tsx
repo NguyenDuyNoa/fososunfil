@@ -8,7 +8,7 @@ const Related = () => {
       <h2 className="text-[28px]/[32px] font-semibold text-primary-new">
         Sản phẩm liên quan
       </h2>
-      <div className="grid grid-cols-1 gap-1">
+      <div className="grid grid-cols-1 gap-6">
         <ProductCard
           isHorizontal
           imageSrc={IMAGES.product11}
