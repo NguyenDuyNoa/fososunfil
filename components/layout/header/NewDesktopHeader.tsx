@@ -23,12 +23,13 @@ import { IMAGES } from "@/constants/Images";
 import { useStateHeader } from "@/states/Header/useStateHeader";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMenuHeader } from "@/types/menu/IMenu";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface DesktopHeaderProps {
+export interface DesktopHeaderProps {
   dataCountryOptions: any[];
   dataHeader: IMenuHeader[];
   handleToggleMenu: (action: string) => void;
@@ -129,12 +130,25 @@ const NewDesktopHeader = ({
   );
 
   const pathname = usePathname();
+  const [showExtraHeader, setShowExtraHeader] = useState(true);
+  const [showTopHeader, setShowTopHeader] = useState(true);
+  const [showCategory, setShowCategory] = useState(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
 
+      setShowTopHeader(scrollY < 50); // Ẩn khi scroll qua 50px
+      setShowCategory(scrollY < 250); // Ẩn khi scroll qua 150px
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <>
       {/* Top notification bar */}
-      <div className="w-full bg-linear-bg-top-header text-white py-1 text-sm flex items-center">
-        <div className="container mx-auto flex justify-between items-center">
+      <div className="w-full bg-linear-bg-top-header text-white py-1 text-sm flex items-center 3xl:px-12 2xl:px-10 xl:px-8 px-4">
+        <div className="flex justify-between items-center w-full">
           <div className="flex items-center">
             <p className="text-xs text-white flex flex-row gap-x-2 font-normal">
               <IconDiscountHeader />
@@ -170,6 +184,8 @@ const NewDesktopHeader = ({
           </div>
         </div>
       </div>
+
+      {/* header */}
       <div className=" 3xl:px-12 2xl:px-10 xl:px-8 px-4 bg-white">
         {/* Main header */}
         <header className="w-full  py-3">
@@ -181,31 +197,31 @@ const NewDesktopHeader = ({
                 alt="logo"
                 width={600}
                 height={111}
-                className="object-contain w-[220px]"
+                className="object-contain w-[200px]"
                 quality={100}
                 loading="eager"
               />
             </Link>
-            <div className="flex-1 flex flex-row justify-between w-full gap-x-6">
+            <div className="flex-1 flex flex-row justify-between w-full xxl:gap-x-6 xl:gap-x-4 gap-x-3">
               {/* Search Bar */}
-              <div className="flex flex-row items-center w-full  border-[2px] border-brand-500 rounded-full px-4 py-2">
+              <div className="flex flex-row items-center w-full  border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
                 <input
                   type="text"
                   placeholder="Tìm sản phẩm"
-                  className="flex-1 py-2 px-4 text-disable-50 border-none outline-none placeholder:text-disable-50 text-base  font-normal"
+                  className="flex-1 xxl:py-2 xxl:px-4 lg:py-1 lg:px-2 text-disable-50 border-none outline-none placeholder:text-disable-50 text-base  font-normal"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button className="mr-2">
                   <IconCameraHeader fill="#041F2F" />
                 </button>
-                <button className="bg-blue-600 rounded-full py-2 px-5">
+                <button className="bg-blue-600 rounded-full xxl:py-2 xxl:px-5 py-[6px] px-4">
                   <IconSearchHeader fill="white" />
                 </button>
               </div>
 
               {/* Right Navigation */}
-              <div className="flex items-center gap-x-8 ">
+              <div className="flex items-center xxl:gap-x-8 xl:gap-x-5 gap-x-3">
                 <div className="flex items-center">
                   <Select
                     value={selectedOption?.code}
@@ -223,7 +239,7 @@ const NewDesktopHeader = ({
                               className="size-full object-cover rounded-full"
                             />
                           </div>
-                          <div className="text-base uppercase font-medium text-[#1C252E]">
+                          <div className="xl:text-base text-sm uppercase font-medium text-[#1C252E]">
                             {selectedOption.code}
                           </div>
                         </>
@@ -241,17 +257,17 @@ const NewDesktopHeader = ({
 
                 <div className="flex items-center cursor-pointer relative">
                   <IconShopping fill="#0154C5" />
-                  <span className="ml-1 text-base font-medium text-nowrap text-[#1C252E]">
+                  <span className="ml-[2px] xl:text-base text-sm font-medium text-nowrap text-[#1C252E]">
                     Giỏ hàng
                   </span>
-                  <div className="absolute -top-3 left-6 bg-error-main rounded-full size-6 flex items-center justify-center">
+                  <div className="absolute -top-3 xxl:left-6 xl:left-5 left-5 bg-error-main rounded-full xxl:size-6 xl:size-5 size-5 flex items-center justify-center">
                     <span className="text-white text-xs font-medium ">12</span>
                   </div>
                 </div>
 
                 <div className="flex items-center cursor-pointer">
                   <IconAccountHeader fill="#0154C5" />
-                  <span className="ml-1 text-base font-medium text-nowrap text-[#1C252E]">
+                  <span className="ml-[2px] xl:text-base text-sm font-medium text-nowrap text-[#1C252E]">
                     Tài khoản
                   </span>
                 </div>
@@ -261,51 +277,51 @@ const NewDesktopHeader = ({
         </header>
 
         {/* category */}
-        <div className="flex items-center justify-between w-full  py-3">
+        <div className="flex items-center justify-between w-full py-3">
           {/* Left Side - Categories */}
-          <div className="flex items-center  gap-x-6 pr-2">
-            <div className="relative group cursor-pointer bg-white">
-              <MegaMenuDropdown
-                triggerLabel="Danh Mục Sản Phẩm"
-                items={categoryData}
-                IsProducts={true}
-                icon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                }
-                allowHover={pathname === "/" ? false : true}
-              />
-            </div>
+          <div className="flex items-center  xxl:gap-x-6 xl:gap-x-4 gap-x-3 ">
+            {/* <div className="relative group cursor-pointer bg-white"> */}
+            <MegaMenuDropdown
+              triggerLabel="Danh Mục Sản Phẩm"
+              items={categoryData}
+              IsProducts={true}
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              }
+              allowHover={pathname === "/" ? false : true}
+            />
+            {/* </div> */}
 
             {/* Navigation Links */}
-            <nav className="hidden md:flex items-center gap-x-7">
+            <nav className="hidden md:flex items-center xxl:gap-x-7 xl:gap-x-3 gap-x-2">
               <Link
                 href="#"
-                className="text-[#1C252E] hover:text-brand-400 text-base font-medium"
+                className="text-[#1C252E] hover:text-brand-400 xxl:text-base text-sm font-medium text-nowrap"
               >
                 Về Chúng Tôi
               </Link>
               <Link
                 href="#"
-                className="text-[#1C252E] hover:text-brand-400 text-base font-medium"
+                className="text-[#1C252E] hover:text-brand-400 xxl:text-base  text-sm font-medium text-nowrap"
               >
                 Bài Viết
               </Link>
               <Link
                 href="#"
-                className="text-[#1C252E] hover:text-brand-400 text-base font-medium"
+                className="text-[#1C252E] hover:text-brand-400 xxl:text-base text-sm font-medium text-nowrap"
               >
                 Liên Hệ
               </Link>
@@ -313,29 +329,25 @@ const NewDesktopHeader = ({
           </div>
 
           {/* Right Side - Features */}
-          <div className="hidden lg:flex items-center gap-x-5">
-            <div className="flex items-center gap-x-1">
+          <div className="hidden lg:flex items-center xxl:gap-x-5 xl:gap-x-3 gap-x-2">
+            <div className="flex items-center xxl:gap-x-1 gap-x-[2px] text-nowrap text-xs xl:text-sm xxl:text-base font-semibold">
               <IconSupportHeader fill="#0373F3" />
-              <span className="text-base font-semibold">Hỗ trợ 24/7</span>
+              <span className="">Hỗ trợ 24/7</span>
             </div>
 
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center xxl:gap-x-1 gap-x-[2px] text-nowrap text-xs xl:text-sm xxl:text-base font-semibold ">
               <IconDelivery fill="#0373F3" />
-              <span className="text-base font-semibold">
-                Miễn Phí Vận Chuyển
-              </span>
+              <span className="">Miễn Phí Vận Chuyển</span>
             </div>
 
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center xxl:gap-x-1 gap-x-[2px] text-nowrap text-xs xl:text-sm xxl:text-base font-semibold">
               <IconFastDeliveryHeader fill="#0373F3" />
-              <span className="text-base font-semibold">
-                Giao Hàng Nhanh 2h
-              </span>
+              <span className="">Giao Hàng Nhanh 2h</span>
             </div>
 
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center xxl:gap-x-1 gap-x-[2px] text-nowrap text-xs xl:text-sm xxl:text-base font-semibold">
               <IconReturnHeader fill="#0373F3" />
-              <span className="text-base font-semibold">30 Ngày Đổi Trả</span>
+              <span className="">30 Ngày Đổi Trả</span>
             </div>
           </div>
         </div>
