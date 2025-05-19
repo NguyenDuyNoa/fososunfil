@@ -41,7 +41,7 @@ const mockData = [
 
 const FeaturedPosts = () => {
   return (
-    <div className="relative 3xl:p-12 2xl:p-9 xl:p-6 p-4 w-full rounded-md">
+    <div className="relative w-full rounded-md">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between gap-2 z-10">
           <div className="flex items-center gap-2">

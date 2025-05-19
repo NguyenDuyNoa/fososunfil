@@ -30,7 +30,7 @@ const NewDesktopHeaderMini = ({
   return (
     <div className=" 3xl:px-12 2xl:px-10 xl:px-8 px-4 bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] ">
       {/* Main header */}
-      <header className="w-full py-1">
+      <header className="w-full py-1 container">
         <div className="flex items-center justify-between gap-x-8 w-full">
           {/* Logo */}
           <Link href="/">

@@ -148,7 +148,7 @@ const NewDesktopHeader = ({
     <>
       {/* Top notification bar */}
       <div className="w-full bg-linear-bg-top-header text-white py-1 text-sm flex items-center 3xl:px-12 2xl:px-10 xl:px-8 px-4">
-        <div className="flex justify-between items-center w-full">
+        <div className="container flex justify-between items-center w-full">
           <div className="flex items-center">
             <p className="text-xs text-white flex flex-row gap-x-2 font-normal">
               <IconDiscountHeader />
@@ -188,7 +188,7 @@ const NewDesktopHeader = ({
       {/* header */}
       <div className=" 3xl:px-12 2xl:px-10 xl:px-8 px-4 bg-white">
         {/* Main header */}
-        <header className="w-full  py-3">
+        <header className="w-full py-3 container">
           <div className="flex items-center justify-between gap-x-8 w-full">
             {/* Logo */}
             <Link href="/">
@@ -277,7 +277,7 @@ const NewDesktopHeader = ({
         </header>
 
         {/* category */}
-        <div className="flex items-center justify-between w-full py-3">
+        <div className="flex items-center justify-between w-full py-3 container">
           {/* Left Side - Categories */}
           <div className="flex items-center  xxl:gap-x-6 xl:gap-x-4 gap-x-3 ">
             {/* <div className="relative group cursor-pointer bg-white"> */}

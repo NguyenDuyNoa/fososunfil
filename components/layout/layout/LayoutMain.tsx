@@ -162,7 +162,7 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
           <div className="fixed top-0 left-0 right-0 z-[999]">
             <HeaderContainer />
           </div>
-          <main className={`size-full pt-[210px]`}>
+          <main className="size-full pt-[210px] bg-[#F4F6F8]">
             {/* <main className={`${!['/home', '/'].includes(pathname) && "pt-[112px]"} overflow-hidden size-full`}> */}
             <AnimatePresence
               mode="wait"

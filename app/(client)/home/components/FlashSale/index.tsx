@@ -27,7 +27,7 @@ const productCards = Array(8)
 const FlashSale = () => {
   // Thiết lập thời gian kết thúc cụ thể: 12:30, ngày 15 tháng 5 năm 2025
   const endTime = useMemo(() => {
-    const specificEndTime = new Date("2025-05-19T12:30:00");
+    const specificEndTime = new Date("2025-05-22T12:30:00");
     return specificEndTime;
   }, []);
 

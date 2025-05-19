@@ -22,7 +22,7 @@ const productCards = Array(8)
 
 const ViewedProducts = () => {
   return (
-    <div className="relative 3xl:p-12 2xl:p-9 xl:p-6 p-4 w-full rounded-md">
+    <div className="relative w-full rounded-md">
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <Image src={IMAGES.viewed} alt="" width={40} height={40} />

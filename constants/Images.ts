@@ -50,6 +50,6 @@ export const IMAGES = {
   avatar3: "/product/Avatar3.png",
   avatar4: "/product/Avatar4.png",
   avatar5: "/product/Avatar5.png",
-  avatar6: "/product/Avatar6.png",
+  avatar6: "/home/Avatar6.png",
   
 };

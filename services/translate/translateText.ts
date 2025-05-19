@@ -7,6 +7,16 @@ async function translateText(textArray: any, targetLanguage: string): Promise<st
         throw new Error('Text and target language are required.');
     }
 
+    // Nếu ngôn ngữ đích là tiếng Việt, trả về nguyên văn không dịch
+    if (targetLanguage === 'vi') {
+        // Trả về định dạng giống như API để đảm bảo tính nhất quán với cách sử dụng trong TranslationWrapper
+        const mockResponse = Array.isArray(textArray) ? 
+            { 0: textArray } : // Nếu là mảng, giữ nguyên mảng các văn bản
+            { 0: [textArray] }; // Nếu là chuỗi đơn, bọc trong mảng
+            
+        return mockResponse as unknown as string;
+    }
+
     // Gói gọn payload theo cấu trúc yêu cầu
     const requestBody = [
         [

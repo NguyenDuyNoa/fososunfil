@@ -65,7 +65,7 @@ const Home = () => {
   }, [listCategories]);
 
   return (
-    <div className="relative bg-[#F4F6F8] w-full 3xl:px-12 2xl:px-9 xl:px-6 px-4 flex flex-col gap-6 3xl:gap-8 ">
+    <div className="relative container w-full flex flex-col gap-6 3xl:gap-8 pb-8">
       <HeroBanner
         items={categoryData}
         IsProducts={true}

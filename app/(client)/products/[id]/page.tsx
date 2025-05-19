@@ -19,7 +19,7 @@ const breadcrumbs = [
 const DetailProduct = () => {
   return (
     <>
-      <div className="bg-[#F4F6F8] flex flex-col gap-8 pt-6 3xl:px-12 2xl:px-10 xl:px-8 px-4">
+      <div className="container flex flex-col gap-8 pt-6">
         <Breadcrumbs items={breadcrumbs} />
         <ProductMainInfo />
         <div className="grid grid-cols-[2fr_1fr] gap-6">

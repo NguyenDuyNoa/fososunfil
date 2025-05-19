@@ -33,7 +33,7 @@ const productCards = Array(8)
 
 const SuggestedForYou = () => {
   return (
-    <div className="relative 3xl:p-12 2xl:p-10 xl:p-8 p-4 w-full rounded-md">
+    <div className="relative w-full rounded-md">
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

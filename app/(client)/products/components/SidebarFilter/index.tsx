@@ -46,7 +46,7 @@ const SidebarFilter = () => {
   };
 
   return (
-    <div className="sticky top-56 bg-white rounded-lg flex flex-col gap-4 py-3 w-[374px] h-fit">
+    <div className="sticky top-24 bg-white rounded-lg flex flex-col gap-4 py-3 w-[374px] h-fit">
       <div className="p-3 flex items-center gap-3">
         <Image src={IMAGES.filter} alt="filter" width={24} height={24} />
         <h2 className="text-2xl font-bold text-brand-500">Bộ Lọc</h2>

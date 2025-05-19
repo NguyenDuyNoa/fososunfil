@@ -1,21 +1,16 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
-
-import TabletHeader from "@/components/layout/header/TabletHeader";
-import DesktopHeader from "@/components/layout/header/DesktopHeader";
-
-import { useResizeStore } from "@/stores/useResizeStore";
-import { useStateHeader } from "@/states/Header/useStateHeader";
-
-import { uuidv4 } from "@/lib/uuid";
-import { IMenuHeader } from "@/types/menu/IMenu";
-import { useLanguage } from "@/context/LanguageProvider";
-import useCookieStore from "@/stores/useCookieStore";
-import { useDialogStore } from "@/stores/useDialogStore";
 import NewDesktopHeader from "@/components/layout/header/NewDesktopHeader";
 import NewDesktopHeaderMini from "@/components/layout/header/NewDesktopHeaderMini";
+import TabletHeader from "@/components/layout/header/TabletHeader";
+import { useLanguage } from "@/context/LanguageProvider";
+import { uuidv4 } from "@/lib/uuid";
+import { useStateHeader } from "@/states/Header/useStateHeader";
+import useCookieStore from "@/stores/useCookieStore";
+import { useDialogStore } from "@/stores/useDialogStore";
+import { useResizeStore } from "@/stores/useResizeStore";
+import { IMenuHeader } from "@/types/menu/IMenu";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const dataHeader: IMenuHeader[] = [
   {
@@ -57,12 +52,12 @@ const dataHeader: IMenuHeader[] = [
 
 const dataCountryOptions = [
   {
-    code: "VI",
+    code: "vi",
     country: "Việt Nam",
     flag: "/flag/vi.png",
   },
   {
-    code: "EN",
+    code: "en",
     country: "English",
     flag: "/flag/en.png",
   },
