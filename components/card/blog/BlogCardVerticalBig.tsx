@@ -81,7 +81,7 @@ const BlogCardVerticalBig = ({
                                 })} */}
             <div
               style={{ backgroundColor: color_category }}
-              className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs"
+              className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs h-[26px]"
             >
               {name_category}
             </div>

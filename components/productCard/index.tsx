@@ -1,5 +1,4 @@
 import { IMAGES } from "@/constants/Images";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -23,9 +22,9 @@ const ProductCard = ({
   return (
     <Link
       href={`/products/loc-gio-dong-co-air-filter-chevrolet-colorado-trailblazer-52046262`}
-      className={`flex ${isHorizontal ? 'flex-row' : 'flex-col'} w-full h-fit mb-5 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer ${ className}`}
+      className={`flex ${isHorizontal ? 'flex-row h-fit' : 'flex-col h-full'} w-full bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer ${ className}`}
     >
-      <div className={`p-1 rounded-sm ${isHorizontal ? 'w-1/2 h-fit' : 'flex-1'} flex items-center justify-center overflow-hidden`}>
+      <div className={`p-1 rounded-sm ${isHorizontal ? 'w-1/2' : ''} flex-1 flex items-center justify-center overflow-hidden`}>
         <div className="overflow-hidden w-full aspect-square rounded-sm">
           <Image
             src={imageSrc}
@@ -36,7 +35,7 @@ const ProductCard = ({
           />
         </div>
       </div>
-      <div className={`flex flex-col gap-4 ${isHorizontal ? 'w-1/2 justify-center p-4 pt-2' : 'p-6 pt-4'}`}>
+      <div className={`flex flex-col gap-4 ${isHorizontal ? 'w-1/2 justify-center p-4 pt-2' : 'p-4 2xl:p-5 3xl:p-6 pt-4'}`}>
       {!isBanner && (
         <div className="w-fit flex gap-1.5 items-center py-[2px] px-2.5 bg-gradient-to-r from-warning-light to-warning-main rounded-full">
           <div className="flex items-center justify-center size-4 bg-[#FFF1DC] rounded-full">

@@ -19,6 +19,21 @@ const productImages = [
   IMAGES.product9,
   IMAGES.product10,
   IMAGES.product11,
+  IMAGES.product6,
+  IMAGES.product7,
+  IMAGES.product8,
+  IMAGES.product9,
+  IMAGES.product10,
+  IMAGES.product11,
+  IMAGES.product7,
+  IMAGES.product8,
+  IMAGES.product,
+  IMAGES.product11,
+  IMAGES.product7,
+  IMAGES.product8,
+  IMAGES.product9,
+  IMAGES.product10,
+  IMAGES.product11,
 ];
 
 const ProductSection = () => {
@@ -94,7 +109,7 @@ const ProductSection = () => {
         </div>
       </div>
       <div className="grid grid-cols-5 gap-4">
-        {Array(15)
+        {Array(30)
           .fill(0)
           .map((_, index) => (
             <ProductCard key={index} imageSrc={productImages[index]} />
