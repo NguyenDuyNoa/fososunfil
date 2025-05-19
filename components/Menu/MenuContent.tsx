@@ -17,18 +17,6 @@ const productImages = [
   IMAGES.product16,
 ];
 
-const productCards = Array(4)
-  .fill(0)
-  .map((_, index) => (
-    <ProductCard
-      key={index}
-      imageSrc={productImages[index]}
-      classNameImage="size-[150px]"
-      isBanner={true}
-      className="mb-0"
-    />
-  ));
-
 type MegaMenuContentProps = {
   classNameContent?: string;
   classNameSubItem?: string;
@@ -40,6 +28,7 @@ type MegaMenuContentProps = {
   onClose: () => void;
   onHover: () => void;
   isBanner?: boolean;
+  isMiniHeader?: boolean;
 };
 
 const MenuContent = ({
@@ -53,17 +42,38 @@ const MenuContent = ({
   onHover,
   isBanner = false,
   classNameActiveItem = "",
+  isMiniHeader,
 }: MegaMenuContentProps) => {
+  const productCards = Array(isMiniHeader ? 4 : 5)
+    .fill(0)
+    .map((_, index) => (
+      <ProductCard
+        key={index}
+        imageSrc={productImages[index]}
+        classNameImage="size-[150px]"
+        isBanner={true}
+        className="mb-0"
+      />
+    ));
+
   return (
     <>
-      {/* Overlay blur layer */}
+      {/* Overlay blur layer home */}
       {activeItem && (
-        <div className="fixed inset-0 bg-black/25 backdrop-blur-sm z-50" />
+        // <div className="fixed inset-0 bg-black/25 backdrop-blur-sm z-50" />
+        <div
+          className={cn(
+            "fixed left-0 right-0 bottom-0 top-[210px] bg-black/25 backdrop-blur-sm z-40 pointer-events-none",
+            isMiniHeader && "top-[70px]"
+          )}
+        />
       )}
       <div
         className={cn(
-          " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-50 p-0 border-none h-[600px] shadow-none bg-white",
+          " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-50 p-0 border-none min-h-[600px] shadow-none bg-white",
           !isBanner && "absolute top-[calc(100%+4px)] left-0",
+          isMiniHeader &&
+            "absolute xxl:top-[calc(100%+11px)] xl:top-[calc(100%+17px)] left-0",
           classNameContent
         )}
         onMouseEnter={onHover}
@@ -82,20 +92,25 @@ const MenuContent = ({
               )}
             >
               {item.icon && item.icon}
-              <span>{item.name}</span>
+              <span className="text-left">{item.name}</span>
               <ChevronRight className="ml-auto w-4 h-4" />
             </div>
           ))}
         </div>
 
         {activeItem && (
-          <div className="absolute left-full top-0 bottom-0 w-[900px] min-h-full bg-[#F4F6F8] p-4 rounded-tr-sm rounded-br-sm flex flex-col overflow-y-scroll">
+          <div
+            className={cn(
+              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit min-h-full bg-[#F4F6F8] xxl:p-4 xl:p-3 p-1 rounded-tr-sm rounded-br-sm flex flex-col overflow-y-scroll",
+              isMiniHeader && "xxl:min-w-[800px] xl:min-w-[750px] min-w-[600px]"
+            )}
+          >
             {activeItem?.subItems && (
-              <div className="grid grid-cols-3 gap-4 mb-4 border-b border-[#919EAB] border-opacity-25 pb-4">
+              <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
                 {activeItem?.subItems?.map((sub, index) => (
                   <div
                     key={index}
-                    className="transition transform duration-200 hover:scale-105 bg-white rounded-xl px-4 py-3 text-center flex gap-x-4 items-center justify-start cursor-pointer"
+                    className="transition transform duration-200 text-[#1C252E] bg-white rounded-xl px-4 py-3 text-center flex xl:gap-x-4 gap-x-2 items-center justify-start cursor-pointer border border-transparent hover:border-brand-650 group"
                   >
                     <div>
                       <Image
@@ -103,10 +118,10 @@ const MenuContent = ({
                         alt={`image-${index}`}
                         width={200}
                         height={200}
-                        className="size-16 object-contain aspect-square"
+                        className="xl:size-16 size-12 object-contain aspect-square"
                       />
                     </div>
-                    <p className="font-semibold text-base text-[#1C252E]">
+                    <p className="font-semibold xl:text-base text-sm group-hover:text-brand-650 transition-colors duration-200 text-left">
                       {sub.name}
                     </p>
                   </div>
@@ -128,7 +143,9 @@ const MenuContent = ({
                       Xem tất cả
                     </Link>
                   </div>
-                  <div className="flex-1 flex gap-3">{productCards}</div>
+                  <div className="flex-1 flex xxl:gap-3 xl:gap-2 gap-1">
+                    {productCards}
+                  </div>
                 </div>
               </div>
             )}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import TabletHeader from "@/components/layout/header/TabletHeader";
 import DesktopHeader from "@/components/layout/header/DesktopHeader";
@@ -14,6 +14,8 @@ import { useLanguage } from "@/context/LanguageProvider";
 import useCookieStore from "@/stores/useCookieStore";
 import { useDialogStore } from "@/stores/useDialogStore";
 import NewDesktopHeader from "@/components/layout/header/NewDesktopHeader";
+import NewDesktopHeaderMini from "@/components/layout/header/NewDesktopHeaderMini";
+import { AnimatePresence, motion } from "framer-motion";
 
 const dataHeader: IMenuHeader[] = [
   {
@@ -55,12 +57,12 @@ const dataHeader: IMenuHeader[] = [
 
 const dataCountryOptions = [
   {
-    code: "vi",
+    code: "VI",
     country: "Việt Nam",
     flag: "/flag/vi.png",
   },
   {
-    code: "en",
+    code: "EN",
     country: "English",
     flag: "/flag/en.png",
   },
@@ -72,6 +74,20 @@ const HeaderContainer = () => {
   const { isStateHeader, queryKeyIsStateHeader } = useStateHeader();
   const { setOpenDialogCustom, setStatusDialog } = useDialogStore();
   const { language, setLanguage } = useLanguage();
+
+  const [isMiniHeader, setIsMiniHeader] = useState(false);
+
+  useEffect(() => {
+    if (isVisibleTablet) return; // chỉ áp dụng cho desktop
+
+    const handleScroll = () => {
+      const shouldShowMini = window.scrollY > 200;
+      setIsMiniHeader(shouldShowMini);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isVisibleTablet]);
 
   useEffect(() => {
     const body = document.body;
@@ -154,13 +170,41 @@ const HeaderContainer = () => {
               handleCodeChange={handleCodeChange}
               handleOpenDialog={handleOpenDialog}
             /> */}
-            <NewDesktopHeader
-              dataHeader={dataHeader}
-              dataCountryOptions={dataCountryOptions}
-              handleToggleMenu={handleToggleMenu}
-              handleCodeChange={handleCodeChange}
-              handleOpenDialog={handleOpenDialog}
-            />
+            <AnimatePresence mode="wait">
+              {isMiniHeader ? (
+                <motion.div
+                  key="mini"
+                  initial={{ y: -80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -80, opacity: 0 }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                >
+                  <NewDesktopHeaderMini
+                    dataHeader={dataHeader}
+                    dataCountryOptions={dataCountryOptions}
+                    handleToggleMenu={handleToggleMenu}
+                    handleCodeChange={handleCodeChange}
+                    handleOpenDialog={handleOpenDialog}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="full"
+                  initial={{ y: -80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -80, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                >
+                  <NewDesktopHeader
+                    dataHeader={dataHeader}
+                    dataCountryOptions={dataCountryOptions}
+                    handleToggleMenu={handleToggleMenu}
+                    handleCodeChange={handleCodeChange}
+                    handleOpenDialog={handleOpenDialog}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </>
         )}
       </div>
