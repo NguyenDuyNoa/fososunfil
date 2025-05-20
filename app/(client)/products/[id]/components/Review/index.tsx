@@ -150,7 +150,7 @@ const Pagination = ({
 const Review = () => {
   return (
     <div className="rounded-lg bg-white shadow-review">
-      <h2 className="text-[28px]/[32px] font-semibold text-primary-new p-8">
+      <h2 className="text-2xl font-semibold text-primary-new py-5 px-6">
         Đánh giá sản phẩm
       </h2>
       <div className="flex border-b border-[#919EAB33] border-dashed">

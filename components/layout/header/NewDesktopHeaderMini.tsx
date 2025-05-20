@@ -68,7 +68,7 @@ const NewDesktopHeaderMini = ({
                   />
                 </svg>
               }
-              classNameButton="text-nowrap"
+              classNameButton="whitespace-nowrap"
               isMiniHeader={true}
               // allowHover={pathname === "/" ? false : true}
             />

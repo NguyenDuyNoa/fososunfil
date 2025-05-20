@@ -5,7 +5,7 @@ import React from "react";
 const Promo = () => {
   return (
     <div className="flex flex-col gap-8 p-8 bg-white rounded-lg">
-      <h2 className="text-[28px]/[32px] font-semibold text-primary-new">
+      <h2 className="text-2xl font-semibold text-primary-new">
         Khuyến mãi
       </h2>
       <div className="flex flex-col gap-5">

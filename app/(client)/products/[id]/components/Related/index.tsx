@@ -5,10 +5,10 @@ import { IMAGES } from "@/constants/Images";
 const Related = () => {
   return (
     <div className="flex flex-col gap-8 p-8 bg-white rounded-lg">
-      <h2 className="text-[28px]/[32px] font-semibold text-primary-new">
+      <h2 className="text-2xl font-semibold text-primary-new">
         Sản phẩm liên quan
       </h2>
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-1">
         <ProductCard
           isHorizontal
           imageSrc={IMAGES.product11}

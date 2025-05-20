@@ -41,7 +41,7 @@ export const IMAGES = {
   messenger: "/product/messenger.svg",
   zalo: "/product/zalo.svg",
   heart: "/product/Heart.svg",
-  pos: "/product/POS.png",
+  pos1: "/product/POS1.png",
   sale: "/product/sale.svg",
   logo: "/logo/logo_sunfil.png",
   topBanner_1: "/home/TopBanner/Banner_1.png",
