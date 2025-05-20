@@ -12,8 +12,6 @@ const Products = () => {
   const { data: dataIntroduceProduct } = useGetDataPageAboutUs({
     enebled: true,
   });
-  console.log(dataListProducts);
-  console.log("dataIntroduceProduct", dataIntroduceProduct);
 
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },

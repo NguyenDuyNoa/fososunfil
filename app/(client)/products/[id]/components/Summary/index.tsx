@@ -16,9 +16,9 @@ const customStyles = {
 
 const ProductSummary = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8 flex-1 w-1/2">
       <div className="flex flex-col gap-3">
-        <h2 className="3xl:text-4xl text-3xl text-[#374151] font-semibold">
+        <h2 className="text-[32px]/[48px] text-[#374151] font-semibold">
           Lọc gió động cơ Air Filter – Chevrolet Colorado, Trailblazer
           (52046262)
         </h2>
@@ -52,11 +52,11 @@ const ProductSummary = () => {
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
-          <h3 className="text-[32px]/[32px] font-bold text-error-dark">
+          <h3 className="text-[32px]/[38px] font-bold text-error-dark">
             299,000 <span className="underline">đ</span>
           </h3>
           <div className="flex items-center gap-3 pl-3 border-l border-[#919EAB33]">
-            <h3 className="text-2xl font-normal line-through text-[#919EAB]">
+            <h3 className="text-2xl/[24px] font-normal line-through text-[#919EAB]">
               329,000 <span className="underline">đ</span>
             </h3>
             <span className="text-sm text-white font-bold py-1 px-3 rounded-full bg-error-main">
@@ -64,9 +64,9 @@ const ProductSummary = () => {
             </span>
           </div>
         </div>
-        <p className="text-base font-medium italic text-secondary-new">
+        {/* <p className="text-base font-medium italic text-secondary-new">
           Giá bán đã bao gồm 8% VAT
-        </p>
+        </p> */}
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
@@ -114,7 +114,7 @@ const ProductSummary = () => {
             <Image src={IMAGES.cart} alt="check" width={24} height={24} />
             Thêm vào giỏ hàng
           </button>
-          <button className="border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-bold">
+          <button className="border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
             Xem OEM
           </button>
         </div>

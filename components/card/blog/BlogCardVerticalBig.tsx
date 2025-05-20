@@ -27,7 +27,7 @@ interface Content {
   content?: string;
   date?: string;
   featured_image?: string;
-  name_category?: string;
+  name_category?: string[];
   post_category_id?: string;
   view?: string;
   color_category?: string;
@@ -49,7 +49,7 @@ const BlogCardVerticalBig = ({
   title,
   view,
   color_category,
-  className
+  className,
 }: Content) => {
   return (
     <Link
@@ -68,33 +68,20 @@ const BlogCardVerticalBig = ({
       <div className="flex flex-col justify-between flex-1 gap-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            {/* {tag.map(e => {
-                            return (
-                                <div
-                                    key={e.id}
-                                    style={{ backgroundColor: color[e.id] }}
-                                    className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs"
-                                >
-                                    {e.name}
-                                </div>
-                                )
-                                })} */}
-            <div
-              style={{ backgroundColor: color_category }}
-              className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs h-[26px]"
-            >
-              {name_category}
-            </div>
+            {name_category?.map((cat, idx) => (
+              <div
+                style={{ backgroundColor: color_category }}
+                className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs h-[26px]"
+              >
+                <span key={idx}>{cat}</span>
+              </div>
+            ))}
           </div>
           <h1 className="text-[#23262F] font-bold xxl:text-2xl text-xl line-clamp-3">
             {title}
           </h1>
         </div>
         <div className="flex justify-start items-center">
-          {/* <div className="flex gap-3 items-center">
-                    <Image alt='' src={avata} width={1280} height={1024} className='size-6 object-contain aspect-square rounded-full' />
-                    <h2 className='text-[#1A1B20A3] font-normal text-base'>{user}</h2>
-                </div> */}
           <h2 className="text-[#1A1B20A3] font-normal text-base">
             {date ? momentCore(date).format(FORMAT_DATE.MMM_D_YYYY) : ""}
           </h2>

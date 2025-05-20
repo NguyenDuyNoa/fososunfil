@@ -5,8 +5,10 @@ interface InitialStateStore {
         isActiveService: boolean;
         isShowMenuScreen: boolean;
         selectedCodeCountry: string;
+        isHeaderFixed: boolean;
     };
     queryKeyIsStateHeader: (key: any) => void;
+    setHeaderFixed: (isFixed: boolean) => void;
 }
 
 export const useStateHeader = create<InitialStateStore>((set) => ({
@@ -14,6 +16,7 @@ export const useStateHeader = create<InitialStateStore>((set) => ({
         isActiveService: false,
         isShowMenuScreen: false,
         selectedCodeCountry: "",
+        isHeaderFixed: false,
     },
     queryKeyIsStateHeader: (key: any) =>
         set((state) => ({
@@ -21,6 +24,14 @@ export const useStateHeader = create<InitialStateStore>((set) => ({
             isStateHeader: {
                 ...state.isStateHeader,
                 ...key,
+            },
+        })),
+    setHeaderFixed: (isFixed: boolean) =>
+        set((state) => ({
+            ...state,
+            isStateHeader: {
+                ...state.isStateHeader,
+                isHeaderFixed: isFixed,
             },
         })),
 }));

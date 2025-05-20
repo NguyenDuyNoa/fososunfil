@@ -26,6 +26,7 @@ export const IMAGES = {
   star: "/home/star.png",
   bannerProduct: "/product/banner.png",
   banner1: "/product/banner1.png",
+  banner3: "/product/banner3.png",
   filter: "/product/filter.png",
   money: "/product/money.png",
   delivery1: "/product/delivery1.png",

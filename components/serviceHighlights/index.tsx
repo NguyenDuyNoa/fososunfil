@@ -29,11 +29,11 @@ const ServiceHighlights = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-6">
       {services.map((service, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl 3xl:py-5 py-3 3xl:px-6 px-4 flex items-center gap-4 shadow-[0px_8px_16px_0px_#919EAB29]"
+          className="bg-white rounded-xl p-4 flex items-center gap-4 shadow-[0px_8px_16px_0px_#919EAB29]"
         >
           <div className="w-12 h-12 flex-shrink-0">
             <Image

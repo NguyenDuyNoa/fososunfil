@@ -63,12 +63,12 @@ const HeroBanner = ({
           }}
         >
           {/* Text bên trái */}
-          <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis h-full pt-[10%]">
-            <h2 className="xxl:text-[40px]  text-2xl font-bold text-white">
+          <div className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis h-full flex flex-col justify-center">
+            <h2 className="text-[32px]/[24px] font-bold text-white">
               Bộ lọc dầu xe hơi cao cấp
             </h2>
             <h1
-              className="3xl:text-8xl xxl:text-[80px] text-6xl italic font-extrabold leading-[1.1] my-3"
+              className="text-[64px]/[24px] italic font-extrabold leading-[1.1] my-3"
               style={{
                 background:
                   "var(--gradient-warning-light, linear-gradient(135deg, var(--warning-lighter, #FFF5CC) 0%, var(--warning-light, #FFD666) 100%))",
@@ -78,7 +78,7 @@ const HeroBanner = ({
             >
               Mua 10 tặng 2
             </h1>
-            <p className="italic 3xl:text-2xl xl:text-2xl text-lg text-[#1C252E]">
+            <p className="italic text-base text-[#1C252E]">
               *Số lượng có hạn
             </p>
           </div>

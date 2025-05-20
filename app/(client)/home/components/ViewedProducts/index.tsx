@@ -26,7 +26,7 @@ const ViewedProducts = () => {
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
           <Image src={IMAGES.viewed} alt="" width={40} height={40} />
-          <h2 className="text-[32px]/[32px] font-bold text-[#1C252E] capitalize">
+          <h2 className="text-2xl font-bold text-primary-new capitalize">
             Sản phẩm vừa xem
           </h2>
         </div>

@@ -22,7 +22,7 @@ const DetailProduct = () => {
       <div className="container flex flex-col gap-8 pt-6">
         <Breadcrumbs items={breadcrumbs} />
         <ProductMainInfo />
-        <div className="grid grid-cols-[2fr_1fr] gap-6">
+        <div className="grid grid-cols-[6fr_4fr] gap-8">
           <div className="flex flex-col gap-6">
             <ProductTabs />
             <Review />

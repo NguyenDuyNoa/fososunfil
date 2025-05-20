@@ -73,7 +73,7 @@ const MegaMenuDropdown = ({
       {/* Trigger button */}
       <button
         className={cn(
-          "flex items-center space-x-2 relative z-10 bg-brand-650 text-white xxl:py-3 xxl:px-4 xl:py-2 xl:px-3 py-2 px-2 xxl:text-base xl:text-sm text-xs font-bold rounded-md",
+          "flex items-center gap-2 py-3 px-4 relative z-10 bg-brand-650 text-white font-bold rounded-md",
           classNameButton
         )}
         // onMouseEnter={handleMouseEnter}
@@ -83,7 +83,7 @@ const MegaMenuDropdown = ({
         {icon} {triggerLabel}{" "}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
+          className={`h-4 w-4 transition-all duration-300 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

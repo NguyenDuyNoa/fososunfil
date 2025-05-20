@@ -17,10 +17,10 @@ const Gallery = () => {
     { id: 3, src: IMAGES.product3, alt: "Bộ lọc cabin 1" },
     { id: 4, src: IMAGES.product4, alt: "Bộ lọc dầu 2" },
     { id: 5, src: IMAGES.product5, alt: "Bộ lọc không khí 2" },
-    { id: 6, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
-    { id: 7, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
-    { id: 8, src: IMAGES.product8, alt: "Bộ lọc nhiên liệu 1" },
-    { id: 9, src: IMAGES.product9, alt: "Bộ lọc nhiên liệu 1" },
+    // { id: 6, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
+    // { id: 7, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
+    // { id: 8, src: IMAGES.product8, alt: "Bộ lọc nhiên liệu 1" },
+    // { id: 9, src: IMAGES.product9, alt: "Bộ lọc nhiên liệu 1" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -55,10 +55,13 @@ const Gallery = () => {
 
   // Cuộn đến thumbnail được chọn
   useEffect(() => {
-    if (thumbnailRefs.current[selectedThumbnail] && thumbnailContainerRef.current) {
+    if (
+      thumbnailRefs.current[selectedThumbnail] &&
+      thumbnailContainerRef.current
+    ) {
       const container = thumbnailContainerRef.current;
       const thumbnail = thumbnailRefs.current[selectedThumbnail];
-      
+
       // Tính toán vị trí cuộn để đưa thumbnail vào giữa container
       const containerRect = container.getBoundingClientRect();
       const thumbnailRect = thumbnail.getBoundingClientRect();
@@ -70,39 +73,41 @@ const Gallery = () => {
         const thumbnailTop = thumbnail.offsetTop - container.offsetTop;
         const thumbnailHeight = thumbnailRect.height;
         const containerHeight = containerRect.height;
-        
+
         // Tính toán vị trí để thumbnail nằm chính giữa
-        let centerPosition = thumbnailTop - (containerHeight - thumbnailHeight) / 2;
-        
+        let centerPosition =
+          thumbnailTop - (containerHeight - thumbnailHeight) / 2;
+
         // Đảm bảo không cuộn quá đầu container
         centerPosition = Math.max(0, centerPosition);
-        
+
         // Đảm bảo không cuộn quá cuối container
         const maxScroll = container.scrollHeight - containerHeight;
         centerPosition = Math.min(maxScroll, centerPosition);
         container.scrollTo({
           top: centerPosition,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       } else {
         // Cuộn theo chiều ngang
         const thumbnailLeft = thumbnail.offsetLeft;
         const thumbnailWidth = thumbnailRect.width;
         const containerWidth = containerRect.width;
-        
+
         // Tính toán vị trí để thumbnail nằm chính giữa
-        let centerPosition = thumbnailLeft - (containerWidth - thumbnailWidth) / 2;
-        
+        let centerPosition =
+          thumbnailLeft - (containerWidth - thumbnailWidth) / 2;
+
         // Đảm bảo không cuộn quá đầu container
         centerPosition = Math.max(0, centerPosition);
-        
+
         // Đảm bảo không cuộn quá cuối container
         const maxScroll = container.scrollWidth - containerWidth;
         centerPosition = Math.min(maxScroll, centerPosition);
-        
+
         container.scrollTo({
           left: centerPosition,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }
@@ -115,53 +120,23 @@ const Gallery = () => {
         const height = mainImageRef.current?.offsetHeight || 0;
         setImageHeight(height);
       };
-      
+
       updateImageHeight();
-      window.addEventListener('resize', updateImageHeight);
-      
+      window.addEventListener("resize", updateImageHeight);
+
       return () => {
-        window.removeEventListener('resize', updateImageHeight);
+        window.removeEventListener("resize", updateImageHeight);
       };
     }
   }, []);
 
   return (
-    <div className="flex flex-row 3xl:gap-6 gap-4">
-      {/* Thumbnails */}
-      <div 
-        ref={thumbnailContainerRef}
-        className="flex flex-shrink-0 flex-row md:flex-col 3xl:gap-3 gap-2 overflow-auto max-w-full"
-        style={{ maxHeight: imageHeight }}
-      >
-        {images.map((image, index) => (
-          <div
-            key={image.id}
-            ref={(el) => {
-              thumbnailRefs.current[index] = el;
-            }}
-            className={`relative 3xl:w-[140px] w-[100px] aspect-[140/104] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
-              ${
-                selectedThumbnail === index
-                  ? "border-blue-500"
-                  : "border-transparent"
-              }`}
-            onClick={() => handleThumbnailClick(index)}
-          >
-            <div className="relative w-full h-full">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="64px"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
+    <div className="flex flex-col gap-6 flex-1 w-1/2">
       {/* Main Image */}
-      <div ref={mainImageRef} className="relative w-full aspect-square rounded-xl overflow-hidden bg-white">
+      <div
+        ref={mainImageRef}
+        className="relative w-full aspect-[677/508] rounded-xl overflow-hidden bg-white"
+      >
         <Image
           src={images[currentIndex].src}
           alt={images[currentIndex].alt}
@@ -186,6 +161,39 @@ const Gallery = () => {
             <ArrowUpIcon className="size-[18px] rotate-90" />
           </button>
         </div>
+      </div>
+
+      {/* Thumbnails */}
+      <div
+        ref={thumbnailContainerRef}
+        className="flex flex-shrink-0 flex-row gap-3 overflow-auto max-w-full"
+        // style={{ maxHeight: imageHeight }}
+      >
+        {images.map((image, index) => (
+          <div
+            key={image.id}
+            ref={(el) => {
+              thumbnailRefs.current[index] = el;
+            }}
+            className={`relative w-[140px] aspect-[140/105] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
+              ${
+                selectedThumbnail === index
+                  ? "border-blue-500"
+                  : "border-transparent"
+              }`}
+            onClick={() => handleThumbnailClick(index)}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ const SuggestedForYou = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image src={IMAGES.like} alt="" width={40} height={40} />
-            <h2 className="text-[32px]/[32px] font-bold text-[#1C252E] capitalize">
+            <h2 className="text-2xl font-bold text-primary-new capitalize">
               Dành cho bạn
             </h2>
           </div>

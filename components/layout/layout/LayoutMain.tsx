@@ -16,6 +16,7 @@ import ButtonToTop from "@/components/button/ButtonToTop";
 import { Toaster } from "react-hot-toast";
 
 import { useResizeStore } from "@/stores/useResizeStore";
+import { useStateHeader } from "@/states/Header/useStateHeader";
 
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -57,7 +58,9 @@ const queryClient = new QueryClient({
 });
 
 const LayoutMain = ({ children }: { children: React.ReactNode }) => {
-  const sectionId = useSearchParams().get("sectionId");
+  const searchParams = useSearchParams();
+  const sectionIdParam = searchParams ? searchParams.get("sectionId") : null;
+  const sectionId = sectionIdParam || "";
 
   const { toast } = useToast();
 
@@ -67,7 +70,11 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
     useToastStore();
 
   const pathname = usePathname();
-
+  const { setHeaderFixed, isStateHeader } = useStateHeader();
+  
+  // Biến để xử lý cuộn
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastProcessedScrollY = useRef(0);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const {
     isVisibleMobile,
@@ -83,6 +90,56 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
     const rootElement = document.documentElement;
     rootElement.removeAttribute("cz-shortcut-listen");
   }, []);
+
+  // Đơn giản hóa cách xử lý cuộn để tránh bị giật
+  useEffect(() => {
+    // Giá trị ngưỡng dựa vào trang hiện tại
+    const scrollThreshold = pathname === '/' ? 850 : 200;
+    
+    // Thiết lập trạng thái ban đầu
+    if (window.scrollY > scrollThreshold) {
+      setHeaderFixed(true);
+    } else {
+      setHeaderFixed(false);
+    }
+    
+    // Hàm xử lý sự kiện cuộn với throttling
+    const handleScroll = () => {
+      // Bỏ qua nếu đang có timer chạy
+      if (timerRef.current) return;
+      
+      timerRef.current = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+        // Chỉ xử lý nếu đã cuộn một khoảng đáng kể
+        if (Math.abs(currentScrollY - lastProcessedScrollY.current) > 50) {
+          // Cập nhật vị trí cuộn đã xử lý
+          lastProcessedScrollY.current = currentScrollY;
+          
+          // Xử lý thay đổi header
+          if (currentScrollY > scrollThreshold) {
+            if (!isStateHeader.isHeaderFixed) {
+              setHeaderFixed(true);
+            }
+          } else {
+            if (isStateHeader.isHeaderFixed) {
+              setHeaderFixed(false);
+            }
+          }
+        }
+        
+        timerRef.current = null;
+      }, 200); // Giới hạn tần suất xử lý sự kiện (200ms)
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [pathname, setHeaderFixed, isStateHeader.isHeaderFixed]);
 
   // ẩn/hiện khi chuyển qua màn hình nhỏ khi không dùng chung div để tránh xung đột
   useEffect(() => {
@@ -159,10 +216,10 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
         <Toaster position="top-right" reverseOrder={false} />
         <div className="w-screen min-h-screen text-responsive custom-swiper bg-white relative">
           {/* <HeaderContainer /> */}
-          <div className="fixed top-0 left-0 right-0 z-[999]">
+          <div className="block w-full">
             <HeaderContainer />
           </div>
-          <main className="size-full pt-[210px] bg-[#F4F6F8]">
+          <main className="size-full bg-[#F4F6F8]">
             {/* <main className={`${!['/home', '/'].includes(pathname) && "pt-[112px]"} overflow-hidden size-full`}> */}
             <AnimatePresence
               mode="wait"

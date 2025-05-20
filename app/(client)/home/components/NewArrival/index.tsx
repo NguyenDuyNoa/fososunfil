@@ -28,7 +28,7 @@ const NewArrival = () => {
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-2">
               <Image src={IMAGES.package} alt="" width={40} height={40} />
-              <h2 className="text-[32px]/[32px] font-bold text-white capitalize">
+              <h2 className="text-2xl font-bold text-white capitalize">
                 Hàng mới về
               </h2>
             </div>

@@ -145,9 +145,7 @@ const HeaderContainer = () => {
 
   return (
     <header className="md:bg-transparent bg-white w-full z-[999]">
-      <div
-      //   className="custom-container"
-      >
+      <div>
         {isVisibleTablet ? (
           // màn hình mobile, tablet
           <TabletHeader
@@ -158,39 +156,29 @@ const HeaderContainer = () => {
         ) : (
           // màn hình laptop
           <>
-            {/* <DesktopHeader
-              dataHeader={dataHeader}
-              dataCountryOptions={dataCountryOptions}
-              handleToggleMenu={handleToggleMenu}
-              handleCodeChange={handleCodeChange}
-              handleOpenDialog={handleOpenDialog}
-            /> */}
-            <AnimatePresence mode="wait">
-              {isMiniHeader ? (
+            {/* Header chính luôn hiển thị */}
+            <div className="w-full">
+              <NewDesktopHeader
+                dataHeader={dataHeader}
+                dataCountryOptions={dataCountryOptions}
+                handleToggleMenu={handleToggleMenu}
+                handleCodeChange={handleCodeChange}
+                handleOpenDialog={handleOpenDialog}
+              />
+            </div>
+            
+            {/* Header mini dạng sticky khi cuộn xuống */}
+            <AnimatePresence>
+              {isStateHeader.isHeaderFixed && (
                 <motion.div
+                  className="fixed top-0 left-0 right-0 z-50 shadow-md"
                   key="mini"
                   initial={{ y: -80, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -80, opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  transition={{ duration: 0.1, ease: "easeInOut" }}
                 >
                   <NewDesktopHeaderMini
-                    dataHeader={dataHeader}
-                    dataCountryOptions={dataCountryOptions}
-                    handleToggleMenu={handleToggleMenu}
-                    handleCodeChange={handleCodeChange}
-                    handleOpenDialog={handleOpenDialog}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="full"
-                  initial={{ y: -80, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -80, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                >
-                  <NewDesktopHeader
                     dataHeader={dataHeader}
                     dataCountryOptions={dataCountryOptions}
                     handleToggleMenu={handleToggleMenu}

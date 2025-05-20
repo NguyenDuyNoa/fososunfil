@@ -25,12 +25,12 @@ const BannerProduct = () => {
     <div className="rounded-xl bg-brand-600 overflow-hidden">
       <div className="relative h-[500px] w-full flex justify-center items-center bg-bannerProduct bg-cover bg-center bg-no-repeat">
         <div className="absolute top-10 left-0 rounded-r-full bg-gradient-to-r from-warning-lighter to-warning-light px-12 py-2.5">
-          <p className="3xl:text-2xl text-xl font-bold text-error-darker uppercase">
+          <p className="text-2xl font-bold text-error-darker uppercase">
             mới cực hot!
           </p>
         </div>
         <div className="absolute top-1/2 -translate-y-1/2 left-10 flex flex-col gap-5 max-w-[60%]">
-          <div className="relative inline-block text-7xl 3xl:text-8xl font-epilogue font-extrabold uppercase tracking-tighter select-none">
+          <div className="relative inline-block text-[80px] font-extrabold uppercase tracking-tighter select-none">
             <h2
               className="absolute top-0 left-0 text-[#1250EF]"
               style={{ WebkitTextStroke: "8px #1250EF" }}
@@ -43,16 +43,16 @@ const BannerProduct = () => {
             </h2>
           </div>
 
-          <p className="text-4xl font-medium text-warning-light">
+          <p className="text-[32px]/[48px] font-medium text-warning-light">
             Tích điểm ngay trên app{" "}
             <span className="font-extrabold">SUNFIL1</span>
             <br />
             *100K = 10 điểm
           </p>
         </div>
-        <div className="absolute bottom-0 right-0 w-1/2">
+        <div className="absolute bottom-0 right-0 w-[50%]">
           <Image
-            src={IMAGES.banner1}
+            src={IMAGES.banner3}
             width={1000}
             height={1000}
             alt="banner"

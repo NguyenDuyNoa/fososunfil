@@ -43,14 +43,14 @@ const FlashSale = () => {
           <div className="flex flex-col md:flex-row items-center gap-5">
             <div className="flex items-center gap-2">
               <Image src={IMAGES.flash} alt="" width={40} height={40} />
-              <h2 className="text-base md:text-2xl xl:text-[32px]/[24px] font-bold uppercase text-[#1C252E]">
+              <h2 className="text-2xl font-bold uppercase text-primary-new">
                 Flash Sale
               </h2>
             </div>
             <Countdown endTime={endTime} onComplete={handleCountdownComplete} />
           </div>
           <div className="py-1 px-3 rounded-[20px] flex items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-error-main hover:bg-opacity-10 group">
-            <Link href="/products" className="text-[8px] md:text-xs xl:text-base font-semibold text-error-main whitespace-nowrap group-hover:font-bold">
+            <Link href="/products" className="text-base font-semibold text-error-main whitespace-nowrap group-hover:font-bold">
               Xem tất cả{" "}
             </Link>
             <DoubleArrowRightIcon className="text-error-main size-5 transition-transform duration-300 group-hover:translate-x-1" />

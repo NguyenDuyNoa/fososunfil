@@ -24,29 +24,29 @@ const ProductTabs = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-lg">
+    <div className="flex flex-col gap-6">
+      <div className="rounded-lg h-[700px] overflow-hidden">
         <Image
           src={IMAGES.pos}
           alt="sản phẩm"
           width={600}
-          height={600}
+          height={700}
           className="w-full h-full object-cover"
         />
       </div>
       
       <div
-        className={`flex flex-col gap-8 px-12 bg-white shadow-[0px_4px_48px_0px_#0000001A] rounded-lg ${
-          openTabs.thongtin ? "pb-8" : ""
+        className={`flex flex-col gap-6 px-6 bg-white shadow-[0px_4px_48px_0px_#0000001A] rounded-lg ${
+          openTabs.thongtin ? "pb-6" : ""
         }`}
       >
         <div
-          className={`py-8 flex justify-between items-center cursor-pointer ${
-            openTabs.thongtin ? "border-b-2 border-[#919EAB3D]" : ""
+          className={`py-6 flex justify-between items-center cursor-pointer ${
+            openTabs.thongtin ? "border-b border-[#919EAB3D]" : ""
           }`}
           onClick={() => toggleTab('thongtin')}
         >
-          <h2 className="text-[28px]/[32px] font-semibold text-primary-new">
+          <h2 className="text-2xl font-semibold text-primary-new">
             Thông tin sản phẩm
           </h2>
           <motion.div

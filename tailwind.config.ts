@@ -58,6 +58,7 @@ const config: Config = {
           main: "#8E33FF",
           dark: "#5119B7",
           darker: "#27097A",
+          50: "#F3F2F2",
           600: "#6A6662",
           900: "#1B1A18",
         },

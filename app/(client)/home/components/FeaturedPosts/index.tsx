@@ -9,7 +9,7 @@ const mockData = [
     id: "1",
     title: "Đầu phun sprinkler là gì? Cấu tạo, ứng dụng và nguyên lý hoạt động",
     featured_image: "/example/blogs/b1.png",
-    name_category: "Car",
+    name_category: ["Car", "Oil"],
     color_category: "#FF592C",
     date: "2023-05-15",
   },
@@ -17,7 +17,7 @@ const mockData = [
     id: "2",
     title: "Check Valve là gì? 4 loại Check Valve phổ biến nhất hiện nay",
     featured_image: "/example/blogs/b2.png",
-    name_category: "Công nghệ",
+    name_category: ["Car", "Oil"],
     color_category: "#2E8FFA",
     date: "2023-06-20",
   },
@@ -25,7 +25,7 @@ const mockData = [
     id: "3",
     title: "Bảng đơn vị đo áp suất thông dụng nhất hiện nay",
     featured_image: "/example/blogs/b3.png",
-    name_category: "Kỹ thuật",
+    name_category: ["Cabin"],
     color_category: "#FFAC05",
     date: "2023-07-08",
   },
@@ -33,7 +33,7 @@ const mockData = [
     id: "4",
     title: "Bật mí các loại ống thủy lực phổ biến nhất hiện nay",
     featured_image: "/example/blogs/b4.png",
-    name_category: "Thiết bị",
+    name_category: ["Car", "Oil"],
     color_category: "#FF592C",
     date: "2023-08-12",
   },
@@ -46,7 +46,7 @@ const FeaturedPosts = () => {
         <div className="flex justify-between gap-2 z-10">
           <div className="flex items-center gap-2">
             <Image src={IMAGES.star} alt="" width={40} height={40} />
-            <h2 className="text-[32px]/[32px] font-bold text-[#1C252E] capitalize">
+            <h2 className="text-2xl font-bold text-primary-new capitalize">
               Bài viết nổi bật
             </h2>
           </div>

@@ -1,19 +1,21 @@
+// DEPRECATED: File này không còn được sử dụng, đã được tích hợp vào NewDesktopHeader.tsx với prop isMini
+import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
+import IconAccountHeader from "@/components/icon/IconAccountHeader";
 import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconSearchHeader from "@/components/icon/IconSearchHeader";
+import IconShopping from "@/components/icon/IconShopping";
 import {
   categoryData,
   DesktopHeaderProps,
 } from "@/components/layout/header/NewDesktopHeader";
+import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { SelectContent } from "@/components/ui/selectCustom";
 import { IMAGES } from "@/constants/Images";
+import { useStateHeader } from "@/states/Header/useStateHeader";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { useStateHeader } from "@/states/Header/useStateHeader";
-import { SelectContent } from "@/components/ui/selectCustom";
-import IconShopping from "@/components/icon/IconShopping";
-import IconAccountHeader from "@/components/icon/IconAccountHeader";
-import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -24,6 +26,7 @@ const NewDesktopHeaderMini = ({
 }: DesktopHeaderProps) => {
   const { isStateHeader } = useStateHeader();
   const [searchQuery, setSearchQuery] = useState("");
+  const pathname = usePathname();
   const selectedOption = dataCountryOptions.find(
     (option) => option.code === isStateHeader.selectedCodeCountry
   );
@@ -31,7 +34,7 @@ const NewDesktopHeaderMini = ({
     <div className=" 3xl:px-12 2xl:px-10 xl:px-8 px-4 bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] ">
       {/* Main header */}
       <header className="w-full py-1 container">
-        <div className="flex items-center justify-between gap-x-8 w-full">
+        <div className="flex items-center justify-between gap-x-12 w-full">
           {/* Logo */}
           <Link href="/">
             <Image
@@ -39,12 +42,12 @@ const NewDesktopHeaderMini = ({
               alt="logo"
               width={600}
               height={111}
-              className="object-contain w-[140px]"
+              className="object-contain w-[180px]"
               quality={100}
               loading="eager"
             />
           </Link>
-          <div className="flex-1 flex flex-row justify-between items-center w-full xxl:gap-x-6 xl:gap-x-4 gap-x-3">
+          <div className="flex-1 flex flex-row justify-between items-center w-full gap-x-12">
             <MegaMenuDropdown
               triggerLabel="Danh Mục Sản Phẩm"
               items={categoryData}
@@ -65,9 +68,9 @@ const NewDesktopHeaderMini = ({
                   />
                 </svg>
               }
-              //   allowHover={pathname === "/" ? false : true}
               classNameButton="text-nowrap"
               isMiniHeader={true}
+              // allowHover={pathname === "/" ? false : true}
             />
 
             {/* Search Bar */}
@@ -88,16 +91,16 @@ const NewDesktopHeaderMini = ({
             </div>
 
             {/* Right Navigation */}
-            <div className="flex items-center xxl:gap-x-8 xl:gap-x-5 gap-x-3">
+            <div className="flex items-center gap-12">
               <div className="flex items-center">
                 <Select
                   value={selectedOption?.code}
                   onValueChange={handleCodeChange}
                 >
-                  <SelectTrigger className="flex items-center gap-2 h-full border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0">
+                  <SelectTrigger className="p-0 flex items-center gap-2 h-full border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0">
                     {selectedOption && (
                       <>
-                        <div className="size-8 rounded-full">
+                        <div className="size-9 rounded-full">
                           <Image
                             src={selectedOption.flag}
                             alt={`${selectedOption.country} flag`}
@@ -106,7 +109,7 @@ const NewDesktopHeaderMini = ({
                             className="size-full object-cover rounded-full"
                           />
                         </div>
-                        <div className="xl:text-base text-sm uppercase font-medium text-[#1C252E]">
+                        <div className="text-base uppercase font-medium text-primary-new">
                           {selectedOption.code}
                         </div>
                       </>
@@ -122,19 +125,21 @@ const NewDesktopHeaderMini = ({
                 </Select>
               </div>
 
-              <div className="flex items-center cursor-pointer relative">
-                <IconShopping fill="#0154C5" />
-                <span className="ml-[2px] xl:text-base text-sm font-medium text-nowrap text-[#1C252E]">
+              <div className="flex items-center gap-2 cursor-pointer relative">
+                <IconShopping fill="#0154C5" className="size-9" />
+                <span className="text-base font-medium whitespace-nowrap text-primary-new">
                   Giỏ hàng
                 </span>
-                <div className="absolute -top-3 xxl:left-6 xl:left-5 left-5 bg-error-main rounded-full xxl:size-6 xl:size-5 size-5 flex items-center justify-center">
-                  <span className="text-white text-xs font-medium ">12</span>
+                <div className="absolute -top-3 left-[22px] bg-error-main rounded-full size-6 flex items-center justify-center">
+                  <span className="text-white text-xs font-medium mt-0.5">
+                    12
+                  </span>
                 </div>
               </div>
 
-              <div className="flex items-center cursor-pointer">
-                <IconAccountHeader fill="#0154C5" />
-                <span className="ml-[2px] xl:text-base text-sm font-medium text-nowrap text-[#1C252E]">
+              <div className="flex items-center gap-2 cursor-pointer">
+                <IconAccountHeader fill="#0154C5" className="size-9" />
+                <span className="text-base font-medium whitespace-nowrap text-primary-new">
                   Tài khoản
                 </span>
               </div>

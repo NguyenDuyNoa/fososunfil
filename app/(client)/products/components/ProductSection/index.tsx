@@ -55,7 +55,7 @@ const ProductSection = () => {
             {filters.map((filter) => (
               <button
                 key={filter}
-                className={`relative px-4 py-2 rounded-lg font-bold bg-white border overflow-hidden ${
+                className={`relative px-4 py-2 rounded-lg text-sm font-bold bg-white border overflow-hidden ${
                   activeFilter === filter
                     ? " border-brand-500 text-brand-500 "
                     : " border-transparent text-primary-new hover:border-brand-400"
@@ -102,14 +102,14 @@ const ProductSection = () => {
               </button>
             ))}
           </div>
-          <button className="flex items-center gap-2 px-2 py-2 rounded-lg border border-transparent text-gray-700 hover:border-brand-400">
+          <button className="flex items-center text-sm font-medium gap-2 px-2 py-2 rounded-lg border border-transparent text-gray-700 hover:border-brand-400">
             <span>Giá: Thấp → Cao</span>
             <ArrowUpIcon className="size-5 rotate-180" />
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-5 gap-4">
-        {Array(30)
+      <div className="grid grid-cols-4 gap-4">
+        {Array(28)
           .fill(0)
           .map((_, index) => (
             <ProductCard key={index} imageSrc={productImages[index]} />

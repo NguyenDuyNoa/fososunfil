@@ -63,7 +63,7 @@ const MenuContent = ({
         // <div className="fixed inset-0 bg-black/25 backdrop-blur-sm z-50" />
         <div
           className={cn(
-            "fixed left-0 right-0 bottom-0 top-[210px] bg-black/25 backdrop-blur-sm z-40 pointer-events-none",
+            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm z-40 pointer-events-none",
             isMiniHeader && "top-[70px]"
           )}
         />
@@ -79,15 +79,15 @@ const MenuContent = ({
         onMouseEnter={onHover}
         onMouseLeave={onClose}
       >
-        <div className="divide-y h-full overflow-y-scroll">
+        <div className="divide-y h-full flex flex-col gap-3 overflow-y-scroll rounded-bl-lg">
           {items.map((item) => (
             <div
               key={item.id}
               onMouseEnter={() => setActiveItem(item)}
               className={cn(
-                "flex items-center gap-2 p-3 w-full text-left bg-white border-t-white border-l-white",
+                "h-[66px] cursor-pointer flex items-center gap-2 p-4 w-full text-left border-l-2 bg-white border-t-white border-l-white",
                 activeItem?.id === item.id &&
-                  "border-l-2 border-l-brand-700 text-brand-700 bg-disable-100",
+                  " border-l-brand-700 text-brand-700 bg-disable-100",
                 classNameSubItem
               )}
             >
@@ -101,10 +101,12 @@ const MenuContent = ({
         {activeItem && (
           <div
             className={cn(
-              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit min-h-full bg-[#F4F6F8] xxl:p-4 xl:p-3 p-1 rounded-tr-sm rounded-br-sm flex flex-col overflow-y-scroll",
+              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit min-h-full bg-[#F4F6F8] p-6 rounded-tr-sm rounded-br-sm flex flex-col ",
               isMiniHeader && "xxl:min-w-[800px] xl:min-w-[750px] min-w-[600px]"
             )}
           >
+            <div className="overflow-y-scroll">
+
             {activeItem?.subItems && (
               <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
                 {activeItem?.subItems?.map((sub, index) => (
@@ -118,10 +120,10 @@ const MenuContent = ({
                         alt={`image-${index}`}
                         width={200}
                         height={200}
-                        className="xl:size-16 size-12 object-contain aspect-square"
+                        className="size-[70px] object-contain aspect-square"
                       />
                     </div>
-                    <p className="font-semibold xl:text-base text-sm group-hover:text-brand-650 transition-colors duration-200 text-left">
+                    <p className="font-semibold text-base group-hover:text-brand-650 transition-colors duration-200 text-left">
                       {sub.name}
                     </p>
                   </div>
@@ -149,6 +151,8 @@ const MenuContent = ({
                 </div>
               </div>
             )}
+            </div>
+
           </div>
         )}
       </div>
