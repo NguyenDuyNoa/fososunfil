@@ -3,6 +3,8 @@ import BlogCardVerticalBig from "@/components/card/blog/BlogCardVerticalBig";
 import Image from "next/image";
 import Link from "next/link";
 import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
+import { useResizeStore } from "@/stores/useResizeStore";
+import SwiperCarousel from "@/components/SwiperCarousel";
 
 const mockData = [
   {
@@ -39,42 +41,63 @@ const mockData = [
   },
 ];
 
+const breakpoints = {
+  320: { slidesPerView: 1.5 },
+  640: { slidesPerView: 3 },
+  768: { slidesPerView: 3 },
+  1024: { slidesPerView: 4 },
+  1280: { slidesPerView: 4 },
+};
+
 const FeaturedPosts = () => {
+  const { isVisibleMobile } = useResizeStore();
+
   return (
-    <div className="relative w-full rounded-md">
+    <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between gap-2 z-10">
           <div className="flex items-center gap-2">
-            <Image src={IMAGES.star} alt="" width={40} height={40} />
-            <h2 className="text-2xl font-bold text-primary-new capitalize">
+            <Image
+              src={IMAGES.star}
+              alt=""
+              width={40}
+              height={40}
+              className="size-6 lg:size-10"
+            />
+            <h2 className="text-base xl:text-2xl font-bold text-primary-new capitalize">
               Bài viết nổi bật
             </h2>
           </div>
-          <div className="py-1 px-3 rounded-[20px] flex items-center gap-2 cursor-pointer transition-all duration-300 hover:bg-brand-100 group">
+          <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-100 xl:hover:bg-opacity-10 group">
             <Link
               href="/blogs"
-              className="text-base font-semibold text-brand-500 whitespace-nowrap group-hover:font-bold"
+              className="text-[8px] xl:text-base font-semibold text-brand-500 whitespace-nowrap group-hover:font-bold"
             >
               Xem tất cả{" "}
             </Link>
             <DoubleArrowRightIcon className="text-brand-500 size-5 transition-transform duration-300 group-hover:translate-x-1" />
           </div>
         </div>
-
-        <div className="grid grid-cols-4 3xl:gap-8 xl:gap-6 gap-8 h-full">
-          {mockData.map((item) => (
-            <BlogCardVerticalBig
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              featured_image={item.featured_image}
-              name_category={item.name_category}
-              color_category={item.color_category}
-              date={item.date}
-              className="bg-white"
-            />
-          ))}
-        </div>
+        <SwiperCarousel
+            items={mockData.map((item) => (
+              <BlogCardVerticalBig
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                featured_image={item.featured_image}
+                name_category={item.name_category}
+                color_category={item.color_category}
+                date={item.date}
+              />
+            ))}
+            slidesPerView={isVisibleMobile ? 2.5 : 6}
+            spaceBetween={isVisibleMobile ? 8 : 16}
+            navigationButtonBgColor="bg-brand-100"
+            navigationButtonIconColor="text-brand-800"
+            className="flash-sale-swiper z-10 h-full"
+            breakpoints={breakpoints}
+            showNavigation={false}
+          />
       </div>
     </div>
   );

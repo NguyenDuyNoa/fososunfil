@@ -54,7 +54,7 @@ const BlogCardVerticalBig = ({
   return (
     <Link
       href={`/blogs/${id}?${ConvertToSlug(title)}`}
-      className={`border group border-[#DCDFE4] rounded-2xl p-4 flex flex-col lg:gap-8 gap-6 h-full w-full ${className}`}
+      className={`border group border-[#DCDFE4] rounded-xl xl:rounded-2xl p-2 xl:p-4 flex flex-col xl:gap-8 gap-2 h-full w-full ${className}`}
     >
       <div className="overflow-hidden rounded-xl bg-white w-full aspect-4/3">
         <Image
@@ -78,17 +78,17 @@ const BlogCardVerticalBig = ({
             ))} */}
             <div
               style={{ backgroundColor: color_category }}
-              className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs"
+              className="text-[#FCFCFD] font-medium xl:py-1.5 xl:px-2 py-1 px-2 uppercase text-[10px] xl:text-xs"
             >
               {name_category}
             </div>
           </div>
-          <h1 className="text-[#23262F] font-bold xxl:text-2xl text-xl line-clamp-3">
+          <h1 className="text-[#23262F] font-bold xl:text-2xl text-sm line-clamp-3">
             {title}
           </h1>
         </div>
         <div className="flex justify-start items-center">
-          <h2 className="text-[#1A1B20A3] font-normal text-base">
+          <h2 className="text-secondary-new font-normal text-[10px] xl:text-base">
             {date ? momentCore(date).format(FORMAT_DATE.MMM_D_YYYY) : ""}
           </h2>
         </div>

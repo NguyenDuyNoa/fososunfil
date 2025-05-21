@@ -5,6 +5,7 @@ import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMAGES } from "@/constants/Images";
 import ProductCard from "@/components/productCard";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const productImages = [
   IMAGES.product9,
@@ -55,25 +56,24 @@ const MenuContent = ({
         className="mb-0"
       />
     ));
-
+  const pathname = usePathname();
   return (
     <>
       {/* Overlay blur layer home */}
       {activeItem && (
-        // <div className="fixed inset-0 bg-black/25 backdrop-blur-sm z-50" />
         <div
           className={cn(
-            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm z-10 pointer-events-none",
-            isMiniHeader && "top-[88px]"
+            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm pointer-events-none",
+            pathname === "/" ? "z-[10]" : "z-[-1]",
+            isMiniHeader && "z-[-1]"
           )}
         />
       )}
       <div
         className={cn(
           " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none min-h-[600px] shadow-none bg-white",
-          !isBanner && "absolute top-[calc(100%+4px)] left-0",
-          isMiniHeader &&
-            "absolute top-[calc(100%+20px)] left-0",
+          !isBanner && "absolute top-[calc(100%+16px)] left-0",
+          isMiniHeader && "absolute top-[calc(100%+18px)] left-0",
           classNameContent
         )}
         onMouseEnter={onHover}
@@ -106,53 +106,51 @@ const MenuContent = ({
             )}
           >
             <div className="overflow-y-scroll">
-
-            {activeItem?.subItems && (
-              <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
-                {activeItem?.subItems?.map((sub, index) => (
-                  <div
-                    key={index}
-                    className="transition transform duration-200 text-[#1C252E] bg-white rounded-xl px-4 py-3 text-center flex xl:gap-x-4 gap-x-2 items-center justify-start cursor-pointer border border-transparent hover:border-brand-650 group"
-                  >
-                    <div>
-                      <Image
-                        src={sub.image}
-                        alt={`image-${index}`}
-                        width={200}
-                        height={200}
-                        className="size-[70px] object-contain aspect-square"
-                      />
-                    </div>
-                    <p className="font-semibold text-base group-hover:text-brand-650 transition-colors duration-200 text-left">
-                      {sub.name}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {IsProducts && (
-              <div className="mt-4 flex-1">
-                <div className="flex flex-col h-full w-full">
-                  <div className="flex flex-row justify-between items-center">
-                    <h3 className="text-2xl font-bold mb-2 text-[#1C252E]">
-                      Sản Phẩm Bán Chạy
-                    </h3>
-                    <Link
-                      href="/products"
-                      className="cursor-pointer font-semibold text-brand-500 text-base transform transition duration-200 hover:scale-105"
+              {activeItem?.subItems && (
+                <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
+                  {activeItem?.subItems?.map((sub, index) => (
+                    <div
+                      key={index}
+                      className="transition transform duration-200 text-[#1C252E] bg-white rounded-xl px-4 py-3 text-center flex xl:gap-x-4 gap-x-2 items-center justify-start cursor-pointer border border-transparent hover:border-brand-650 group"
                     >
-                      Xem tất cả
-                    </Link>
-                  </div>
-                  <div className="flex-1 flex xxl:gap-3 xl:gap-2 gap-1">
-                    {productCards}
+                      <div>
+                        <Image
+                          src={sub.image}
+                          alt={`image-${index}`}
+                          width={200}
+                          height={200}
+                          className="size-[70px] object-contain aspect-square"
+                        />
+                      </div>
+                      <p className="font-semibold text-base group-hover:text-brand-650 transition-colors duration-200 text-left">
+                        {sub.name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {IsProducts && (
+                <div className="mt-4 flex-1">
+                  <div className="flex flex-col h-full w-full">
+                    <div className="flex flex-row justify-between items-center">
+                      <h3 className="text-2xl font-bold mb-2 text-[#1C252E]">
+                        Sản Phẩm Bán Chạy
+                      </h3>
+                      <Link
+                        href="/products"
+                        className="cursor-pointer font-semibold text-brand-500 text-base transform transition duration-200 hover:scale-105"
+                      >
+                        Xem tất cả
+                      </Link>
+                    </div>
+                    <div className="flex-1 flex xxl:gap-3 xl:gap-2 gap-1">
+                      {productCards}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
             </div>
-
           </div>
         )}
       </div>

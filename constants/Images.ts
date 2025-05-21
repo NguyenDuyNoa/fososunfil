@@ -1,5 +1,6 @@
 export const IMAGES = {
   flash: "/home/flash.png",
+  flashSale: "/home/flashSale.png",
   product: "/home/product.png",
   product1: "/home/product1.png",
   product2: "/home/product2.png",
@@ -53,5 +54,6 @@ export const IMAGES = {
   avatar4: "/product/Avatar4.png",
   avatar5: "/product/Avatar5.png",
   avatar6: "/home/Avatar6.png",
-  
+  boCongThuong: "/home/boCongThuong.png",
+  imageUrl: "/home/imageUrl.png",
 };

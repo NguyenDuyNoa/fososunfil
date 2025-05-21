@@ -1,6 +1,4 @@
-// DEPRECATED: File này không còn được sử dụng, đã được tích hợp vào NewDesktopHeader.tsx với prop isMini
 import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
-import IconAccountHeader from "@/components/icon/IconAccountHeader";
 import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconSearchHeader from "@/components/icon/IconSearchHeader";
 import IconShopping from "@/components/icon/IconShopping";
@@ -16,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import Account from "./Account";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -91,7 +90,7 @@ const NewDesktopHeaderMini = ({
             </div>
 
             {/* Right Navigation */}
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-8">
               <div className="flex items-center">
                 <Select
                   value={selectedOption?.code}
@@ -109,7 +108,7 @@ const NewDesktopHeaderMini = ({
                             className="size-full object-cover rounded-full"
                           />
                         </div>
-                        <div className="text-base uppercase font-medium text-primary-new">
+                        <div className="text-sm uppercase font-medium text-primary-new">
                           {selectedOption.code}
                         </div>
                       </>
@@ -125,9 +124,9 @@ const NewDesktopHeaderMini = ({
                 </Select>
               </div>
 
-              <div className="flex items-center gap-2 cursor-pointer relative">
+              <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
                 <IconShopping fill="#0154C5" className="size-9" />
-                <span className="text-base font-medium whitespace-nowrap text-primary-new">
+                <span className="text-sm font-medium whitespace-nowrap text-primary-new">
                   Giỏ hàng
                 </span>
                 <div className="absolute -top-3 left-[22px] bg-error-main rounded-full size-6 flex items-center justify-center">
@@ -137,12 +136,7 @@ const NewDesktopHeaderMini = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 cursor-pointer">
-                <IconAccountHeader fill="#0154C5" className="size-9" />
-                <span className="text-base font-medium whitespace-nowrap text-primary-new">
-                  Tài khoản
-                </span>
-              </div>
+              <Account handleOpenDialog={handleOpenDialog} />
             </div>
           </div>
         </div>

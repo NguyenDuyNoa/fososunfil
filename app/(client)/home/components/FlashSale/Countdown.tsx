@@ -61,19 +61,19 @@ const Countdown: React.FC<CountdownProps> = ({
   return (
     <div className="flex items-center gap-1.5">
       <div className="bg-gradient-to-b from-white to-transparent p-[1px] rounded-[2px]">
-        <div className="bg-red-700 text-white size-9 text-base font-bold flex justify-center items-center rounded-[2px]">
+        <div className="bg-red-700 text-white size-[26px] xl:size-9 text-sm xl:text-base font-bold flex justify-center items-center rounded-[2px]">
           {formatTime(timeLeft.hours)}
         </div>
       </div>
-      <span className="text-red-700 font-bold text-2xl">:</span>
+      <span className="text-red-700 font-bold text-sm xl:text-2xl">:</span>
       <div className="bg-gradient-to-b from-white to-transparent p-[1px] rounded-[2px]">
-        <div className="bg-red-700 text-white size-9 text-base font-bold flex justify-center items-center rounded-[2px]">
+        <div className="bg-red-700 text-white size-[26px] xl:size-9 text-sm xl:text-base font-bold flex justify-center items-center rounded-[2px]">
           {formatTime(timeLeft.minutes)}
         </div>
       </div>
-      <span className="text-red-700 font-bold text-2xl">:</span>
+      <span className="text-red-700 font-bold text-sm xl:text-2xl">:</span>
       <div className="bg-gradient-to-b from-white to-transparent p-[1px] rounded-[2px]">
-        <div className="bg-red-700 text-white size-9 text-base font-bold flex justify-center items-center rounded-[2px]">
+        <div className="bg-red-700 text-white size-[26px] xl:size-9 text-sm xl:text-base font-bold flex justify-center items-center rounded-[2px]">
           {formatTime(timeLeft.seconds)}
         </div>
       </div>

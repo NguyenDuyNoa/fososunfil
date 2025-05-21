@@ -45,12 +45,11 @@ const SwiperCarousel = ({
   }
 
   const defaultBreakpoints = {
-    320: { slidesPerView: 1 },
+    320: { slidesPerView: 1.5 },
     640: { slidesPerView: 2 },
     768: { slidesPerView: 3 },
     1024: { slidesPerView: 4 },
     1280: { slidesPerView: 6 },
-    // 1536: { slidesPerView: 6 },
   };
 
   return (
@@ -75,7 +74,7 @@ const SwiperCarousel = ({
         className={`swiper-carousel ${className}`}
       >
         {items.map((item, index) => (
-          <SwiperSlide key={index}>{item}</SwiperSlide>
+          <SwiperSlide className="!h-auto" key={index}>{item}</SwiperSlide>
         ))}
       </Swiper>
 
@@ -83,7 +82,7 @@ const SwiperCarousel = ({
         <>
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute top-1/2 -translate-y-1/2 -left-4 size-8 3xl:size-10 rounded-full ${navigationButtonBgColor} flex items-center justify-center z-20`}
+            className={`hidden absolute top-1/2 -translate-y-1/2 -left-4 size-8 3xl:size-10 rounded-full ${navigationButtonBgColor} xl:flex items-center justify-center z-20`}
           >
             <ArrowRightIcon
               className={`${navigationButtonIconColor} size-6 rotate-180`}
@@ -91,7 +90,7 @@ const SwiperCarousel = ({
           </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute top-1/2 -translate-y-1/2 -right-4 size-8 3xl:size-10 rounded-full ${navigationButtonBgColor} flex items-center justify-center z-20`}
+            className={`hidden absolute top-1/2 -translate-y-1/2 -right-4 size-8 3xl:size-10 rounded-full ${navigationButtonBgColor} xl:flex items-center justify-center z-20`}
           >
             <ArrowRightIcon className={`${navigationButtonIconColor} size-6`} />
           </button>

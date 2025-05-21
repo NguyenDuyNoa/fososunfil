@@ -36,7 +36,6 @@ import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
 import { useAuthStore } from "@/stores/useAuthStores";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMenuHeader } from "@/types/menu/IMenu";
-import { scrollToSection } from "@/utils/scroll/ScrollFunction";
 import {
   ArrowDown2,
   Gift,
@@ -47,9 +46,9 @@ import {
 } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import ButtonAnimation from "../../button/ButtonAnimation";
+import Account from "./Account";
 
 export interface DesktopHeaderProps {
   dataCountryOptions: any[];
@@ -197,25 +196,25 @@ export const categoryData: MenuItem[] = [
 const dataTabProfile = [
   {
     id: 144324,
-    name: `My Account`,
+    name: `Tài khoản của tôi`,
     icon: UserSquare,
     link: "/auth/information/profile",
   },
   {
     id: 54,
-    name: `Search History`,
+    name: `Lịch sử tìm kiếm`,
     icon: SearchNormal,
     link: "/auth/information/search-history",
   },
   {
     id: 542,
-    name: `Gift History`,
+    name: `Lịch sử quà tặng`,
     icon: Gift,
     link: "/auth/information/gift-history",
   },
   {
     id: 323,
-    name: `Change Password`,
+    name: `Đổi mật khẩu`,
     icon: Lock,
     link: "/auth/setting/change-password",
   },
@@ -253,7 +252,7 @@ const NewDesktopHeader = ({
   };
 
   return (
-    <div className="transition-all duration-500 relative z-20 bg-[#F4F6F8]">
+    <div className="transition-all duration-500 relative z-30 bg-[#F4F6F8]">
       {/* Top notification bar */}
       <div className="w-full bg-linear-bg-top-header text-white text-sm flex items-center xl:py-1">
         <div className="container flex xl:justify-between justify-center items-center w-full">
@@ -299,7 +298,7 @@ const NewDesktopHeader = ({
       {/* header */}
       <div className="bg-white rounded-b-xl lg:rounded-b-none">
         {/* Main header */}
-        <header className="w-full py-2 lg:py-3 container flex flex-col lg:flex-row items-center justify-between gap-x-8 2xl:gap-x-12">
+        <header className="z-10 w-full py-2 lg:py-3 container flex flex-col lg:flex-row items-center justify-between gap-x-8 2xl:gap-x-12">
           <div className="flex flex-row items-center justify-between w-full lg:w-fit">
             <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
             <Link href="/" className="hidden lg:block">
@@ -344,10 +343,10 @@ const NewDesktopHeader = ({
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className="mr-2">
-                <IconCameraHeader fill="#041F2F" className="size-6"/>
+                <IconCameraHeader fill="#041F2F" className="size-6" />
               </button>
               <button className="bg-brand-500 rounded-full py-2 px-3">
-                <IconSearchHeader fill="white" className="size-4"/>
+                <IconSearchHeader fill="white" className="size-4" />
               </button>
             </div>
           </div>
@@ -371,8 +370,8 @@ const NewDesktopHeader = ({
             </div>
 
             {/* Right Navigation */}
-            <div className="flex items-center gap-8 2xl:gap-12">
-              <div className="flex items-center">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center mr-2">
                 <Select
                   value={selectedOption?.code}
                   onValueChange={handleCodeChange}
@@ -405,7 +404,7 @@ const NewDesktopHeader = ({
                 </Select>
               </div>
 
-              <div className="flex items-center gap-2 cursor-pointer relative">
+              <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
                 <IconShopping fill="#0154C5" className="size-9" />
                 <span className="text-sm font-medium whitespace-nowrap text-primary-new">
                   Giỏ hàng
@@ -416,145 +415,14 @@ const NewDesktopHeader = ({
                   </span>
                 </div>
               </div>
-              {isLoading ? (
-                <div className="flex items-center gap-2">
-                  <Skeleton className="3xl:size-10 3xl:min-w-10 3xl:min-h-10 size-8 min-w-8 min-h-8 rounded-full" />
-                </div>
-              ) : informationUser ? (
-                <DropdownMenu
-                  open={isStateLayoutMain?.header?.openDropdownProfile}
-                  onOpenChange={(value) => handleDropdownChange(value)}
-                >
-                  <DropdownMenuTrigger className="focus:outline-none focus:ring-0 select-none group">
-                    <div
-                      className={`text-white flex gap-2 items-center cursor-pointer font-medium col-span-1 3xl:text-[17px] xxl:text-base xl:text-sm text-sm hover:text-[#0E0E0E] custom-transition`}
-                    >
-                      <div className="3xl:size-10 3xl:min-w-10 3xl:min-h-10 size-8 min-w-8 min-h-8 caret-inherit">
-                        <AvatarCustom
-                          classNameContainer="w-full h-full shadow"
-                          avatar={
-                            informationUser?.client_image ??
-                            "/avatar/avatar_default.png"
-                          }
-                        />
-                      </div>
-                      <div
-                        className={`${
-                          isStateLayoutMain?.header?.openDropdownProfile
-                            ? "text-[#07A6FF]"
-                            : "text-[#333538]"
-                        } text-sm-default font-semibold group-hover:text-[#07A6FF] text-nowrap whitespace-nowrap custom-transition`}
-                      >
-                        {informationUser?.company}
-                      </div>
-                      <ArrowDown2
-                        variant="Bold"
-                        className={`${
-                          isStateLayoutMain?.header?.openDropdownProfile
-                            ? "rotate-180 text-[#07A6FF]"
-                            : "text-[#333538]"
-                        } group-hover:text-[#07A6FF] size-5 custom-transition`}
-                      />
-                    </div>
-                  </DropdownMenuTrigger>
 
-                  <DropdownMenuContent
-                    className="min-w-60 border-none p-4 space-y-2 dark:bg-[#09112B]"
-                    style={{
-                      boxShadow:
-                        "0px 4px 4px 0px #0000004D, 0px 8px 12px 6px #00000026",
-                    }}
-                    side="bottom"
-                    sideOffset={10}
-                    collisionPadding={{ right: 30 }}
-                  >
-                    <div className="flex flex-col items-center justify-center">
-                      <AvatarCustom
-                        avatar={
-                          informationUser?.client_image ??
-                          "/avatar/avatar_default.png"
-                        }
-                        classNameContainer="size-10"
-                      />
-
-                      <div className="text-sm-default text-neutral-500 font-semibold">
-                        {informationUser?.company}
-                      </div>
-                    </div>
-
-                    <DottedSeparator />
-                    {dataTabProfile &&
-                      dataTabProfile.map((item: any, index) => {
-                        const checkActive =
-                          pathname?.startsWith(item.link) ||
-                          pathname === item.link;
-
-                        return (
-                          <React.Fragment key={`tab-profile-${item.id}`}>
-                            {index === 4 && <Separator />}
-                            <Link
-                              href={item.link ?? ""}
-                              className="flex items-center gap-2 group"
-                              onClick={() => handleDropdownChange(false)}
-                            >
-                              <div
-                                className={`size-5 max-w-[10%] ${
-                                  checkActive
-                                    ? "text-[#07A6FF]"
-                                    : "text-[#545454]"
-                                } transition-all duration-150 ease-linear group-hover:text-[#07A6FF] custom-transition`}
-                              >
-                                <item.icon
-                                  variant={checkActive ? "Bold" : "Linear"}
-                                  className="size-full"
-                                />
-                              </div>
-                              <div
-                                className={`text-sm-default ${
-                                  checkActive
-                                    ? "text-[#07A6FF]"
-                                    : "text-[#545454]"
-                                } transition-all duration-150 ease-linear group-hover:text-[#07A6FF] custom-transition`}
-                              >
-                                {item?.name ?? ""}
-                              </div>
-                            </Link>
-                          </React.Fragment>
-                        );
-                      })}
-                    <DottedSeparator />
-
-                    <div
-                      className="flex items-center gap-2 text-red-500  group cursor-pointer"
-                      onClick={() => {
-                        setOpenAlertDialog(true, "logout");
-                        handleDropdownChange(false);
-                      }}
-                    >
-                      <Logout className="size-5 group-hover:text-red-500 hover:text-red-500 custom-transition" />
-                      <div className="text-default group-hover:text-red-500 hover:text-red-500 custom-transition">
-                        Log out
-                      </div>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <div
-                  className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => handleOpenDialog("login", "desktop")}
-                >
-                  <IconAccountHeader fill="#0154C5" className="size-9" />
-                  <span className="text-sm font-medium whitespace-nowrap text-primary-new">
-                    Tài khoản
-                  </span>
-                </div>
-              )}
+              <Account handleOpenDialog={handleOpenDialog} />
             </div>
           </div>
         </header>
 
         {/* category */}
-        <div className="relative z-10">
+        <div className="relative">
           <div className="hidden lg:flex items-center justify-between w-full pb-4 container">
             {/* Left Side - Categories */}
             <div className="flex items-center gap-9">

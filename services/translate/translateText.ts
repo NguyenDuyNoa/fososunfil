@@ -11,8 +11,8 @@ async function translateText(textArray: any, targetLanguage: string): Promise<st
     if (targetLanguage === 'vi') {
         // Trả về định dạng giống như API để đảm bảo tính nhất quán với cách sử dụng trong TranslationWrapper
         const mockResponse = Array.isArray(textArray) ? 
-            { 0: textArray } : // Nếu là mảng, giữ nguyên mảng các văn bản
-            { 0: [textArray] }; // Nếu là chuỗi đơn, bọc trong mảng
+            { '0': textArray } : // Nếu là mảng, giữ nguyên mảng các văn bản
+            { '0': [textArray] }; // Nếu là chuỗi đơn, bọc trong mảng
             
         return mockResponse as unknown as string;
     }
@@ -21,7 +21,7 @@ async function translateText(textArray: any, targetLanguage: string): Promise<st
     const requestBody = [
         [
             textArray, // nội dung cần dịch
-            `${targetLanguage === 'vi' ? "auto" : "vi"}`, // ngôn ngữ gốc
+            "vi", // ngôn ngữ gốc luôn là tiếng Việt
             targetLanguage, // ngôn ngữ đích
         ],
         'te' // mã ngôn ngữ thứ hai nếu cần
