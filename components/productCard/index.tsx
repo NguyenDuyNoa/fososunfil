@@ -59,7 +59,7 @@ const ProductCard = ({
           </div>
         )}
 
-        <h4 className="text-primary-new group-hover:text-error-dark text-base font-semibold line-clamp-2">
+        <h4 className="text-primary-new group-hover:text-[#0375F3] text-base font-semibold line-clamp-2">
           Lọc gió động cơ Air Filter – Chevrolet Colorado, Trailblazer
           (52046262)
         </h4>

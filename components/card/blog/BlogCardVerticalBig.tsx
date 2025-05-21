@@ -68,14 +68,20 @@ const BlogCardVerticalBig = ({
       <div className="flex flex-col justify-between flex-1 gap-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            {name_category?.map((cat, idx) => (
+            {/* {name_category?.map((cat, idx) => (
               <div
                 style={{ backgroundColor: color_category }}
                 className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs h-[26px]"
               >
                 <span key={idx}>{cat}</span>
               </div>
-            ))}
+            ))} */}
+            <div
+              style={{ backgroundColor: color_category }}
+              className="text-[#FCFCFD] font-medium p-1.5 px-2 uppercase text-xs"
+            >
+              {name_category}
+            </div>
           </div>
           <h1 className="text-[#23262F] font-bold xxl:text-2xl text-xl line-clamp-3">
             {title}

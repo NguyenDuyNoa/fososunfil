@@ -44,6 +44,7 @@ import HeaderContainer from "@/components/layout/header/HeaderContainer";
 import FooterContainer from "@/components/layout/footer/FooterContainer";
 import AlertDialogCustom from "@/components/dialog/AlertDialogCustom";
 import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
+import ContactButtons from "@/components/ContactButtons";
 
 const LayoutTranslate = dynamic(() => import("./LayoutTranslate"), {
   ssr: false,
@@ -232,6 +233,7 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
             <ButtonToTop />
             {/* {!['/home', '/'].includes(pathname) && !pathname.startsWith("/auth") &&  */}
             <FooterContainer />
+            <ContactButtons />
           </main>
 
           {openDialogCustom && <DialogCustom />}

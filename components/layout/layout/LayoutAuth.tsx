@@ -122,7 +122,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div className='w-full bg-white'>
-            <div className='custom-container 3xl:pt-[120px] pt-[110px] lg:h-screen grid xl:grid-cols-12 lg:grid-cols-14 grid-cols-12 xxl:gap-6 xl:gap-4 gap-8'>
+            <div className='custom-container pt-4 lg:h-screen grid xl:grid-cols-12 lg:grid-cols-14 grid-cols-12 xxl:gap-6 xl:gap-4 gap-8'>
                 <div className='xl:col-span-2 lg:col-span-3 col-span-12'>
                     <div className='sticky 3xl:top-[110px] top-[102px] flex flex-col 3xl:gap-4 gap-3'>
                         <div className='flex flex-col 3xl:gap-3 gap-2 justify-center items-center caret-transparent'>

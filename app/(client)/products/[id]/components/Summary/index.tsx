@@ -106,7 +106,7 @@ const ProductSummary = () => {
             còn 1234 sản phẩm
           </h4>
         </div>
-        <div className="flex flex-col gap-4 w-[491px]">
+        <div className="flex flex-col gap-4 xl:w-[491px]">
           <button className="bg-brand-500 rounded-lg py-3 text-white text-base font-bold">
             Mua ngay
           </button>

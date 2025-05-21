@@ -63,17 +63,17 @@ const MenuContent = ({
         // <div className="fixed inset-0 bg-black/25 backdrop-blur-sm z-50" />
         <div
           className={cn(
-            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm z-40 pointer-events-none",
-            isMiniHeader && "top-[70px]"
+            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm z-10 pointer-events-none",
+            isMiniHeader && "top-[88px]"
           )}
         />
       )}
       <div
         className={cn(
-          " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-50 p-0 border-none min-h-[600px] shadow-none bg-white",
+          " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none min-h-[600px] shadow-none bg-white",
           !isBanner && "absolute top-[calc(100%+4px)] left-0",
           isMiniHeader &&
-            "absolute xxl:top-[calc(100%+11px)] xl:top-[calc(100%+17px)] left-0",
+            "absolute top-[calc(100%+20px)] left-0",
           classNameContent
         )}
         onMouseEnter={onHover}

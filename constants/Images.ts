@@ -44,6 +44,7 @@ export const IMAGES = {
   pos1: "/product/POS1.png",
   sale: "/product/sale.svg",
   logo: "/logo/logo_sunfil.png",
+  logoMb: "/logo/logoMb.png",
   topBanner_1: "/home/TopBanner/Banner_1.png",
   topBanner_2: "/home/TopBanner/Banner_2.png",
   avatar1: "/product/Avatar1.png",

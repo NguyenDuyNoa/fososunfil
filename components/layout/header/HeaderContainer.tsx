@@ -146,15 +146,15 @@ const HeaderContainer = () => {
   return (
     <header className="md:bg-transparent bg-white w-full z-[999]">
       <div>
-        {isVisibleTablet ? (
-          // màn hình mobile, tablet
-          <TabletHeader
+        {/* {isVisibleTablet ? ( */}
+           {/* màn hình mobile, tablet */}
+          {/* <TabletHeader
             dataHeader={dataHeader}
             handleToggleMenu={handleToggleMenu}
             handleOpenDialog={handleOpenDialog}
           />
-        ) : (
-          // màn hình laptop
+        ) : ( */}
+          {/* // màn hình laptop */}
           <>
             {/* Header chính luôn hiển thị */}
             <div className="w-full">
@@ -189,7 +189,7 @@ const HeaderContainer = () => {
               )}
             </AnimatePresence>
           </>
-        )}
+        {/* )} */}
       </div>
     </header>
   );
