@@ -35,6 +35,7 @@ const HeroBanner = ({
       {/* Sidebar bên trái */}
       <MenuContent
         activeItem={activeItem}
+        autoActiveFirstItem={false}
         items={items}
         IsProducts={IsProducts}
         setActiveItem={setActiveItem}

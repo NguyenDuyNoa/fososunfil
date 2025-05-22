@@ -1,7 +1,5 @@
 import AppleStoreIcon from "@/components/icons/AppleStoreIcon";
 import PlayStoreIcon from "@/components/icons/PlayStoreIcon";
-import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { SelectContent } from "@/components/ui/selectCustom";
 import { IMAGES } from "@/constants/Images";
 import { useGetDataFooter } from "@/managers/api-management/ui/footer/useGetDataFooter";
 import { useStateHeader } from "@/states/Header/useStateHeader";
@@ -11,27 +9,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import PhoneLink from "../../contact/PhoneLink";
-import CountryOptions from "../header/CountryOptions";
-const dataCountryOptions = [
-  {
-    code: "vi",
-    country: "Việt Nam",
-    flag: "/flag/vi.png",
-  },
-  {
-    code: "en",
-    country: "English",
-    flag: "/flag/en.png",
-  },
-];
+
 const FooterContainer = () => {
   const { data: dataFooter } = useGetDataFooter({ enebled: true });
   const { isStateHeader } = useStateHeader();
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
-  const selectedOption = dataCountryOptions.find(
-    (option) => option.code === isStateHeader.selectedCodeCountry
-  );
+  
+  const isProductDetailPage = pathname?.includes('/products/') && pathname?.split('/').length > 2;
+
   const sitemapLinks = [
     { href: "/about-us", text: "About us" },
     { href: "/blogs", text: "Article" },
@@ -47,7 +33,7 @@ const FooterContainer = () => {
   ];
 
   return (
-    <div className='bg-[url("/background/common/footer.jpg")] bg-cover bg-center bg-no-repeat py-6 xl:py-24'>
+    <div className={`bg-[url("/background/common/footer.jpg")] bg-cover bg-center bg-no-repeat py-6 xl:py-16 ${isProductDetailPage ? 'mb-[100px] xl:mb-0' : ''}`}>
       <div className="container flex flex-col lg:flex-row justify-between gap-6 xl:gap-1">
         <div className="flex flex-col gap-3 xl:gap-8 w-full lg:w-1/2">
           <h1 className="text-sm xl:text-xl font-bold uppercase">
@@ -157,7 +143,6 @@ const FooterContainer = () => {
               height={250}
               className="w-[150px] h-auto xl:hidden "
             />
-            <CountryOptions />
           </div>
         </div>
       </div>

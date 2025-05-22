@@ -1,11 +1,12 @@
-import { ChevronRight } from "lucide-react";
-import Image from "next/image";
+import ProductCard from "@/components/productCard";
+import { IMAGES } from "@/constants/Images";
 import { cn } from "@/lib/utils";
 import { MenuItem } from "@/types/categories/ICategoryes";
-import { IMAGES } from "@/constants/Images";
-import ProductCard from "@/components/productCard";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const productImages = [
   IMAGES.product9,
@@ -30,6 +31,7 @@ type MegaMenuContentProps = {
   onHover: () => void;
   isBanner?: boolean;
   isMiniHeader?: boolean;
+  autoActiveFirstItem?: boolean;
 };
 
 const MenuContent = ({
@@ -44,7 +46,16 @@ const MenuContent = ({
   isBanner = false,
   classNameActiveItem = "",
   isMiniHeader,
+  autoActiveFirstItem = true,
 }: MegaMenuContentProps) => {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (items.length > 0 && !activeItem && autoActiveFirstItem) {
+      setActiveItem(items[0]);
+    }
+  }, [items, activeItem, setActiveItem, autoActiveFirstItem]);
+
   const productCards = Array(isMiniHeader ? 4 : 5)
     .fill(0)
     .map((_, index) => (
@@ -56,7 +67,6 @@ const MenuContent = ({
         className="mb-0"
       />
     ));
-  const pathname = usePathname();
   return (
     <>
       {/* Overlay blur layer home */}
@@ -73,7 +83,7 @@ const MenuContent = ({
         className={cn(
           " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none min-h-[600px] shadow-none bg-white",
           !isBanner && "absolute top-[calc(100%+16px)] left-0",
-          isMiniHeader && "absolute top-[calc(100%+18px)] left-0",
+          isMiniHeader && "absolute top-[calc(100%+20px)] left-0",
           classNameContent
         )}
         onMouseEnter={onHover}

@@ -54,7 +54,7 @@ const SwiperCarousel = ({
   };
 
   return (
-    <div className="relative h-full">
+    <div className="relative h-full mb-[2px]">
       <Swiper
         modules={modules}
         spaceBetween={spaceBetween}

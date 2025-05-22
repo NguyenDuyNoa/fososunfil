@@ -68,7 +68,7 @@ const FeaturedPosts = () => {
               Bài viết nổi bật
             </h2>
           </div>
-          <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-100 xl:hover:bg-opacity-10 group">
+          <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-500 xl:hover:bg-opacity-10 group">
             <Link
               href="/blogs"
               className="text-[8px] xl:text-base font-semibold text-brand-500 whitespace-nowrap group-hover:font-bold"

@@ -38,6 +38,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
+import CountryOptions from "./CountryOptions";
 
 export interface DesktopHeaderProps {
   dataCountryOptions: any[];
@@ -366,38 +367,7 @@ const NewDesktopHeader = ({
 
             {/* Right Navigation */}
             <div className="flex items-center gap-4">
-              <div className="flex items-center mr-2">
-                <Select
-                  value={selectedOption?.code}
-                  onValueChange={handleCodeChange}
-                >
-                  <SelectTrigger className="p-0 flex items-center gap-2 h-full border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0">
-                    {selectedOption && (
-                      <>
-                        <div className="size-9 rounded-full">
-                          <Image
-                            src={selectedOption.flag}
-                            alt={`${selectedOption.country} flag`}
-                            width={100}
-                            height={100}
-                            className="size-full object-cover rounded-full"
-                          />
-                        </div>
-                        <div className="text-sm uppercase font-medium text-primary-new">
-                          {selectedOption.code}
-                        </div>
-                      </>
-                    )}
-                  </SelectTrigger>
-                  <SelectContent>
-                    {dataCountryOptions.map((option) => (
-                      <SelectItem key={option.code} value={option.code}>
-                        {option.country} ({option.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <CountryOptions />
 
               <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
                 <IconShopping fill="#0154C5" className="size-9" />

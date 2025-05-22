@@ -155,16 +155,16 @@ const ProductSummary = () => {
             Có 20 người thêm vào giỏ hàng & 4 người đang xem
           </p>
         </div>
-        <div className="hidden xl:flex flex-col gap-4 xl:w-[491px]">
-          <button className="bg-brand-500 rounded-lg py-3 text-white text-base font-bold">
+        <div className="fixed bottom-0 left-0 right-0 bg-white xl:static px-3 py-2 xl:px-0 xl:py-0 z-20 flex flex-col gap-2.5 xl:gap-4 w-full xl:w-[491px]">
+          <button className="bg-brand-500 rounded-lg py-3 text-white text-sm xl:text-base font-bold">
             Mua ngay
           </button>
-          <div className="flex items-center gap-4">
-            <button className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
-              <Image src={IMAGES.cart} alt="check" width={24} height={24} />
+          <div className="flex items-center gap-3 xl:gap-4">
+            <button className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">
+              <Image src={IMAGES.cart} alt="check" width={24} height={24} className="size-5 xl:size-6" />
               Thêm vào giỏ hàng
             </button>
-            <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
+            <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">
               Xem OEM
             </button>
           </div>

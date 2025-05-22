@@ -73,11 +73,11 @@ const FlashSale = () => {
             <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-error-main hover:bg-opacity-10 group">
               <Link
                 href="/products"
-                className="text-[8px] xl:text-base font-semibold text-error-main whitespace-nowrap group-hover:font-bold"
+                className="text-[8px] xl:text-base font-semibold text-error-main group-hover:text-error-lighter whitespace-nowrap group-hover:font-bold"
               >
                 Xem tất cả{" "}
               </Link>
-              <DoubleArrowRightIcon className="text-error-main size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
+              <DoubleArrowRightIcon className="text-error-main group-hover:text-error-lighter size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
             </div>
           </div>
           <SwiperCarousel
