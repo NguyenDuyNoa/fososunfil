@@ -131,11 +131,11 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 flex-1 w-1/2">
+    <div className="flex flex-col gap-6 flex-1 xl:w-1/2">
       {/* Main Image */}
       <div
         ref={mainImageRef}
-        className="relative w-full aspect-[677/508] rounded-xl overflow-hidden bg-white"
+        className="relative w-full aspect-[677/508] xl:rounded-xl overflow-hidden bg-white"
       >
         <Image
           src={images[currentIndex].src}
@@ -166,7 +166,7 @@ const Gallery = () => {
       {/* Thumbnails */}
       <div
         ref={thumbnailContainerRef}
-        className="flex flex-shrink-0 flex-row gap-3 overflow-auto max-w-full"
+        className="flex flex-shrink-0 flex-row gap-3 overflow-auto max-w-full px-3 xl:px-0"
         // style={{ maxHeight: imageHeight }}
       >
         {images.map((image, index) => (
@@ -175,7 +175,7 @@ const Gallery = () => {
             ref={(el) => {
               thumbnailRefs.current[index] = el;
             }}
-            className={`relative w-[140px] aspect-[140/105] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
+            className={`relative w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
               ${
                 selectedThumbnail === index
                   ? "border-blue-500"

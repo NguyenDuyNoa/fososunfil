@@ -15,6 +15,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
+import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
+import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -29,24 +31,54 @@ const NewDesktopHeaderMini = ({
   const selectedOption = dataCountryOptions.find(
     (option) => option.code === isStateHeader.selectedCodeCountry
   );
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <div className=" 3xl:px-12 2xl:px-10 xl:px-8 px-4 bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] ">
+    <div className="bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] ">
       {/* Main header */}
-      <header className="w-full py-1 container">
+      <MobileMenuOverlay
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
+      <header className="w-full py-2 xl:py-1 container">
         <div className="flex items-center justify-between gap-x-12 w-full">
-          {/* Logo */}
-          <Link href="/">
-            <Image
-              src={IMAGES.logo}
-              alt="logo"
-              width={600}
-              height={111}
-              className="object-contain w-[180px]"
-              quality={100}
-              loading="eager"
-            />
-          </Link>
-          <div className="flex-1 flex flex-row justify-between items-center w-full gap-x-12">
+          <div className="flex flex-row items-center justify-between w-full lg:w-fit">
+            <button onClick={() => setIsMobileMenuOpen(true)}>
+              <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
+            </button>
+            <Link href="/" className="hidden lg:block">
+              <Image
+                src={IMAGES.logo}
+                alt="logo"
+                width={600}
+                height={111}
+                className="object-contain lg:w-[180px]"
+                quality={100}
+                loading="eager"
+              />
+            </Link>
+            <Link href="/" className="lg:hidden">
+              <Image
+                src={IMAGES.logoMb}
+                alt="logo"
+                width={600}
+                height={111}
+                className="object-contain w-[106px]"
+                quality={100}
+                loading="eager"
+              />
+            </Link>
+
+            <div className="lg:hidden flex items-center gap-2 cursor-pointer relative bg-[#0154C5] p-2 rounded-full">
+              <IconShopping fill="white" className="size-5" />
+              <div className="absolute top-0 right-0 bg-error-main rounded-full size-4 flex items-center justify-center">
+                <span className="text-white text-[10px]/[16px] font-medium mt-0.5">
+                  12
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="hidden flex-1 xl:flex flex-row justify-between items-center w-full gap-x-12">
             <MegaMenuDropdown
               triggerLabel="Danh Mục Sản Phẩm"
               items={categoryData}

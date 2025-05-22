@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactNode, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";

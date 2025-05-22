@@ -20,7 +20,7 @@ const Products = () => {
 
   return (
     <>
-      <div className="container flex flex-col 3xl:gap-8 gap-6 pt-6">
+      <div className="container flex flex-col gap-2 xl:gap-8 pt-6">
         <Breadcrumbs items={breadcrumbs} />
         <BannerProduct />
         <MainContent />

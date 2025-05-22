@@ -83,10 +83,10 @@ const ProductTabs = () => {
         <div className="flex flex-col gap-5">
           {(content as ProductInfo[]).map((item, index) => (
             <div key={index} className={`flex items-center gap-2 py-2 ${index < (content as ProductInfo[]).length - 1 ? 'border-b border-[#919EAB33]' : ''}`}>
-              <div className="w-[40%] text-grey-600 text-base font-normal">
+              <div className="w-[30%] xl:w-[40%] text-grey-600 text-sm xl:text-base font-normal">
                 {item.label}
               </div>
-              <div className="w-[60%] font-bold text-base text-grey-800">
+              <div className="w-[70%] xl:w-[60%] font-bold text-sm xl:text-base text-grey-800">
                 {item.value}
               </div>
             </div>
@@ -134,8 +134,8 @@ const ProductTabs = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="rounded-lg h-[700px] overflow-hidden">
+    <div className="flex flex-col gap-3 xl:gap-6 px-3 xl:px-0">
+      <div className="rounded-lg xl:h-[700px] overflow-hidden">
         <Image
           src={IMAGES.pos1}
           alt="sản phẩm"
@@ -150,17 +150,17 @@ const ProductTabs = () => {
         return (
           <div
             key={tabKey}
-            className={`flex flex-col gap-6 px-6 bg-white shadow-[0px_4px_48px_0px_#0000001A] rounded-lg ${
+            className={`flex flex-col gap-2 xl:gap-6 px-3 xl:px-6 bg-white shadow-[0px_4px_48px_0px_#0000001A] rounded-lg ${
               openTabs[tabKey] ? "pb-6" : ""
             }`}
           >
             <div
-              className={`py-5 flex justify-between items-center cursor-pointer ${
+              className={`py-3 xl:py-5 flex justify-between items-center cursor-pointer ${
                 openTabs[tabKey] ? "border-b border-[#919EAB3D]" : ""
               }`}
               onClick={() => toggleTab(tabKey)}
             >
-              <h2 className="text-2xl font-semibold text-primary-new">
+              <h2 className="text-lg xl:text-2xl font-semibold text-primary-new">
                 {data.title}
               </h2>
               <motion.div

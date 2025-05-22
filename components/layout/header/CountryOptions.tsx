@@ -21,8 +21,16 @@ const dataCountryOptions = [
   },
 ];
 
-const CountryOptions = () => {
-  const {setCookie } = useCookieStore();
+interface CountryOptionsProps {
+  textColor?: string;
+  sizeIcon?: string;
+}
+
+const CountryOptions = ({
+  textColor = "text-primary-new",
+  sizeIcon = "size-9",
+}: CountryOptionsProps) => {
+  const { setCookie } = useCookieStore();
   const { isStateHeader, queryKeyIsStateHeader } = useStateHeader();
   const { setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -49,8 +57,8 @@ const CountryOptions = () => {
 
   return (
     <div className="flex items-center w-fit">
-      <Select 
-        value={selectedOption?.code} 
+      <Select
+        value={selectedOption?.code}
         onValueChange={handleCodeChange}
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -58,7 +66,7 @@ const CountryOptions = () => {
         <SelectTrigger className="p-0 flex items-center gap-2 h-full border-none shadow-none focus:outline-none focus:ring-0 focus:ring-offset-0">
           {selectedOption && (
             <>
-              <div className="size-9 rounded-full">
+              <div className={`${sizeIcon} rounded-full`}>
                 <Image
                   src={selectedOption.flag}
                   alt={`${selectedOption.country} flag`}
@@ -67,10 +75,18 @@ const CountryOptions = () => {
                   className="size-full object-cover rounded-full"
                 />
               </div>
-              <div className="text-sm uppercase font-medium text-primary-new">
+              <div
+                className={`text-sm uppercase font-medium ${
+                  textColor || "text-primary-new"
+                }`}
+              >
                 {selectedOption.code}
               </div>
-              <ArrowUpIcon className={`size-4 ${isOpen ? "rotate-180" : ""} transition-all duration-300`} />
+              <ArrowUpIcon
+                className={`size-4 ${textColor || "text-primary-new"} ${
+                  isOpen ? "" : "rotate-180"
+                } transition-all duration-300`}
+              />
             </>
           )}
         </SelectTrigger>

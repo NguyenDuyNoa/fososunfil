@@ -1,3 +1,4 @@
+"use client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import ServiceHighlights from "@/components/serviceHighlights";
@@ -6,6 +7,7 @@ import ProductTabs from "./components/ProductTabs";
 import Promo from "./components/Promo";
 import RelatedProducts from "./components/Related";
 import Review from "./components/Review";
+import { useResizeStore } from "@/stores/useResizeStore";
 
 const breadcrumbs = [
   { label: "Trang chủ", href: "/" },
@@ -17,22 +19,31 @@ const breadcrumbs = [
   },
 ];
 const DetailProduct = () => {
+  const { isVisibleMobile } = useResizeStore();
   return (
     <>
-      <div className="container flex flex-col gap-8 pt-6">
-        <Breadcrumbs items={breadcrumbs} />
+      <div className="flex flex-col gap-3 xl:gap-8 pt-4 xl:pt-6">
+        <div className="container">
+          <Breadcrumbs items={breadcrumbs} />
+        </div>
         <ProductMainInfo />
-        <div className="grid grid-cols-[6fr_4fr] gap-8">
-          <div className="flex flex-col gap-6">
+        <div
+          className={`flex flex-col-reverse xl:grid grid-cols-[6fr_4fr] gap-3 xl:gap-8  ${
+            isVisibleMobile ? "" : "container"
+          }`}
+        >
+          <div className="flex flex-col gap-3 xl:gap-6">
             <ProductTabs />
             <Review />
           </div>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3 xl:gap-6">
             <Promo />
             <RelatedProducts />
           </div>
         </div>
-        <ServiceHighlights />
+        <div className="container">
+          <ServiceHighlights />
+        </div>
       </div>
       <StoreLocatorBanner />
     </>

@@ -25,8 +25,6 @@ export const useGetInfoByToken = () => {
                 const { data } = await apiAuth.getInfoByToken();
                 if (data?.result) {
                     setInformationUser(data?.data?.client);
-
-                    router.refresh();
                     return data;
                 }
 

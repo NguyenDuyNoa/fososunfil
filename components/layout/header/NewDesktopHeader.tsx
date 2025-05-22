@@ -1,12 +1,9 @@
 "use client";
-import AvatarCustom from "@/components/avatar/AvatarCustom";
-import { DottedSeparator } from "@/components/dotted-separator/dotted-separator";
 import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
 import IconCategoryAir from "@/components/icon/categoryProduct/IconCategoryAir";
 import IconCategoryCabin from "@/components/icon/categoryProduct/IconCategoryCabin";
 import IconCategoryFuel from "@/components/icon/categoryProduct/IconCategoryFuel";
 import IconCategoryOil from "@/components/icon/categoryProduct/IconCategoryOil";
-import IconAccountHeader from "@/components/icon/IconAccountHeader";
 import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconDelivery from "@/components/icon/IconDelivery";
 import IconDiscountHeader from "@/components/icon/IconDiscountHeader";
@@ -18,16 +15,10 @@ import IconSearchHeader from "@/components/icon/IconSearchHeader";
 import IconShopping from "@/components/icon/IconShopping";
 import IconSupportHeader from "@/components/icon/IconSupportHeader";
 import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
+import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 import { TooltipHeader } from "@/components/tooltip/TooltipHeader";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { SelectContent } from "@/components/ui/selectCustom";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import { IMAGES } from "@/constants/Images";
 import { useGetInfoByToken } from "@/managers/api-management/auth/info/useGetInfoByToken";
 import { useStateLayoutMain } from "@/managers/state-management/layout/useStateLayoutMain";
@@ -37,17 +28,15 @@ import { useAuthStore } from "@/stores/useAuthStores";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMenuHeader } from "@/types/menu/IMenu";
 import {
-  ArrowDown2,
   Gift,
   Lock,
-  Logout,
   SearchNormal,
-  UserSquare,
+  UserSquare
 } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import Account from "./Account";
 
 export interface DesktopHeaderProps {
@@ -228,8 +217,8 @@ const NewDesktopHeader = ({
   handleOpenDialog,
 }: DesktopHeaderProps) => {
   const pathname = usePathname();
-
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { isLoading } = useGetInfoByToken();
   const { informationUser } = useAuthStore();
@@ -253,6 +242,10 @@ const NewDesktopHeader = ({
 
   return (
     <div className="transition-all duration-500 relative z-30 bg-[#F4F6F8]">
+      <MobileMenuOverlay
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+      />
       {/* Top notification bar */}
       <div className="w-full bg-linear-bg-top-header text-white text-sm flex items-center xl:py-1">
         <div className="container flex xl:justify-between justify-center items-center w-full">
@@ -300,7 +293,9 @@ const NewDesktopHeader = ({
         {/* Main header */}
         <header className="z-10 w-full py-2 lg:py-3 container flex flex-col lg:flex-row items-center justify-between gap-x-8 2xl:gap-x-12">
           <div className="flex flex-row items-center justify-between w-full lg:w-fit">
-            <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
+            <button onClick={() => setIsMobileMenuOpen(true)}>
+              <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
+            </button>
             <Link href="/" className="hidden lg:block">
               <Image
                 src={IMAGES.logo}

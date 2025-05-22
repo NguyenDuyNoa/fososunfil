@@ -65,7 +65,7 @@ const Home = () => {
   }, [listCategories]);
 
   return (
-    <div className="relative w-full flex flex-col gap-6 pt-6 pb-8">
+    <div className="relative w-full flex flex-col gap-6 pt-6 xl:pt-0 pb-8">
       <HeroBanner
         items={categoryData}
         IsProducts={true}

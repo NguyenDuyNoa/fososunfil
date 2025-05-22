@@ -73,8 +73,8 @@ const UserReview = ({
   likeCount?: number;
 }) => {
   return (
-    <div className="px-8 flex gap-4">
-      <div>
+    <div className="px-5 xl:px-8 flex gap-3 xl:gap-4">
+      <div className="hidden xl:block">
         <Image
           src={avatarSrc}
           alt="avatar"
@@ -84,29 +84,45 @@ const UserReview = ({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2.5">
-          <h3 className="text-base font-bold text-primary-new">{username}</h3>
-          <Rating value={rating} readOnly />
-          <p className="text-disable-50 text-xs">{date}</p>
-        </div>
-        <p className="text-sm text-primary-new">{comment}</p>
-
-        {productImages.length > 0 && (
-          <div className="mt-2 flex gap-2">
-            {productImages.map((img, index) => (
+        <div className="flex flex-col gap-2 xl:gap-2.5">
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-4">
               <Image
-                key={index}
-                src={img}
-                alt="product"
-                width={64}
-                height={64}
-                className="rounded-lg object-cover"
+                src={avatarSrc}
+                alt="avatar"
+                width={48}
+                height={48}
+                className="rounded-full object-cover xl:hidden"
               />
-            ))}
+              <div className="flex flex-col gap-2">
+                <h3 className="text-base font-bold text-primary-new">
+                  {username}
+                </h3>
+                <p className="text-disable-50 text-xs">{date}</p>
+              </div>
+            </div>
+            <Rating value={rating} readOnly />
           </div>
-        )}
+        </div>
 
-        <LikeButton active={!!likeCount} count={likeCount} />
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-primary-new">{comment}</p>
+          {productImages.length > 0 && (
+            <div className="mt-2 flex gap-2">
+              {productImages.map((img, index) => (
+                <Image
+                  key={index}
+                  src={img}
+                  alt="product"
+                  width={64}
+                  height={64}
+                  className="rounded-lg object-cover"
+                />
+              ))}
+            </div>
+          )}
+          <LikeButton active={!!likeCount} count={likeCount} />
+        </div>
       </div>
     </div>
   );
@@ -147,19 +163,64 @@ const Pagination = ({
   );
 };
 
+// Dữ liệu mẫu cho các đánh giá
+const REVIEWS_DATA = [
+  {
+    id: 1,
+    avatarSrc: IMAGES.avatar1,
+    username: "Thuy Do",
+    rating: 5,
+    date: "10/05/2025",
+    comment: "Giờ mình tiến hành thay cho xe luôn hàng đúng như mong đợi lại giao nhanh nữa chứ. Mọi người nên mua xài nhé!",
+    productImages: [IMAGES.product1, IMAGES.product2, IMAGES.product3],
+    likeCount: 12
+  },
+  {
+    id: 2,
+    avatarSrc: IMAGES.avatar1,
+    username: "Phạm Văn Lập",
+    rating: 2,
+    date: "10/05/2025",
+    comment: "Lọc gió bị gãy, lần này mua thất vọng quá Cũng may vẫn còn xài đc đã lắp vào xe"
+  },
+  {
+    id: 2,
+    avatarSrc: IMAGES.avatar1,
+    username: "An Nguyễn",
+    rating: 3,
+    date: "10/05/2025",
+    comment: "Chuẩn kích thước, còn chất lg thì chưa biết. Giao hàng móp méo kiện, bị ướt và ngấm nước",
+    productImages: [IMAGES.product1, IMAGES.product2, IMAGES.product3],
+  
+  },
+  {
+    id: 2,
+    avatarSrc: IMAGES.avatar1,
+    username: "Võ Phượng",
+    rating: 2,
+    date: "10/05/2025",
+    comment: "Nhìn qua thấy tạm ổn còn dùng mới biết được chất lượng"
+  }
+
+];
+
 const Review = () => {
   return (
     <div className="rounded-lg bg-white shadow-review">
-      <h2 className="text-2xl font-semibold text-primary-new py-5 px-6">
+      <h2 className="text-lg xl:text-2xl font-semibold text-primary-new py-3 xl:py-5 px-6">
         Đánh giá sản phẩm
       </h2>
-      <div className="flex border-b border-[#919EAB33] border-dashed">
-        <div className="flex-1 flex flex-col items-center justify-center gap-2 border-r border-[#919EAB33] border-dashed">
-          <h3 className="text-5xl font-extrabold text-primary-new">4/5</h3>
+      <div className="flex flex-col xl:flex-row border-b border-[#919EAB33] border-dashed">
+        <div className="flex-1 py-3 xl:py-0 flex flex-col items-center justify-center gap-2 border-r border-[#919EAB33] border-dashed">
+          <h3 className="text-[32px]/[42px] xl:text-5xl font-extrabold text-primary-new">
+            4/5
+          </h3>
           <Rating value={4} readOnly />
-          <p className="text-sm text-secondary-new">(8.24k đánh giá) </p>
+          <p className="text-xs xl:text-sm text-secondary-new">
+            (8.24k đánh giá){" "}
+          </p>
         </div>
-        <div className="flex-1 flex flex-col items-center gap-3 p-10">
+        <div className="py-3 xl:py-0 flex-1 flex flex-col items-center gap-3 p-10">
           <RatingBar stars={5} count="8.2k" percent="10%" />
           <RatingBar stars={4} count="86.6k" percent="20%" />
           <RatingBar stars={3} count="73.9k" percent="30%" />
@@ -167,25 +228,20 @@ const Review = () => {
           <RatingBar stars={1} count="63.1k" percent="50%" />
         </div>
       </div>
-      <div className="py-10 flex flex-col gap-10">
-        <UserReview
-          avatarSrc={IMAGES.avatar1}
-          username="Thuy Do"
-          rating={5}
-          date="10/05/2025"
-          comment="Giờ mình tiến hành thay cho xe luôn hàng đúng như mong đợi lại giao nhanh nữa chứ. Mọi người nên mua xài nhé!"
-          productImages={[IMAGES.product1, IMAGES.product2, IMAGES.product3]}
-          likeCount={12}
-        />
-
-        <UserReview
-          avatarSrc={IMAGES.avatar1}
-          username="Phạm Văn Lập"
-          rating={2}
-          date="10/05/2025"
-          comment="Lọc gió bị gãy, lần này mua thất vọng quá Cũng may vẫn còn xài đc đã lắp vào xe"
-        />
-        <Pagination currentPage={1} totalPages={3} />
+      <div className="py-5 xl:py-10 flex flex-col gap-6 xl:gap-10">
+        {REVIEWS_DATA.map((review) => (
+          <UserReview
+            key={review.id}
+            avatarSrc={review.avatarSrc}
+            username={review.username}
+            rating={review.rating}
+            date={review.date}
+            comment={review.comment}
+            productImages={review.productImages}
+            likeCount={review.likeCount}
+          />
+        ))}
+        <Pagination currentPage={1} totalPages={5} />
       </div>
     </div>
   );

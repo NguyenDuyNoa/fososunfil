@@ -14,7 +14,7 @@ const config: Config = {
       fontFamily: {
         spaceGrotesk: ["var(--font-space-grotesk)"],
         montserrat: ["var(--font-montserrat)"],
-        epilogue: ['Epilogue', 'sans-serif'],
+        epilogue: ["Epilogue", "sans-serif"],
       },
       backgroundImage: {
         discountCodeBanner: "url('/home/discountCodeBanner.png')",
@@ -192,10 +192,41 @@ const config: Config = {
             height: "0",
           },
         },
+        slideUp: {
+          from: {
+            transform: "translateY(100%)",
+          },
+          to: {
+            transform: "translateY(0)",
+          },
+        },
+        slideIn: {
+          from: {
+            transform: "translateX(-100%)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateX(0)",
+            opacity: "1",
+          },
+        },
+        slideOut: {
+          from: {
+            transform: "translateX(0)",
+            opacity: "1",
+          },
+          to: {
+            transform: "translateX(-100%)",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        slideUp: "slideUp 0.3s ease-out",
+        slideIn: "slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+        slideOut: "slideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
       },
     },
   },

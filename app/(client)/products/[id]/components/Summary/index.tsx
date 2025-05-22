@@ -16,14 +16,25 @@ const customStyles = {
 
 const ProductSummary = () => {
   return (
-    <div className="flex flex-col gap-8 flex-1 w-1/2">
+    <div className="flex flex-col gap-4 xl:gap-8 flex-1 xl:w-1/2 px-3 xl:px-0 pb-3">
       <div className="flex flex-col gap-3">
-        <h2 className="text-[32px]/[48px] text-[#374151] font-semibold">
+        <div className="flex items-center gap-1 xl:hidden">
+          <Rating
+            value={4}
+            readOnly
+            style={{ maxWidth: 100 }}
+            itemStyles={customStyles}
+          />
+          <p className="text-sm text-primary-new">
+            4.0 <span className="text-secondary-new"> (123)</span>
+          </p>
+        </div>
+        <h2 className="text-xl xl:text-[32px]/[48px] text-[#374151] font-semibold">
           Lọc gió động cơ Air Filter – Chevrolet Colorado, Trailblazer
           (52046262)
         </h2>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
+          <div className="xl:flex items-center gap-1 hidden">
             <Rating
               value={4}
               readOnly
@@ -34,32 +45,34 @@ const ProductSummary = () => {
               4.0 <span className="text-secondary-new"> (123)</span>
             </p>
           </div>
-          <div className="pl-3 flex items-center gap-1 border-l border-[#919EAB33]">
-            <span className="text-sm text-primary-new font-medium">
-              Mã sản phẩm:{" "}
+          <div className="xl:pl-3 flex items-center gap-1 xl:border-l xl:border-[#919EAB33]">
+            <span className="text-sm text-secondary-600 font-normal">
+              EAN:{" "}
             </span>
-            <span className="text-sm text-[#6A6662] font-normal">
-              17220-RB6-000
+            <span className="text-sm text-primary-new font-medium">
+              4059191689859
             </span>
           </div>
           <div className="pl-3 flex items-center gap-1 border-l border-[#919EAB33]">
-            <span className="text-sm text-primary-new font-medium">
-              Đã bán:{" "}
+            <span className="text-sm text-secondary-600 font-medium">
+              Thương hiệu:{" "}
             </span>
-            <span className="text-sm text-[#6A6662] font-normal">789</span>
+            <span className="text-sm text-brand-700 font-medium underline">
+              Bosch
+            </span>
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
-          <h3 className="text-[32px]/[38px] font-bold text-error-dark">
+          <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
             299,000 <span className="underline">đ</span>
           </h3>
-          <div className="flex items-center gap-3 pl-3 border-l border-[#919EAB33]">
-            <h3 className="text-2xl/[24px] font-normal line-through text-[#919EAB]">
+          <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
+            <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
               329,000 <span className="underline">đ</span>
             </h3>
-            <span className="text-sm text-white font-bold py-1 px-3 rounded-full bg-error-main">
+            <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
               -10%
             </span>
           </div>
@@ -68,57 +81,95 @@ const ProductSummary = () => {
           Giá bán đã bao gồm 8% VAT
         </p> */}
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-4">
-          <Image src={IMAGES.checkOne} alt="check" width={24} height={24} />
-          <p className="text-base font-normal text-grey-700">
+      <div className="flex flex-col gap-2 xl:gap-4">
+        <div className="flex items-center gap-2 xl:gap-4">
+          <Image
+            src={IMAGES.checkOne}
+            alt="check"
+            width={24}
+            height={24}
+            className="size-5 xl:size-6"
+          />
+          <p className="text-sm xl:text-base font-normal text-grey-700">
             Tăng hiệu suất động cơ, hiệu năng bền bỉ
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <Image src={IMAGES.checkOne} alt="check" width={24} height={24} />
-          <p className="text-base font-normal text-grey-700">
+        <div className="flex items-center gap-2 xl:gap-4">
+          <Image
+            src={IMAGES.checkOne}
+            alt="check"
+            width={24}
+            height={24}
+            className="size-5 xl:size-6"
+          />
+          <p className="text-sm xl:text-base font-normal text-grey-700">
             Tăng tuổi thọ động cơ, tiết kiệm chi phí
           </p>
         </div>
-        <div className="flex items-center gap-4">
-          <Image src={IMAGES.checkOne} alt="check" width={24} height={24} />
-          <p className="text-base font-normal text-grey-700">
+        <div className="flex items-center gap-2 xl:gap-4">
+          <Image
+            src={IMAGES.checkOne}
+            alt="check"
+            width={24}
+            height={24}
+            className="size-5 xl:size-6"
+          />
+          <p className="text-sm xl:text-base font-normal text-grey-700">
             Tốt cho sức khỏe, Thân thiện với môi trường
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-6">
-          <h4 className="text-base font-medium text-secondary-new">Số lượng</h4>
-          <div className="flex items-center rounded-lg border border-[#DFE4EA] overflow-hidden min-w-[122px]">
-            <button className="p-2 flex justify-center items-center h-full border-r border-[#DFE4EA]">
-              <MinusIcon className="size-4 text-[#919EABCC]" />
-            </button>
-            <div className="flex-1 h-full flex justify-center items-center py-1">
-              <span className="text-base font-medium text-primary-new">1</span>
+        <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-6 w-full">
+          <div className="flex items-center gap-6 justify-between w-full xl:w-auto">
+            <h4 className="text-base font-medium text-secondary-new whitespace-nowrap">
+              Số lượng
+            </h4>
+            <div className="flex items-center rounded-lg border border-[#DFE4EA] overflow-hidden min-w-[122px]">
+              <button className="p-2 flex justify-center items-center h-full border-r border-[#DFE4EA]">
+                <MinusIcon className="size-4 text-[#919EABCC]" />
+              </button>
+              <div className="flex-1 h-full flex justify-center items-center py-1">
+                <span className="text-sm xl:text-base font-medium text-primary-new">
+                  1
+                </span>
+              </div>
+              <button className="p-2 flex justify-center items-center h-full border-l border-[#DFE4EA]">
+                <PlusIcon className="size-4 text-[#919EABCC]" />
+              </button>
             </div>
-            <button className="p-2 flex justify-center items-center h-full border-l border-[#DFE4EA]">
-              <PlusIcon className="size-4 text-[#919EABCC]" />
-            </button>
           </div>
-          <h4 className="text-base font-medium text-secondary-new">
+          <h4 className="w-full xl:w-auto flex justify-end text-xs xl:text-base font-medium text-secondary-new">
             còn 1234 sản phẩm
           </h4>
         </div>
-        <div className="flex flex-col gap-4 xl:w-[491px]">
+        <div className="flex items-center gap-2">
+          <Image
+            src={IMAGES.flashSale}
+            alt=""
+            width={40}
+            height={40}
+            className="size-5 xl:size-6"
+          />
+          <p className="text-sm xl:text-base font-medium text-grey-700">
+            Có 20 người thêm vào giỏ hàng & 4 người đang xem
+          </p>
+        </div>
+        <div className="hidden xl:flex flex-col gap-4 xl:w-[491px]">
           <button className="bg-brand-500 rounded-lg py-3 text-white text-base font-bold">
             Mua ngay
           </button>
-          <button className="flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
-            <Image src={IMAGES.cart} alt="check" width={24} height={24} />
-            Thêm vào giỏ hàng
-          </button>
-          <button className="border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
-            Xem OEM
-          </button>
+          <div className="flex items-center gap-4">
+            <button className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
+              <Image src={IMAGES.cart} alt="check" width={24} height={24} />
+              Thêm vào giỏ hàng
+            </button>
+            <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-base font-medium">
+              Xem OEM
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="hidden xl:flex items-center gap-6">
           <div className="flex items-center gap-3">
             <p className="text-sm font-normal text-secondary-900">Chia sẻ</p>
             <div className="flex items-center gap-2">
