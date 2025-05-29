@@ -42,7 +42,10 @@ const DetailProduct = () => {
               tabs={detailItem?.item?.parameter}
               imageDetail={detailItem?.item?.image_detail}
             />
-            <Review reviewItem={detailItem?.item?.reviewItem} listReview={detailItem?.item?.listReview}/>
+            <Review
+              reviewItem={detailItem?.item?.reviewItem}
+              listReview={detailItem?.item?.listReview}
+            />
           </div>
           <div className="flex flex-col gap-3 xl:gap-6">
             <Promo promotion={detailItem?.item?.arrPromotion} />

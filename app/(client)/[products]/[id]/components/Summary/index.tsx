@@ -1,7 +1,7 @@
 import MinusIcon from "@/components/icons/MinusIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
 import { IMAGES } from "@/constants/Images";
-import { Rating, Star } from "@smastrom/react-rating";
+import { Rating } from "@smastrom/react-rating";
 import Image from "next/image";
 
 const StarDrawing = (
@@ -20,13 +20,17 @@ const ProductSummary = ({ data }: { data: any }) => {
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-1 xl:hidden">
           <Rating
-            value={4}
+            value={data?.reviewItem?.totalRating}
             readOnly
             style={{ maxWidth: 100 }}
             itemStyles={customStyles}
           />
           <p className="text-sm text-primary-new">
-            4.0 <span className="text-secondary-new"> (123)</span>
+            {data?.reviewItem?.totalRating}{" "}
+            <span className="text-secondary-new">
+              {" "}
+              ({data?.reviewItem?.totalReview})
+            </span>
           </p>
         </div>
         <h2 className="text-xl xl:text-[32px]/[48px] text-[#374151] font-semibold">
@@ -35,13 +39,17 @@ const ProductSummary = ({ data }: { data: any }) => {
         <div className="flex items-center gap-3">
           <div className="xl:flex items-center gap-1 hidden">
             <Rating
-              value={4}
+              value={data?.reviewItem?.totalRating}
               readOnly
               style={{ maxWidth: 100 }}
               itemStyles={customStyles}
             />
             <p className="text-sm text-primary-new">
-              4.0 <span className="text-secondary-new"> (123)</span>
+              {data?.reviewItem?.totalRating}{" "}
+              <span className="text-secondary-new">
+                {" "}
+                ({data?.reviewItem?.totalReview})
+              </span>
             </p>
           </div>
           <div className="xl:pl-3 flex items-center gap-1 xl:border-l xl:border-[#919EAB33]">
@@ -65,11 +73,13 @@ const ProductSummary = ({ data }: { data: any }) => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-4">
           <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
-            {data?.price_promotion.toLocaleString()} <span className="underline">đ</span>
+            {data?.price_promotion.toLocaleString()}{" "}
+            <span className="underline">đ</span>
           </h3>
           <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
             <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
-            {Number(data?.price).toLocaleString()} <span className="underline">đ</span>
+              {Number(data?.price).toLocaleString()}{" "}
+              <span className="underline">đ</span>
             </h3>
             <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
               -{data?.percent}%
@@ -160,7 +170,13 @@ const ProductSummary = ({ data }: { data: any }) => {
           </button>
           <div className="flex items-center gap-3 xl:gap-4">
             <button className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">
-              <Image src={IMAGES.cart} alt="check" width={24} height={24} className="size-5 xl:size-6" />
+              <Image
+                src={IMAGES.cart}
+                alt="check"
+                width={24}
+                height={24}
+                className="size-5 xl:size-6"
+              />
               Thêm vào giỏ hàng
             </button>
             <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">

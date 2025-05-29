@@ -25,7 +25,7 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <Link
-      href={`/products/${product?.id}`}
+      href={`/${product?.slug_category}/${product?.id}`}
       className={`flex ${
         isHorizontal ? "flex-row h-fit" : "flex-col h-full"
       } w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer ${className}`}
