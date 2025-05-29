@@ -17,6 +17,7 @@ const config: Config = {
         epilogue: ["Epilogue", "sans-serif"],
       },
       backgroundImage: {
+        banner: "url('/home/banner.png')",
         discountCodeBanner: "url('/home/discountCodeBanner.png')",
         "linear-bg-top-header":
           "linear-gradient(270deg, #0D57C6 0%, #37CFFF 50.39%, #0F5ED6 100%);",

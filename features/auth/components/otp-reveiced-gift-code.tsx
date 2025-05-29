@@ -16,7 +16,7 @@ const initialFormValuePostOtp: any = {
 }
 
 const ReveicedGiftCodeOtp = (props: any) => {
-    const code = useSearchParams().get('code') ?? ""
+    const code = useSearchParams()?.get('code') ?? ""
     const { isStatePageReveicedGift, queryKeyIsStatePageReveicedGift } = useStatePageReveicedGift()
 
     const { form, isLoading: isLoadingReveicedGiftCode, onSubmit: onSubmitReveicedGiftCode } = usePostReveicedGiftCode({ initialFormValue: initialFormValuePostOtp }) // sử dụng api để get otp

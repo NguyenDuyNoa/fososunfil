@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
 import { useResizeStore } from "@/stores/useResizeStore";
-import SwiperCarousel from "@/components/SwiperCarousel";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import React from "react";
 
 const mockData = [
   {
@@ -78,26 +80,28 @@ const FeaturedPosts = () => {
             <DoubleArrowRightIcon className="text-brand-500 size-5 transition-transform duration-300 group-hover:translate-x-1" />
           </div>
         </div>
-        <SwiperCarousel
-            items={mockData.map((item) => (
-              <BlogCardVerticalBig
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                featured_image={item.featured_image}
-                name_category={item.name_category}
-                color_category={item.color_category}
-                date={item.date}
-              />
-            ))}
-            slidesPerView={isVisibleMobile ? 2.5 : 6}
+        <div className="relative h-full mb-[2px]">
+          <Swiper
+            modules={[Navigation]}
             spaceBetween={isVisibleMobile ? 8 : 16}
-            navigationButtonBgColor="bg-brand-100"
-            navigationButtonIconColor="text-brand-800"
-            className="flash-sale-swiper z-10 h-full"
+            slidesPerView={isVisibleMobile ? 2.5 : 6}
             breakpoints={breakpoints}
-            showNavigation={false}
-          />
+            className="swiper-carousel flash-sale-swiper z-10 h-full"
+          >
+            {mockData.map((item) => (
+              <SwiperSlide key={item.id} className="!h-auto">
+                <BlogCardVerticalBig
+                  id={item.id}
+                  title={item.title}
+                  featured_image={item.featured_image}
+                  name_category={item.name_category}
+                  color_category={item.color_category}
+                  date={item.date}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </div>
   );

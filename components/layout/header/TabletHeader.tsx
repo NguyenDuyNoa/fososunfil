@@ -122,7 +122,7 @@ const TabletHeader: React.FC<TabletHeaderProps> = ({ dataHeader, handleToggleMen
                                                 <div className='flex justify-between'>
                                                     <Link
                                                         href={data.link}
-                                                        className={`${(data.link === '/' && pathname === '/') || (pathname.includes(data.link) && data.link !== '/') ? 'text-[#07A6FF] underline underline-offset-8 decoration-4 decoration-[#07A6FF]' : 'text-[#9D9FA6]'}
+                                                        className={`${(data.link === '/' && pathname === '/') || (pathname?.includes(data.link) && data.link !== '/') ? 'text-[#07A6FF] underline underline-offset-8 decoration-4 decoration-[#07A6FF]' : 'text-[#9D9FA6]'}
                                                                  mb-6 cursor-pointer text-base w-fit custom-transition flex items-center`}
                                                         onClick={() => handleToggleMenu("off")}
                                                     >
@@ -143,7 +143,7 @@ const TabletHeader: React.FC<TabletHeaderProps> = ({ dataHeader, handleToggleMen
                                             <Link
                                                 key={data.id}
                                                 href={data.link}
-                                                className={`${(data.link === '/' && pathname === '/') || (pathname.includes(data.link) && data.link !== '/') ? 'text-[#07A6FF] font-medium underline underline-offset-8 decoration-4 decoration-[#07A6FF]' : 'text-[#9D9FA6]'} mb-6 text-base w-fit duration-300 transition ease-in-out flex items-center`}
+                                                className={`${(data.link === '/' && pathname === '/') || (pathname?.includes(data.link) && data.link !== '/') ? 'text-[#07A6FF] font-medium underline underline-offset-8 decoration-4 decoration-[#07A6FF]' : 'text-[#9D9FA6]'} mb-6 text-base w-fit duration-300 transition ease-in-out flex items-center`}
                                                 onClick={() => {
                                                     setTimeout(() => {
                                                         queryKeyIsStateHeader({

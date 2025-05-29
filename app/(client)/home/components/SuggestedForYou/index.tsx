@@ -73,7 +73,7 @@ const SuggestedForYou = () => {
           </div>
           <div className="w-[calc(60%-12px)] xl:w-[calc(70%-24px)] flex-1">
             <SwiperCarousel
-              items={productCards}
+              items={productCards as any}
               slidesPerView={isVisibleMobile ? 1.5 : 4}
               spaceBetween={isVisibleMobile ? 8 : 12}
               // autoplay={true}

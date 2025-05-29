@@ -32,8 +32,8 @@ const dataHeaderTableArray = [
 
 const SectionInfoProduct = (props: Props) => {
     const queryClient = useQueryClient()
-    const codeParam = useSearchParams().get('code')
-    const type = useSearchParams().get('type')
+    const codeParam = useSearchParams()?.get('code') ?? ""
+    const type = useSearchParams()?.get('type') ?? ""
 
     const { isVisibleMobile } = useResizeStore()
 

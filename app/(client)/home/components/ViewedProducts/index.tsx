@@ -49,7 +49,7 @@ const ViewedProducts = () => {
         </div>
 
         <SwiperCarousel
-          items={productCards}
+          items={productCards as any}
           slidesPerView={isVisibleMobile ? 2.5 : 6}
           spaceBetween={isVisibleMobile ? 8 : 16}
           breakpoints={breakpoints}

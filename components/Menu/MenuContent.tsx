@@ -1,32 +1,30 @@
 import ProductCard from "@/components/productCard";
-import { IMAGES } from "@/constants/Images";
 import { cn } from "@/lib/utils";
+import { useGetListCategory } from "@/managers/api-management/products/useGetProductCategory";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const productImages = [
-  IMAGES.product9,
-  IMAGES.product10,
-  IMAGES.product11,
-  IMAGES.product12,
-  IMAGES.product13,
-  IMAGES.product14,
-  IMAGES.product15,
-  IMAGES.product16,
-];
+const convertToSlug = (text: string): string => {
+  let str = text.toLowerCase();
+  // Chuyển đổi các ký tự có dấu thành không dấu
+  str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // Thay thế các ký tự đặc biệt và khoảng trắng thành dấu gạch ngang
+  str = str.replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+  return str;
+};
 
 type MegaMenuContentProps = {
   classNameContent?: string;
   classNameSubItem?: string;
   classNameActiveItem?: string;
-  activeItem: MenuItem | null;
-  items: MenuItem[];
+  // activeItem: MenuItem | null;
+  // items: MenuItem[];
   IsProducts?: boolean;
-  setActiveItem: (item: MenuItem | null) => void;
+  // setActiveItem: (item: MenuItem | null) => void;
   onClose: () => void;
   onHover: () => void;
   isBanner?: boolean;
@@ -37,10 +35,9 @@ type MegaMenuContentProps = {
 const MenuContent = ({
   classNameContent = "",
   classNameSubItem = "",
-  activeItem,
-  items = [],
+  // activeItem,
   IsProducts = false,
-  setActiveItem,
+  // setActiveItem,
   onClose,
   onHover,
   isBanner = false,
@@ -49,24 +46,20 @@ const MenuContent = ({
   autoActiveFirstItem = true,
 }: MegaMenuContentProps) => {
   const pathname = usePathname();
-
+  const { data: listProducts, isLoading } = useGetListCategory({});
+  console.log(listProducts)
+  const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   useEffect(() => {
-    if (items.length > 0 && !activeItem && autoActiveFirstItem) {
-      setActiveItem(items[0]);
+    if (
+      listProducts &&
+      listProducts.length > 0 &&
+      !activeItem &&
+      autoActiveFirstItem
+    ) {
+      setActiveItem(listProducts[0]);
     }
-  }, [items, activeItem, setActiveItem, autoActiveFirstItem]);
+  }, [listProducts, activeItem, autoActiveFirstItem]);
 
-  const productCards = Array(isMiniHeader ? 4 : 5)
-    .fill(0)
-    .map((_, index) => (
-      <ProductCard
-        key={index}
-        imageSrc={productImages[index]}
-        classNameImage="size-[150px]"
-        isBanner={true}
-        className="mb-0"
-      />
-    ));
   return (
     <>
       {/* Overlay blur layer home */}
@@ -81,16 +74,26 @@ const MenuContent = ({
       )}
       <div
         className={cn(
-          " min-w-[250px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none min-h-[600px] shadow-none bg-white",
-          !isBanner && "absolute top-[calc(100%+16px)] left-0",
-          isMiniHeader && "absolute top-[calc(100%+20px)] left-0",
+          " min-w-[260px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none  shadow-none bg-white",
+          !isBanner &&
+            "absolute top-[calc(100%+16px)] left-0 max-h-[65vh] min-h-[60vh]",
+          isMiniHeader && "absolute top-[calc(100%+20px)] left-0 max-h-[80vh]",
           classNameContent
         )}
         onMouseEnter={onHover}
-        onMouseLeave={onClose}
+        onMouseLeave={() => {
+          onClose();
+          setActiveItem(null);
+        }}
       >
-        <div className="divide-y h-full flex flex-col gap-3 overflow-y-scroll rounded-bl-lg">
-          {items.map((item) => (
+        <div
+          className={cn(
+            "divide-y flex flex-col gap-3 overflow-y-scroll rounded-bl-lg",
+            isBanner && "max-h-[600px]"
+            // isMiniHeader && "max-h-[80vh]"
+          )}
+        >
+          {listProducts?.map((item: any) => (
             <div
               key={item.id}
               onMouseEnter={() => setActiveItem(item)}
@@ -101,7 +104,14 @@ const MenuContent = ({
                 classNameSubItem
               )}
             >
-              {item.icon && item.icon}
+              {/* {item.icon && item.icon} */}
+              <Image
+                src={item.icon}
+                alt={item.name}
+                width={200}
+                height={200}
+                className="size-[40px] object-contain aspect-square"
+              />
               <span className="text-left">{item.name}</span>
               <ChevronRight className="ml-auto w-4 h-4" />
             </div>
@@ -116,16 +126,18 @@ const MenuContent = ({
             )}
           >
             <div className="overflow-y-scroll">
-              {activeItem?.subItems && (
+              {activeItem.child && activeItem.child.length > 0 && (
                 <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
-                  {activeItem?.subItems?.map((sub, index) => (
-                    <div
+                  {activeItem.child.map((sub: any, index: number) => (
+                    <Link
                       key={index}
+                      href={`/${sub.slug}`}
+                      onClick={onClose}
                       className="transition transform duration-200 text-[#1C252E] bg-white rounded-xl px-4 py-3 text-center flex xl:gap-x-4 gap-x-2 items-center justify-start cursor-pointer border border-transparent hover:border-brand-650 group"
                     >
                       <div>
                         <Image
-                          src={sub.image}
+                          src={sub.icon}
                           alt={`image-${index}`}
                           width={200}
                           height={200}
@@ -135,12 +147,12 @@ const MenuContent = ({
                       <p className="font-semibold text-base group-hover:text-brand-650 transition-colors duration-200 text-left">
                         {sub.name}
                       </p>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
 
-              {IsProducts && (
+              {activeItem.items && (
                 <div className="mt-4 flex-1">
                   <div className="flex flex-col h-full w-full">
                     <div className="flex flex-row justify-between items-center">
@@ -148,14 +160,22 @@ const MenuContent = ({
                         Sản Phẩm Bán Chạy
                       </h3>
                       <Link
-                        href="/products"
+                        href={`/${activeItem.slug}`}
+                        onClick={onClose}
                         className="cursor-pointer font-semibold text-brand-500 text-base transform transition duration-200 hover:scale-105"
                       >
                         Xem tất cả
                       </Link>
                     </div>
-                    <div className="flex-1 flex xxl:gap-3 xl:gap-2 gap-1">
-                      {productCards}
+                    <div className="flex-1 grid grid-cols-4 gap-4">
+                      {activeItem.items.map((product: any, idx: number) => (
+                        <ProductCard
+                          key={product.id}
+                          // imageSrc={product.icon || productImages[idx % productImages.length]}
+                          product={product}
+                          // ...các props khác nếu cần
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import SectionIntroCommon from '../products/components/SectionIntroCommon'
+import SectionIntroCommon from '../[products]/components/SectionIntroCommon'
 import SectionFormContact from './components/SectionFormContact'
 import SectionQuestionContact from './components/SectionQuestionContact'
 

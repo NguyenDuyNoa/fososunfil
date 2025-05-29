@@ -11,13 +11,13 @@ const ArrowRightBreadcrumbIcon = ({
       className={className}
       {...props}
     >
-      <g clip-path="url(#clip0_2354_3928)">
+      <g clipPath="url(#clip0_2354_3928)">
         <path
           d="M3 1.66693L5 4.00026L3 6.3336"
           stroke={color}
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

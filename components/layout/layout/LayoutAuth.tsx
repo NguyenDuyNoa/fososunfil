@@ -166,7 +166,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                         {
                             isVisibleTablet ?
                                 <Select
-                                    value={pathname !== '/profile/logout' ? listSidebar.find(item => pathname.startsWith(item.link))?.link || "" : ""}
+                                    value={pathname !== '/profile/logout' ? listSidebar.find(item => pathname?.startsWith(item.link))?.link || "" : ""}
                                     onValueChange={(value) => {
                                         handleChangeSidebar(value)
                                     }}
@@ -178,7 +178,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                                         <SelectGroup className=''>
                                             {
                                                 listSidebar && listSidebar.map((item) => {
-                                                    const checkActive = pathname.startsWith(item.link) || pathname === item.link
+                                                    const checkActive = pathname?.startsWith(item.link) || pathname === item.link
 
                                                     return (
                                                         <SelectItem
@@ -200,7 +200,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                                                                                 className="size-full"
                                                                             />
                                                                         </div>
-                                                                        <div className={`${pathname.startsWith(item.link) || pathname === item.link ? "text-[#07A6FF]" : "text-[#383A43]"} group-hover:text-[#07A6FF] transition-all duration-150 ease-linear text-base font-semibold`}>
+                                                                        <div className={`${pathname?.startsWith(item.link) || pathname === item.link ? "text-[#07A6FF]" : "text-[#383A43]"} group-hover:text-[#07A6FF] transition-all duration-150 ease-linear text-base font-semibold`}>
                                                                             {item.name}
                                                                         </div>
                                                                     </div>
@@ -247,7 +247,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                                                     <div className='flex flex-col 3xl:gap-4 gap-3'>
                                                         {
                                                             e.list?.map((item, index) => {
-                                                                const checkActive = pathname.startsWith(item.link) || pathname === item.link
+                                                                const checkActive = pathname?.startsWith(item.link) || pathname === item.link
                                                                 return (
                                                                     <Link
                                                                         key={item.id}
@@ -263,7 +263,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                                                                                 className="size-full"
                                                                             />
                                                                         </div>
-                                                                        <div className={`${pathname.startsWith(item.link) || pathname === item.link ? "text-[#07A6FF]" : "text-[#505458]"} transition-all duration-150 ease-linear group-hover:text-[#07A6FF] text-sm-default font-medium`}>
+                                                                        <div className={`${pathname?.startsWith(item.link) || pathname === item.link ? "text-[#07A6FF]" : "text-[#505458]"} transition-all duration-150 ease-linear group-hover:text-[#07A6FF] text-sm-default font-medium`}>
                                                                             {item.name}
                                                                         </div>
                                                                     </Link>

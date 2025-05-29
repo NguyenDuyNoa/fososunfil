@@ -6,7 +6,8 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 
 const SectionDetailBlogContent = () => {
-    const { id } = useParams()
+    const params = useParams()
+    const id = params?.id as string
 
     const { isVisibleMobile } = useResizeStore()
 

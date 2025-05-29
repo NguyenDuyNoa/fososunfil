@@ -1,21 +1,19 @@
 "use client";
 
+import BrandList from "@/app/(client)/home/components/BrandList";
+import categoryData from "@/components/layout/header/NewDesktopHeader";
+import { IMAGES } from "@/constants/Images";
 import { useGetListCategories } from "@/managers/api-management/categories/useGetListCategories";
 import { useResizeStore } from "@/stores/useResizeStore";
 import { useEffect } from "react";
 import { useStateHome } from "./_state/useStateHome";
-import SectionIntroHome from "./components/SectionIntroHome";
-import SectionSecondHome from "./components/SectionSecondHome";
-import FlashSale from "./components/FlashSale";
-import ViewedProducts from "./components/ViewedProducts";
-import SuggestedForYou from "./components/SuggestedForYou";
-import NewArrival from "./components/NewArrival";
-import FeaturedPosts from "./components/FeaturedPosts";
-import HeroBanner from "./components/HeroBanner";
 import DiscountCodeBanner from "./components/DiscountCodeBanner";
-import { categoryData } from "@/components/layout/header/NewDesktopHeader";
-import { IMAGES } from "@/constants/Images";
-import BrandList from "@/app/(client)/home/components/BrandList";
+import FeaturedPosts from "./components/FeaturedPosts";
+import FlashSale from "./components/FlashSale";
+import HeroBanner from "./components/HeroBanner";
+import NewArrival from "./components/NewArrival";
+import SuggestedForYou from "./components/SuggestedForYou";
+import ViewedProducts from "./components/ViewedProducts";
 
 const ListTopBanner = [
   {
@@ -67,7 +65,7 @@ const Home = () => {
   return (
     <div className="relative w-full flex flex-col gap-6 pt-6 xl:pt-0 pb-8">
       <HeroBanner
-        items={categoryData}
+        items={categoryData as any}
         IsProducts={true}
         bannerSlides={ListTopBanner}
       />

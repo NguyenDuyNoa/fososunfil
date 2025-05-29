@@ -31,7 +31,7 @@ const initialFormValue = {
 
 const ReveicedGift = () => {
     const router = useRouter()
-    const code = useSearchParams().get('code') ?? ""
+    const code = useSearchParams()?.get('code') ?? ""
     const { informationUser } = useAuthStore()
 
     // Trạng thái hiển thị và disabled

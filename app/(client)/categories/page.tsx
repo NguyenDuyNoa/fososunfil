@@ -44,7 +44,7 @@ const Categories = () => {
     return (
         <div
             id="categories"
-            className='custom-px-responsive pt-[140px] lg:pb-[127px] pb-[61px] lg:bg-[url("/background/product/slug/bg.svg")] bg-[url("/background/product/slug/bg-mobi.svg")] bg-top bg-cover bg-no-repeat
+            className='custom-px-responsive xl:pt-16 pt-10 lg:bg-[url("/background/product/slug/bg.svg")] bg-[url("/background/product/slug/bg-mobi.svg")] bg-top bg-cover bg-no-repeat
             flex flex-col items-start 3xl:gap-12 gap-10 w-full h-full min-h-screen'
         >
             <div className='3xl:space-y-8 space-y-6 w-full'>

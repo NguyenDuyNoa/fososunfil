@@ -216,7 +216,7 @@ const DesktopHeader = ({ dataHeader, dataCountryOptions, handleToggleMenu, handl
 
                                                     }}
                                                     prefetch={false}
-                                                    className={`${(item.link === '/' && pathname === '/') || (pathname.includes(item.link) && item.link !== '/') ? 'text-[#00A5BD] hover:text-[#00A5BD]/80' : 'text-[#272727] hover:text-[#00A5BD]'}
+                                                    className={`${(item.link === '/' && pathname === '/') || (pathname?.includes(item.link) && item.link !== '/') ? 'text-[#00A5BD] hover:text-[#00A5BD]/80' : 'text-[#272727] hover:text-[#00A5BD]'}
                                 flex gap-2 items-center col-span-1 font-medium hover:text-[#272727]/90 3xl:text-lg xl:text-base lg:text-sm xl:px-4 px-2 cursor-pointer custom-transition`}
                                                 >
                                                     <span>{item.name}</span>
@@ -226,7 +226,7 @@ const DesktopHeader = ({ dataHeader, dataCountryOptions, handleToggleMenu, handl
                                             :
                                             <Link
                                                 href={item.link}
-                                                className={`${(item.link === '/' && pathname === '/') || (pathname.includes(item.link) && item.link !== '/') ?
+                                                className={`${(item.link === '/' && pathname === '/') || (pathname?.includes(item.link) && item.link !== '/') ?
                                                     "text-[#07A6FF] hover:text-[#07A6FF]/80"
                                                     :
                                                     "text-[#5C5C5C] hover:text-[#07A6FF]"}
@@ -336,7 +336,7 @@ const DesktopHeader = ({ dataHeader, dataCountryOptions, handleToggleMenu, handl
                                             <DottedSeparator />
                                             {
                                                 dataTabProfile && dataTabProfile.map((item: any, index) => {
-                                                    const checkActive = pathname.startsWith(item.link) || pathname === item.link
+                                                    const checkActive = pathname?.startsWith(item.link) || pathname === item.link
 
                                                     return (
                                                         <React.Fragment key={`tab-profile-${item.id}`}>

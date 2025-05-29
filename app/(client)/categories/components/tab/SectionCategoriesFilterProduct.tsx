@@ -29,9 +29,9 @@ const SectionCategoriesFilterProduct = () => {
 
     const router = useRouter()
 
-    const codeParam = useSearchParams().get('code')
-    const type = useSearchParams().get('type')
-    const isKey = useSearchParams().get('isKey')
+    const codeParam = useSearchParams()?.get('code') ?? ""
+    const type = useSearchParams()?.get('type') ?? ""
+    const isKey = useSearchParams()?.get('isKey') ?? ""
 
     const { setToast } = useToastStore()
     const { setOpenDialogCustom, setStatusDialog } = useDialogStore()

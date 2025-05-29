@@ -2,10 +2,11 @@ import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
 import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconSearchHeader from "@/components/icon/IconSearchHeader";
 import IconShopping from "@/components/icon/IconShopping";
+import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
 import {
-  categoryData,
   DesktopHeaderProps,
 } from "@/components/layout/header/NewDesktopHeader";
+import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { SelectContent } from "@/components/ui/selectCustom";
 import { IMAGES } from "@/constants/Images";
@@ -15,8 +16,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
-import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
-import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -34,7 +33,7 @@ const NewDesktopHeaderMini = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] ">
+    <div className="bg-white shadow-[0px_20px_40px_-4px_rgba(145,158,171,0.16)] py-2.5">
       {/* Main header */}
       <MobileMenuOverlay
         isOpen={isMobileMenuOpen}
@@ -48,7 +47,7 @@ const NewDesktopHeaderMini = ({
             </button>
             <Link href="/" className="hidden lg:block">
               <Image
-                src={IMAGES.logo}
+                src={IMAGES.logoSunfil}
                 alt="logo"
                 width={600}
                 height={111}
@@ -81,7 +80,7 @@ const NewDesktopHeaderMini = ({
           <div className="hidden flex-1 xl:flex flex-row justify-between items-center w-full gap-x-12">
             <MegaMenuDropdown
               triggerLabel="Danh Mục Sản Phẩm"
-              items={categoryData}
+              // items={categoryData as any}
               IsProducts={true}
               icon={
                 <svg

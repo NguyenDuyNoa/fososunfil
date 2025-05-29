@@ -64,7 +64,8 @@ const data = [
     },
 ]
 const SectionDetailBlogRelated = () => {
-    const { id } = useParams()
+    const params = useParams()
+    const id = params?.id as string
 
     const { data } = useBlogDetail(id as string)
 

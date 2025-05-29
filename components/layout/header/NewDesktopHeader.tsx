@@ -48,140 +48,140 @@ export interface DesktopHeaderProps {
   handleOpenDialog: (value: string, type_device: string) => void;
 }
 
-export const categoryData: MenuItem[] = [
-  {
-    id: "filter1",
-    name: "Bộ Lọc Dầu",
-    icon: <IconCategoryOil />,
-    subItems: [
-      {
-        name: "Lọc dầu động cơ",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter2",
-    name: "Bộ lọc không khí",
-    icon: <IconCategoryAir />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter3",
-    name: "Bộ lọc nhiên liệu",
-    icon: <IconCategoryFuel />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter4",
-    name: "Bộ lọc trong cabin",
-    icon: <IconCategoryCabin />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter5",
-    name: "Bộ lọc không khí",
-    icon: <IconCategoryAir />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter6",
-    name: "Bộ lọc trong cabin",
-    icon: <IconCategoryCabin />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter7",
-    name: "Bộ lọc nhiên liệu",
-    icon: <IconCategoryFuel />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-      {
-        name: "Lọc nhớt Hyundai",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-  {
-    id: "filter8",
-    name: "Bộ lọc không khí",
-    icon: <IconCategoryAir />,
-    subItems: [
-      {
-        name: "Lọc cabin Toyota",
-        image: "/icons/category/imageSubItem.png",
-      },
-    ],
-  },
-];
+// export const categoryData: MenuItem[] = [
+//   {
+//     id: "filter1",
+//     name: "Bộ Lọc Dầu",
+//     icon: <IconCategoryOil />,
+//     subItems: [
+//       {
+//         name: "Lọc dầu động cơ",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter2",
+//     name: "Bộ lọc không khí",
+//     icon: <IconCategoryAir />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter3",
+//     name: "Bộ lọc nhiên liệu",
+//     icon: <IconCategoryFuel />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter4",
+//     name: "Bộ lọc trong cabin",
+//     icon: <IconCategoryCabin />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter5",
+//     name: "Bộ lọc không khí",
+//     icon: <IconCategoryAir />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter6",
+//     name: "Bộ lọc trong cabin",
+//     icon: <IconCategoryCabin />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter7",
+//     name: "Bộ lọc nhiên liệu",
+//     icon: <IconCategoryFuel />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//       {
+//         name: "Lọc nhớt Hyundai",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+//   {
+//     id: "filter8",
+//     name: "Bộ lọc không khí",
+//     icon: <IconCategoryAir />,
+//     subItems: [
+//       {
+//         name: "Lọc cabin Toyota",
+//         image: "/icons/category/imageSubItem.png",
+//       },
+//     ],
+//   },
+// ];
 
 const dataTabProfile = [
   {
@@ -297,9 +297,9 @@ const NewDesktopHeader = ({
             <button onClick={() => setIsMobileMenuOpen(true)}>
               <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
             </button>
-            <Link href="/" className="hidden lg:block">
+            <Link href="/" className="hidden xl:block">
               <Image
-                src={IMAGES.logo}
+                src={IMAGES.logoSunfil}
                 alt="logo"
                 width={600}
                 height={111}
@@ -308,7 +308,7 @@ const NewDesktopHeader = ({
                 loading="eager"
               />
             </Link>
-            <Link href="/" className="lg:hidden">
+            <Link href="/" className="xl:hidden">
               <Image
                 src={IMAGES.logoMb}
                 alt="logo"
@@ -393,7 +393,7 @@ const NewDesktopHeader = ({
             <div className="flex items-center gap-9">
               <MegaMenuDropdown
                 triggerLabel="Danh Mục Sản Phẩm"
-                items={categoryData}
+                // items={categoryData}
                 IsProducts={true}
                 icon={
                   <svg

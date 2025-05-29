@@ -9,7 +9,7 @@ import MenuContent from "@/components/Menu/MenuContent";
 
 type MegaMenuDropdownProps = {
   triggerLabel?: React.ReactNode;
-  items: MenuItem[];
+  // items: MenuItem[];
   IsProducts?: boolean;
   classNameButton?: string;
   classNameContent?: string;
@@ -21,7 +21,7 @@ type MegaMenuDropdownProps = {
 
 const MegaMenuDropdown = ({
   triggerLabel = "Menu",
-  items,
+  // items,
   IsProducts = false,
   classNameButton = "",
   classNameContent = "",
@@ -110,10 +110,10 @@ const MegaMenuDropdown = ({
           <MenuContent
             classNameContent={classNameContent}
             classNameSubItem={classNameSubItem}
-            activeItem={activeItem}
-            items={items}
+            // activeItem={activeItem}
+            // items={items}
             IsProducts={IsProducts}
-            setActiveItem={setActiveItem}
+            // setActiveItem={setActiveItem}
             // onClose={handleMouseLeave}
             // onHover={() => setIsOpen(true)}
             // setActiveItem={handleItemHover}

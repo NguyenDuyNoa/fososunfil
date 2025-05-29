@@ -1,8 +1,11 @@
-"use client"
+"use client";
 import React, { ReactNode, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import { ProductItem } from "@/types/products/IProducts";
+import ProductCard from "../productCard";
+import ProductCardSkeleton from "../skeleton/ProductCardSkeleton";
 
 type BreakpointOptions = {
   [width: number]: {
@@ -12,7 +15,7 @@ type BreakpointOptions = {
 };
 
 interface SwiperCarouselProps {
-  items: ReactNode[];
+  items: ProductItem[];
   slidesPerView?: number;
   spaceBetween?: number;
   autoplay?: boolean;
@@ -74,9 +77,17 @@ const SwiperCarousel = ({
         breakpoints={breakpoints || defaultBreakpoints}
         className={`swiper-carousel ${className}`}
       >
-        {items.map((item, index) => (
-          <SwiperSlide className="!h-auto" key={index}>{item}</SwiperSlide>
-        ))}
+        {items && items.length > 0
+          ? items.map((item: ProductItem, index: number) => (
+              <SwiperSlide className="!h-auto" key={item.id || index}>
+                <ProductCard product={item} />
+              </SwiperSlide>
+            ))
+          : Array.from({ length: 6 }).map((_, index) => (
+              <SwiperSlide className="!h-auto" key={`skeleton-${index}`}>
+                <ProductCardSkeleton />
+              </SwiperSlide>
+            ))}
       </Swiper>
 
       {showNavigation && (

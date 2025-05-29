@@ -7,7 +7,8 @@ import { montserrat_sans } from '@/utils/fonts/fonts'
 import { useParams } from 'next/navigation'
 
 const SectionDetailBlogIntro = () => {
-    const { id } = useParams()
+    const params = useParams()
+    const id = params?.id as string
 
     const { data, isLoading } = useBlogDetail(id as string)
 

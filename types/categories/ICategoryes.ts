@@ -21,7 +21,10 @@ export interface ItemCategoryProduct {
 
 export interface MenuItem {
   id: string;
+  child?: MenuItem[];
+  code?: string;
+  icon?: string;
+  items?: any[];
   name: string;
-  icon?: React.ReactNode;
-  subItems?: ItemCategoryProduct[];
+  slug?: string;
 }
