@@ -161,7 +161,7 @@ const Gallery = ({ data }: { data: any }) => {
             className="p-[5px] hover:bg-white/20 rounded-md transition-all duration-300"
             onClick={handleNext}
           >
-            <ArrowUpIcon className="size-[18px] rotate-90" />
+            <ArrowUpIcon className="size-[18px] rotate-90 " />
           </button>
         </div>
       </div>
