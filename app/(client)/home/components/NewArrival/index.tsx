@@ -1,21 +1,9 @@
 import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
-import ProductCard from "@/components/productCard";
 import SwiperCarousel from "@/components/SwiperCarousel";
 import { IMAGES } from "@/constants/Images";
 import { useResizeStore } from "@/stores/useResizeStore";
 import Image from "next/image";
 import Link from "next/link";
-
-const productImages = [
-  IMAGES.product12,
-  IMAGES.product11,
-  IMAGES.product10,
-  IMAGES.product9,
-  IMAGES.product8,
-  IMAGES.product7,
-  IMAGES.product6,
-  IMAGES.product5,
-];
 
 const breakpoints = {
   320: { slidesPerView: 2.5 },
@@ -25,13 +13,7 @@ const breakpoints = {
   1280: { slidesPerView: 6 },
 };
 
-const productCards = Array(8)
-  .fill(0)
-  .map((_, index) => (
-    <ProductCard key={index} imageSrc={productImages[index]} />
-  ));
-
-const NewArrival = () => {
+const NewArrival = ({ itemNew }: { itemNew: any }) => {
   const { isVisibleMobile } = useResizeStore();
 
   return (
@@ -51,7 +33,7 @@ const NewArrival = () => {
                 Hàng mới về
               </h2>
             </div>
-            <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-100 xl:hover:bg-opacity-10 group">
+            {/* <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-100 xl:hover:bg-opacity-10 group">
               <Link
                 href="/products"
                 className="text-[8px] xl:text-base font-semibold text-brand-100 whitespace-nowrap group-hover:font-bold"
@@ -59,10 +41,10 @@ const NewArrival = () => {
                 Xem tất cả{" "}
               </Link>
               <DoubleArrowRightIcon className="text-brand-100 size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </div>
+            </div> */}
           </div>
           <SwiperCarousel
-            items={productCards as any}
+            items={itemNew as any}
             slidesPerView={isVisibleMobile ? 2.5 : 6}
             spaceBetween={isVisibleMobile ? 8 : 16}
             navigationButtonBgColor="bg-brand-100"

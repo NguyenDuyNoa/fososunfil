@@ -1,8 +1,64 @@
 export const IMAGES = {
+  // a
+  arrowRight: "/product/arrowRight.svg",
+  avatar1: "/product/Avatar1.png",
+  avatar2: "/product/Avatar2.png",
+  avatar3: "/product/Avatar3.png",
+  avatar4: "/product/Avatar4.png",
+  avatar5: "/product/Avatar5.png",
+  avatar6: "/home/Avatar6.png",
+  // b
+  banner: "/home/banner.png",
+  banner1: "/product/banner1.png",
+  banner2: "/home/banner2.png",
+  banner3: "/product/banner3.png",
+  bannerProduct: "/product/banner.png",
+  boCongThuong: "/home/boCongThuong.png",
+  // c
+  car: "/home/Car.png",
+  cart: "/product/cart.svg",
+  checkOne: "/product/check-one.svg",
+  // d
+  delivery1: "/product/delivery1.png",
+  // e
+  // f
+  facebook: "/product/facebook.svg",
+  filter: "/product/filter.png",
+  fire: "/home/fire.svg",
   flash: "/home/flash.png",
   flashSale: "/home/flashSale.png",
+  // g
+  // h
+  heart: "/product/Heart.svg",
+  // i
+  imageUrl: "/home/imageUrl.png",
+  instagram: "/product/instagram.svg",
+  // j
+  // k
+  // l
+  like: "/home/like.png",
+  location: "/product/location.svg",
+  logo: "/logo/logo_sunfil.png",
+  logoMb: "/logo/logoMb.png",
+  logoSunfil: "/logo/logoSunfil.png",
+  // m
+  messenger: "/product/messenger.svg",
+  money: "/product/money.png",
+  // n
+  // o
+  // p
+  package: "/home/package.png",
+  package1: "/product/package.png",
+  pos1: "/product/POS1.png",
   product: "/home/product.png",
   product1: "/home/product1.png",
+  product10: "/home/product10.png",
+  product11: "/home/product11.png",
+  product12: "/home/product12.png",
+  product13: "/home/product13.png",
+  product14: "/home/product14.png",
+  product15: "/home/product15.png",
+  product16: "/home/product16.png",
   product2: "/home/product2.png",
   product3: "/home/product3.png",
   product4: "/home/product4.png",
@@ -11,52 +67,23 @@ export const IMAGES = {
   product7: "/home/product7.png",
   product8: "/home/product8.png",
   product9: "/home/product9.png",
-  product10: "/home/product10.png",
-  product11: "/home/product11.png",
-  product12: "/home/product12.png",
-  product13: "/home/product13.png",
-  product14: "/home/product14.png",
-  product15: "/home/product15.png",
-  product16: "/home/product16.png",
-  fire: "/home/fire.svg",
-  viewed: "/home/viewed.png",
-  union: "/home/Union.png",
-  like: "/home/like.png",
-  banner2: "/home/banner2.png",
-  package: "/home/package.png",
-  star: "/home/star.png",
-  bannerProduct: "/product/banner.png",
-  banner1: "/product/banner1.png",
-  banner3: "/product/banner3.png",
-  filter: "/product/filter.png",
-  money: "/product/money.png",
-  delivery1: "/product/delivery1.png",
-  package1: "/product/package.png",
-  support: "/product/support.png",
-  location: "/product/location.svg",
-  arrowRight: "/product/arrowRight.svg",
-  checkOne: "/product/check-one.svg",
-  cart: "/product/cart.svg",
-  facebook: "/product/facebook.svg",
-  instagram: "/product/instagram.svg",
-  messenger: "/product/messenger.svg",
-  zalo: "/product/zalo.svg",
-  heart: "/product/Heart.svg",
-  pos1: "/product/POS1.png",
+  // q
+  // r
+  reviewEmpty: "/product/reviewEmpty.png",
+  // s
   sale: "/product/sale.svg",
-  logo: "/logo/logo_sunfil.png",
-  logoSunfil: "/logo/logoSunfil.png",
-  logoMb: "/logo/logoMb.png",
+  star: "/home/star.png",
+  support: "/product/support.png",
+  // t
   topBanner_1: "/home/TopBanner/Banner_1.png",
   topBanner_2: "/home/TopBanner/Banner_2.png",
-  avatar1: "/product/Avatar1.png",
-  avatar2: "/product/Avatar2.png",
-  avatar3: "/product/Avatar3.png",
-  avatar4: "/product/Avatar4.png",
-  avatar5: "/product/Avatar5.png",
-  avatar6: "/home/Avatar6.png",
-  boCongThuong: "/home/boCongThuong.png",
-  imageUrl: "/home/imageUrl.png",
-  banner: "/home/banner.png",
-  car: "/home/Car.png",
+  // u
+  union: "/home/Union.png",
+  // v
+  viewed: "/home/viewed.png",
+  // w
+  // x
+  // y
+  // z
+  zalo: "/product/zalo.svg",
 };

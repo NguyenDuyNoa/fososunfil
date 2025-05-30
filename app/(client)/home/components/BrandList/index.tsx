@@ -1,35 +1,11 @@
+import { Brand } from "@/types/home/IHome";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-type Brand = {
-  id: string;
-  name: string;
-  logo: string; // đường dẫn ảnh
-};
 
 type BrandListProps = {
   brands: Brand[];
 };
-const BrandList = ({ brands }: BrandListProps) => {
-  // const controls = useAnimation();
-
-  // useEffect(() => {
-  //   const sequence = () => {
-  //     while (true) {
-  //       controls.start({
-  //         x: "-100%",
-  //         transition: {
-  //           duration: 100,
-  //           ease: "linear",
-  //         },
-  //       });
-  //       controls.set({ x: "0%" });
-  //     }
-  //   };
-
-  //   sequence();
-  // }, [controls]);
-
+const BrandList = ({ brands = [] }: BrandListProps) => {
   return (
     <div className="container">
       <div className="relative w-full overflow-hidden bg-[#F4F6F8]">
@@ -43,7 +19,7 @@ const BrandList = ({ brands }: BrandListProps) => {
               repeat: Infinity,
             }}
           >
-            {[...brands, ...brands].map((brand, index) => (
+            {Array.isArray(brands) && [...brands, ...brands]?.map((brand: Brand, index: any) => (
               <div
                 key={index}
                 className="w-[64px] lg:w-[133px] p-1 lg:p-2.5 aspect-square bg-white rounded-sm lg:rounded-xl border border-[#919EAB] border-opacity-20 flex flex-col items-center justify-center hover:shadow-md transition-all duration-300"
@@ -52,7 +28,7 @@ const BrandList = ({ brands }: BrandListProps) => {
                 <Image
                   width={500}
                   height={500}
-                  src={brand.logo}
+                  src={brand.image}
                   alt={brand.name}
                   className="object-cover w-full"
                 />

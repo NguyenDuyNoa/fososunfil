@@ -15,8 +15,8 @@ const MainContent = ({ slug }: { slug: string }) => {
 
   return (
     <div className="flex gap-5 relative">
-      <SidebarFilter onFilterChange={setFilters} filters={filters} slug={slug} />
-      <ProductSection slug={slug} filters={filters} />
+      {/* <SidebarFilter onFilterChange={setFilters} filters={filters} slug={slug} /> */}
+      {/* <ProductSection slug={slug} filters={filters} /> */}
     </div>
   );
 };

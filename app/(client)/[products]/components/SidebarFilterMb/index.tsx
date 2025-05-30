@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { IMAGES } from "@/constants/Images";
 import { CustomCheckbox } from "@/components/customCheckbox";
 import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
 import FilterIcon from "@/components/icons/FilterIcon";
 import CloseIcon from "@/components/icons/CloseIcon";
+import { FilterState, FilterData } from "../../hooks/useProductFilter";
+import { Brand, Origin, YearManu } from "@/types/products/IProducts";
+
+interface CategoryPrice {
+  id: number;
+  name: string;
+  min: number;
+  max: number;
+}
 
 const FilterSection = ({
   title,
@@ -38,20 +45,20 @@ const FilterSection = ({
 
 interface SidebarFilterMbProps {
   onClose: () => void;
+  filters: FilterState;
+  filterData: FilterData;
+  onFilterChange: (type: keyof FilterState, value: string) => void;
+  onReset: () => void;
 }
 
-const SidebarFilterMb = ({ onClose }: SidebarFilterMbProps) => {
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
-    null
-  );
-
-  const handleSelectPriceRange = (range: string) => {
-    if (selectedPriceRange === range) {
-      setSelectedPriceRange(null);
-    } else {
-      setSelectedPriceRange(range);
-    }
-  };
+const SidebarFilterMb = ({ 
+  onClose, 
+  filters, 
+  filterData, 
+  onFilterChange,
+  onReset 
+}: SidebarFilterMbProps) => {
+  console.log(filterData)
 
   return (
     <div className="fixed inset-0 w-full h-full bg-[#025FCA80] z-50 backdrop-blur-[2px] animate-fadeIn">
@@ -69,110 +76,88 @@ const SidebarFilterMb = ({ onClose }: SidebarFilterMbProps) => {
           </button>
         </div>
         <div className="flex flex-col gap-6 overflow-y-auto flex-1">
-          <FilterSection title="Danh mục sản phẩm">
-            <div className="space-y-3">
-              <CustomCheckbox
-                id="air-filter"
-                label="Lọc gió Động cơ - Air Filter"
-                count={24}
-                checked={true}
-              />
-              <CustomCheckbox
-                id="fuel-filter"
-                label="Lọc Nhiên Liệu - Fuel Filter"
-                count={24}
-                checked={true}
-              />
-              <CustomCheckbox
-                id="oil-filter"
-                label="Bộ lọc dầu"
-                count={24}
-                checked={true}
-              />
-              <CustomCheckbox
-                id="unclassified"
-                label="Chưa phân loại"
-                count={24}
-              />
-              <CustomCheckbox id="others" label="Khác" count={24} />
-            </div>
-          </FilterSection>
+          {filterData?.categoryPrice && filterData.categoryPrice.length > 0 && (
+            <FilterSection title="Khoảng giá">
+              <div className="grid grid-cols-2 gap-2">
+                {filterData.categoryPrice.map((price: CategoryPrice) => (
+                  <button
+                    key={price.id}
+                    className={`w-full text-sm p-2 rounded text-center transition-colors ${
+                      filters.price === price.id
+                        ? "bg-brand-500 text-white border border-brand-500"
+                        : "border border-[#919EAB3D] hover:border-brand-500"
+                    }`}
+                    onClick={() => onFilterChange("price", price.id.toString())}
+                  >
+                    {price.name}
+                  </button>
+                ))}
+              </div>
+            </FilterSection>
+          )}
 
-          <FilterSection title="Khoảng giá">
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                className={`w-full text-sm p-2 rounded text-center transition-colors ${
-                  selectedPriceRange === "under100k"
-                    ? "bg-brand-500 text-white border border-brand-500"
-                    : "border border-[#919EAB3D] hover:border-brand-500"
-                }`}
-                onClick={() => handleSelectPriceRange("under100k")}
-              >
-                Dưới 100,000 đ
-              </button>
-              <button
-                className={`w-full text-sm p-2 rounded text-center transition-colors ${
-                  selectedPriceRange === "100k-300k"
-                    ? "bg-brand-500 text-white border border-brand-500"
-                    : "border border-[#919EAB3D] hover:border-brand-500"
-                }`}
-                onClick={() => handleSelectPriceRange("100k-300k")}
-              >
-                100,000 đ - 300,000 đ
-              </button>
-              <button
-                className={`w-full text-sm p-2 rounded text-center transition-colors ${
-                  selectedPriceRange === "300k-500k"
-                    ? "bg-brand-500 text-white border border-brand-500"
-                    : "border border-[#919EAB3D] hover:border-brand-500"
-                }`}
-                onClick={() => handleSelectPriceRange("300k-500k")}
-              >
-                300,000 đ - 500,000 đ
-              </button>
-              <button
-                className={`w-full text-sm p-2 rounded text-center transition-colors ${
-                  selectedPriceRange === "over500k"
-                    ? "bg-brand-500 text-white border border-brand-500"
-                    : "border border-[#919EAB3D] hover:border-brand-500"
-                }`}
-                onClick={() => handleSelectPriceRange("over500k")}
-              >
-                Trên 500,000 đ
-              </button>
-            </div>
-          </FilterSection>
+          {filterData?.brand && filterData.brand.length > 0 && (
+            <FilterSection title="Thương hiệu">
+              <div className="space-y-3">
+                {filterData.brand.map((brand: Brand) => (
+                  <CustomCheckbox
+                    key={brand.id}
+                    id={brand.code}
+                    label={brand.name}
+                    count={brand.count}
+                    checked={filters.brand_id.includes(brand.id)}
+                    onChange={() => onFilterChange("brand_id", brand.id)}
+                  />
+                ))}
+              </div>
+            </FilterSection>
+          )}
 
-          <FilterSection title="Thương hiệu">
-            <div className="space-y-3">
-              <CustomCheckbox id="asakashi" label="Asakashi" count={24} />
-              <CustomCheckbox id="bosch" label="Bosch" count={24} />
-              <CustomCheckbox id="huyndai" label="Huyndai" count={24} />
-            </div>
-          </FilterSection>
+          {filterData?.yearManu && filterData.yearManu.length > 0 && (
+            <FilterSection title="Năm sản xuất">
+              <div className="space-y-3">
+                {filterData.yearManu.map((year: YearManu) => (
+                  <CustomCheckbox
+                    key={year.name}
+                    id={year.name.toString()}
+                    label={year.name.toString()}
+                    count={year.count}
+                    checked={filters.year_manu.includes(year.name.toString())}
+                    onChange={() => onFilterChange("year_manu", year.name.toString())}
+                  />
+                ))}
+              </div>
+            </FilterSection>
+          )}
 
-          <FilterSection title="Năm sản xuất">
-            <div className="space-y-3">
-              <CustomCheckbox id="2021" label="2021" count={24} />
-              <CustomCheckbox id="2020" label="2020" count={24} />
-              <CustomCheckbox id="2019" label="2019" count={24} />
-              <CustomCheckbox id="2018" label="2018" count={24} />
-            </div>
-          </FilterSection>
-
-          <FilterSection title="Xuất xứ">
-            <div className="space-y-3">
-              <CustomCheckbox id="germany" label="Đức" count={24} />
-              <CustomCheckbox id="japan" label="Nhật Bản" count={24} />
-              <CustomCheckbox id="china" label="Trung Quốc" count={24} />
-            </div>
-          </FilterSection>
+          {filterData?.origin && filterData.origin.length > 0 && (
+            <FilterSection title="Xuất xứ">
+              <div className="space-y-3">
+                {filterData.origin.map((origin: Origin) => (
+                  <CustomCheckbox
+                    key={origin.id}
+                    id={origin.code}
+                    label={origin.name}
+                    count={origin.count}
+                    checked={filters.origin_id.includes(origin.id)}
+                    onChange={() => onFilterChange("origin_id", origin.id)}
+                  />
+                ))}
+              </div>
+            </FilterSection>
+          )}
         </div>
         <div className="flex items-center justify-between gap-3">
-          <button className="w-full text-sm font-bold bg-brand-50 text-brand-600 py-2.5 px-3 rounded-lg">
+          <button 
+            className="w-full text-sm font-bold bg-brand-50 text-brand-600 py-2.5 px-3 rounded-lg"
+            onClick={onReset}
+          >
             Thiết lập lại
           </button>
-          <button className="w-full text-sm font-bold bg-brand-500 text-white py-2.5 px-3 rounded-lg">
+          <button 
+            className="w-full text-sm font-bold bg-brand-500 text-white py-2.5 px-3 rounded-lg"
+            onClick={onClose}
+          >
             Áp dụng
           </button>
         </div>

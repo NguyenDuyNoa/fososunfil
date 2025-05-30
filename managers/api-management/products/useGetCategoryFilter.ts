@@ -3,7 +3,7 @@ import apiProducts from "@/services/products/products.services";
 
 export const useGetCategoryFilter = (slug: string) => {
   return useQuery({
-    queryKey: ["categoryFilter"],
+    queryKey: ["categoryFilter", slug],
     queryFn: () => apiProducts.categoryFilter(slug),
   });
 };

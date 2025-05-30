@@ -241,6 +241,25 @@ const NewDesktopHeader = ({
     });
   };
 
+  const navigationItems = [
+    {
+      href: "/about-us",
+      label: "Về Chúng Tôi"
+    },
+    {
+      href: "/categories",
+      label: "Catalogue"
+    },
+    {
+      href: "/blogs",
+      label: "Bài Viết"
+    },
+    {
+      href: "/contact-us",
+      label: "Liên Hệ"
+    }
+  ];
+
   return (
     <div className="transition-all duration-500 relative z-30 bg-[#F4F6F8]">
       <MobileMenuOverlay
@@ -416,30 +435,17 @@ const NewDesktopHeader = ({
 
               {/* Navigation Links */}
               <nav className="hidden lg:flex items-center gap-7">
-                <Link
-                  href="/about-us"
-                  className="text-[#1C252E] hover:text-brand-400 text-base font-medium text-nowrap"
-                >
-                  Về Chúng Tôi
-                </Link>
-                <Link
-                  href="/categories"
-                  className="text-[#1C252E] hover:text-brand-400 text-base font-medium text-nowrap"
-                >
-                  Catalogue
-                </Link>
-                <Link
-                  href="/blogs"
-                  className="text-[#1C252E] hover:text-brand-400 text-base font-medium text-nowrap"
-                >
-                  Bài Viết
-                </Link>
-                <Link
-                  href="/contact-us"
-                  className="text-[#1C252E] hover:text-brand-400 text-base font-medium text-nowrap"
-                >
-                  Liên Hệ
-                </Link>
+                {navigationItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className={`${
+                      pathname === item.href ? "text-[#00A5BD]" : "text-[#1C252E] hover:text-brand-400"
+                    } text-base font-medium text-nowrap`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </nav>
             </div>
 

@@ -7,6 +7,7 @@ import { useResizeStore } from "@/stores/useResizeStore";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import React from "react";
+import { useBlogList } from "@/managers/api-management/blog/useBlogList";
 
 const mockData = [
   {
@@ -53,6 +54,12 @@ const breakpoints = {
 
 const FeaturedPosts = () => {
   const { isVisibleMobile } = useResizeStore();
+  const { data: listBlog } = useBlogList({
+    page: 1,
+    limit: 10,
+    is_show_home: 1,
+  });
+  const newData = listBlog?.pages[0].new;
 
   return (
     <div className="relative container w-full rounded-md">
@@ -88,7 +95,7 @@ const FeaturedPosts = () => {
             breakpoints={breakpoints}
             className="swiper-carousel flash-sale-swiper z-10 h-full"
           >
-            {mockData.map((item) => (
+            {newData?.map((item:any) => (
               <SwiperSlide key={item.id} className="!h-auto">
                 <BlogCardVerticalBig
                   id={item.id}
@@ -97,6 +104,7 @@ const FeaturedPosts = () => {
                   name_category={item.name_category}
                   color_category={item.color_category}
                   date={item.date}
+                  className="bg-white"
                 />
               </SwiperSlide>
             ))}

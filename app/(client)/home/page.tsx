@@ -14,21 +14,7 @@ import HeroBanner from "./components/HeroBanner";
 import NewArrival from "./components/NewArrival";
 import SuggestedForYou from "./components/SuggestedForYou";
 import ViewedProducts from "./components/ViewedProducts";
-
-const ListTopBanner = [
-  {
-    id: "banner_1",
-    image: IMAGES.topBanner_1,
-  },
-  // {
-  //   id: "banner_1",
-  //   image: IMAGES.topBanner_2,
-  // },
-  // {
-  //   id: "banner_3",
-  //   image: "https://swiperjs.com/demos/images/nature-2.jpg",
-  // },
-];
+import { useGetListData } from "@/managers/api-management/home/useGetListData";
 
 const carBrands = [
   { id: "honda", name: "Honda", logo: "/home/LogoCar/Honda.png" },
@@ -50,12 +36,9 @@ const carBrands = [
 ];
 
 const Home = () => {
-  const { isVisibleMobile } = useResizeStore();
-
   const { queryKeyIsStateHome } = useStateHome();
-
   const { data: listCategories } = useGetListCategories();
-
+  const { data: listData } = useGetListData();
   useEffect(() => {
     if (listCategories) {
       queryKeyIsStateHome({ idTabActive: listCategories[0] });
@@ -67,14 +50,14 @@ const Home = () => {
       <HeroBanner
         items={categoryData as any}
         IsProducts={true}
-        bannerSlides={ListTopBanner}
+        bannerSlides={listData?.banner}
       />
-      <BrandList brands={carBrands} />
-      <FlashSale />
+      <BrandList brands={listData?.logo_brand} />
+      <FlashSale itemSale={listData?.itemSale}/>
       <ViewedProducts />
       <DiscountCodeBanner />
-      <SuggestedForYou />
-      <NewArrival />
+      <SuggestedForYou itemRelated={listData?.itemRelated}/>
+      <NewArrival itemNew={listData?.itemNew}/>
       <FeaturedPosts />
     </div>
   );

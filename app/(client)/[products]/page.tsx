@@ -1,5 +1,10 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import SidebarFilter from "./components/SidebarFilter";
+import ProductSection from "./components/ProductSection";
+import SidebarFilterMb from "./components/SidebarFilterMb";
+import { useProductFilter } from "./hooks/useProductFilter";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
@@ -7,10 +12,21 @@ import { useGetPageProduct } from "@/managers/api-management/products/useGetPage
 import { useParams, useSearchParams } from "next/navigation";
 import BannerProduct from "./components/BannerProduct";
 import MainContent from "./components/MainContent";
-const Products = () => {
-  const params = useParams();
-  const slug = params?.products as string;
-  const { data: dataPageProduct, isLoading } = useGetPageProduct(slug);
+import FilterIcon from "@/components/icons/FilterIcon";
+
+interface ProductsPageProps {
+  params: {
+    products: string;
+  };
+}
+
+const ProductsPage = ({ params }: ProductsPageProps) => {
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const { filters, filterData, handleFilterChange, resetFilters, isLoading } =
+    useProductFilter(params.products);
+  const { data: dataPageProduct, isLoading: isLoadingPage } = useGetPageProduct(
+    params.products
+  );
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
     { label: "Sản phẩm", href: "/products" },
@@ -20,8 +36,31 @@ const Products = () => {
     <>
       <div className="container flex flex-col gap-2 xl:gap-8 pt-6">
         <Breadcrumbs items={breadcrumbs} />
-        <BannerProduct dataCategory={dataPageProduct?.dtCategory} dataProduct={dataPageProduct?.dataItems} />
-        <MainContent slug={slug}/>
+        <BannerProduct
+          dataCategory={dataPageProduct?.dtCategory}
+          dataProduct={dataPageProduct?.dataItems}
+        />
+        <div className="flex gap-5 relative">
+          <SidebarFilter
+            filters={filters}
+            filterData={filterData}
+            onFilterChange={handleFilterChange}
+          />
+          <ProductSection 
+            slug={params.products} 
+            filters={filters} 
+            onOpenFilter={() => setShowMobileFilter(true)}
+          />
+          {showMobileFilter && (
+            <SidebarFilterMb
+              onClose={() => setShowMobileFilter(false)}
+              filters={filters}
+              filterData={filterData}
+              onFilterChange={handleFilterChange}
+              onReset={resetFilters}
+            />
+          )}
+        </div>
         <ServiceHighlights />
       </div>
       <StoreLocatorBanner />
@@ -29,4 +68,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductsPage;

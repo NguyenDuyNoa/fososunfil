@@ -11,6 +11,7 @@ export const useBlogList = (params: any, enabled: boolean = true) => {
             const { data } = await apiBlog.getListBlog({
                 ...params,
                 page: pageParam,
+                is_show_home: params.is_show_home,
             });
             setLoadingLang(false);
             return data;

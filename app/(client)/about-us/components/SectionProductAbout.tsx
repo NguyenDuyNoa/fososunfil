@@ -45,7 +45,7 @@ const SectionProductAbout = () => {
             className='flex flex-col gap-12 custom-py-section'
             id="service-about-us"
         >
-            <div className="flex flex-col items-start gap-6 custom-px-responsive">
+            <div className="flex flex-col items-start gap-6 container">
                 <TitleHighlight
                     title='Chúng tôi luôn mang đến những sản phẩm tốt nhất'
                     titleClassName='text-start'

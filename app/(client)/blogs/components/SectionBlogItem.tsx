@@ -43,7 +43,7 @@ const SectionBlogItem = () => {
             style={{
                 boxShadow: `0px 64px 64px -48px #0F0F0F1A`
             }}
-            className='w-full border border-[#E6E8EC] group flex md:flex-row flex-col bg-[#FCFCFD] md:rounded-bl-2xl md:rounded-tl-2xl  rounded-2xl'
+            className='container w-full border border-[#E6E8EC] group flex md:flex-row flex-col bg-[#FCFCFD] md:rounded-bl-2xl md:rounded-tl-2xl  rounded-2xl'
         >
             <div className="lg:w-[65%] md:w-[60%] w-full overflow-hidden md:aspect-5/3 aspect-4/3 md:rounded-bl-2xl md:rounded-tl-2xl md:rounded-tr-none rounded-tr-2xl rounded-tl-2xl">
                 <Image

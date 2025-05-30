@@ -35,8 +35,6 @@ export const useSearchHistoryList = ({ valueSearchCode, limit, enabled }: Search
         queryFn: fetchSearchHistoryList,
         staleTime: 10000,
         getNextPageParam: (lastPage: any, pages: any) => {
-            console.log('pages', pages);
-            console.log('lastPage', lastPage);
             if (lastPage?.data?.next) {
                 return lastPage?.data?.next ? pages?.length + 1 : null;
             }

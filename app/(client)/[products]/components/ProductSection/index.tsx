@@ -10,9 +10,10 @@ import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
 interface ProductSectionProps {
   slug: string;
   filters: FilterState;
+  onOpenFilter?: () => void;
 }
 
-const ProductSection = ({ slug, filters }: ProductSectionProps) => {
+const ProductSection = ({ slug, filters, onOpenFilter }: ProductSectionProps) => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [showFilter, setShowFilter] = useState(false);
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
@@ -173,7 +174,7 @@ const ProductSection = ({ slug, filters }: ProductSectionProps) => {
               )}
             </div>
             <button
-              onClick={() => setShowFilter(true)}
+              onClick={() => onOpenFilter && onOpenFilter()}
               className="xl:hidden flex items-center gap-2 p-2 border border-[#919EAB3D] rounded-lg"
             >
               <FilterIcon className="size-5" />
@@ -193,7 +194,7 @@ const ProductSection = ({ slug, filters }: ProductSectionProps) => {
               <ProductCard key={index} product={item} />
             ))}
       </div>
-      {showFilter && <SidebarFilterMb onClose={() => setShowFilter(false)} />}
+      {/* {showFilter && <SidebarFilterMb onClose={() => setShowFilter(false)} />} */}
     </div>
   );
 };

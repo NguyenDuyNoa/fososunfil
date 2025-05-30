@@ -32,9 +32,9 @@ const productCards = Array(8)
     <ProductCard key={index} imageSrc={productImages[index]} />
   ));
 
-const SuggestedForYou = () => {
+const SuggestedForYou = ({ itemRelated }: { itemRelated: any }) => {
   const { isVisibleMobile } = useResizeStore();
-  console.log(isVisibleMobile);
+console.log(itemRelated)
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-3 xl:gap-5">
@@ -51,7 +51,7 @@ const SuggestedForYou = () => {
               Dành cho bạn
             </h2>
           </div>
-          <div className="py-2 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-500 xl:hover:bg-opacity-10 group">
+          {/* <div className="py-2 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-brand-500 xl:hover:bg-opacity-10 group">
             <Link
               href="/products"
               className="text-[8px] xl:text-base font-semibold text-brand-500 whitespace-nowrap group-hover:font-bold"
@@ -59,7 +59,7 @@ const SuggestedForYou = () => {
               Xem tất cả{" "}
             </Link>
             <DoubleArrowRightIcon className="text-brand-500 size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </div>
+          </div> */}
         </div>
         <div className="flex gap-2 xl:gap-6 w-full h-full">
           <div className="w-[40%] xl:w-[30%] flex-1">
@@ -73,7 +73,7 @@ const SuggestedForYou = () => {
           </div>
           <div className="w-[calc(60%-12px)] xl:w-[calc(70%-24px)] flex-1">
             <SwiperCarousel
-              items={productCards as any}
+              items={itemRelated as any}
               slidesPerView={isVisibleMobile ? 1.5 : 4}
               spaceBetween={isVisibleMobile ? 8 : 12}
               // autoplay={true}

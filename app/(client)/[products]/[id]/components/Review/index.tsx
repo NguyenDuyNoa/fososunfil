@@ -217,16 +217,16 @@ const Review = ({
         Đánh giá sản phẩm
       </h2>
       <div className="flex flex-col xl:flex-row border-b border-[#919EAB33] border-dashed">
-        <div className="flex-1 py-3 xl:py-0 flex flex-col items-center justify-center gap-2 border-r border-[#919EAB33] border-dashed">
+        <div className="w-full xl:w-1/2 py-3 xl:py-0 flex flex-col items-center justify-center gap-2 border-r border-[#919EAB33] border-dashed">
           <h3 className="text-[32px]/[42px] xl:text-5xl font-extrabold text-primary-new">
-            {reviewItem?.totalRating}/5
+            {reviewItem?.totalRating || 0}/5
           </h3>
           <Rating value={Number(reviewItem?.totalRating)} readOnly />
           <p className="text-xs xl:text-sm text-secondary-new">
             ({reviewItem?.totalReview} đánh giá){" "}
           </p>
         </div>
-        <div className="py-3 xl:py-10 flex-1 flex flex-col items-center gap-3 p-10">
+        <div className="w-full xl:w-1/2 py-3 xl:py-10 flex flex-col items-center gap-3 p-10">
           {reviewItem?.items?.map((item: IReviewItem) => (
             <RatingBar
               key={item.id}
@@ -243,23 +243,40 @@ const Review = ({
         </div>
       </div>
       <div className="py-5 xl:py-10 flex flex-col gap-6 xl:gap-10">
-        {reviews?.map((review: IReview) => (
-          <UserReview
-            key={review.id}
-            avatarSrc={review.customer.image}
-            username={review.customer.name}
-            rating={Number(review.star)}
-            date={review.created_at}
-            comment={review.content}
-            productImages={review.arrfile}
-            likeCount={review.likeCount}
-          />
-        ))}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {reviews?.length > 0 ? (
+          <>
+            {reviews?.map((review: IReview) => (
+              <UserReview
+                key={review.id}
+                avatarSrc={review.customer.image}
+                username={review.customer.name}
+                rating={Number(review.star)}
+                date={review.created_at}
+                comment={review.content}
+                productImages={review.arrfile}
+                likeCount={review.likeCount}
+              />
+            ))}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-2">
+            <Image
+              src={IMAGES.reviewEmpty}
+              alt="reviewEmpty"
+              width={200}
+              height={200}
+              className="object-cover"
+            />
+            <p className="text-base xl:text-2xl text-secondary-new font-medium">
+              Chưa có đánh giá sản phẩm
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import "swiper/css";
 import "swiper/css/autoplay";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 
 type BannerItem = {
   id: string;
@@ -23,21 +25,19 @@ const HeroBanner = ({
 }: BannerWithSidebarProps) => {
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  // Đóng dropdown chỉ khi ra khỏi container hoàn toàn
+
   const handleMouseLeave = () => {
     setIsOpen(false);
     setActiveItem(null);
   };
+
   return (
     <div className="w-full container ">
       {/* Sidebar bên trái */}
       <div className="bg-white flex lg:bg-white rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
         <MenuContent
-          // activeItem={activeItem}
           autoActiveFirstItem={false}
-          // items={listProducts}
           IsProducts={IsProducts}
-          // setActiveItem={setActiveItem}
           onClose={handleMouseLeave}
           onHover={() => setIsOpen(true)}
           classNameContent="hidden xl:block relative bg-white rounded-bl-xl xl:min-h-[550px]"
@@ -46,7 +46,7 @@ const HeroBanner = ({
         />
 
         <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden rounded-br-xl">
-          <div
+          {/* <div
             className="relative hidden xl:flex w-full h-full overflow-hidden bg-cover bg-center items-center justify-between px-4 md:px-6 lg:px-10 py-6 gap-4"
             style={{
               backgroundImage: "url('/home/TopBanner/banner.png')",
@@ -86,14 +86,29 @@ const HeroBanner = ({
               fill
               className="object-cover absolute bottom-0 right-0 left-0"
             />
-          </div>
-          <Image
-            src={IMAGES.imageUrl}
-            alt=""
-            width={1000}
-            height={1000}
-            className="object-cover rounded-lg w-full xl:hidden h-[170px]"
-          />
+          </div> */}
+          <Swiper
+            modules={[Autoplay]}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            className="w-full h-full"
+          >
+            {bannerSlides?.map((item: any) => (
+              <SwiperSlide key={item.id}>
+                <Image
+                  src={item.image}
+                  alt=""
+                  width={1000}
+                  height={1000}
+                  className="object-cover rounded-lg w-full h-full"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
           <div className="flex items-center justify-center gap-1.5 xl:hidden">
             <span className="w-2.5 h-[3px] rounded-full bg-grey-400"></span>
             <span className="w-5 h-[3px] rounded-full bg-brand-600"></span>

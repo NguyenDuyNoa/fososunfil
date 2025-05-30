@@ -33,17 +33,18 @@ const ProductTabs = ({
   imageDetail: string;
 }) => {
   // Chuyển đổi dữ liệu từ tabs sang định dạng phù hợp
-  const tabsData = tabs?.reduce((acc: Record<string, TabData>, tab: any) => {
-    const tabKey = tab.name.toLowerCase().replace(/\s+/g, "");
-    acc[tabKey] = {
-      title: tab.name,
-      content: tab.item.map((item: any) => ({
-        label: item.name,
-        value: item.value,
-      })),
-    };
-    return acc;
-  }, {}) || {};
+  const tabsData =
+    tabs?.reduce((acc: Record<string, TabData>, tab: any) => {
+      const tabKey = tab.name.toLowerCase().replace(/\s+/g, "");
+      acc[tabKey] = {
+        title: tab.name,
+        content: tab.item.map((item: any) => ({
+          label: item.name,
+          value: item.value,
+        })),
+      };
+      return acc;
+    }, {}) || {};
 
   const [openTabs, setOpenTabs] = useState(() => {
     // Tạo trạng thái ban đầu với tab đầu tiên mở
@@ -92,15 +93,17 @@ const ProductTabs = ({
 
   return (
     <div className="flex flex-col gap-3 xl:gap-6 px-3 xl:px-0">
-      <div className="rounded-lg xl:h-[700px] overflow-hidden bg-white">
-        <Image
-          src={imageDetail}
-          alt="sản phẩm"
-          width={600}
-          height={700}
-          className="w-full h-full object-cover p-4"
-        />
-      </div>
+      {!imageDetail?.includes("no_image.png") && (
+        <div className="rounded-lg xl:h-[700px] overflow-hidden bg-white">
+          <Image
+            src={imageDetail}
+            alt="sản phẩm"
+            width={600}
+            height={700}
+            className="w-full h-full object-cover p-4"
+          />
+        </div>
+      )}
 
       {Object.entries(tabsData).map(([key, data]) => {
         const tabKey = key as TabName;

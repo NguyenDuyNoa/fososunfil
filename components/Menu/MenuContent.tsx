@@ -8,15 +8,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const convertToSlug = (text: string): string => {
-  let str = text.toLowerCase();
-  // Chuyển đổi các ký tự có dấu thành không dấu
-  str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  // Thay thế các ký tự đặc biệt và khoảng trắng thành dấu gạch ngang
-  str = str.replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
-  return str;
-};
-
 type MegaMenuContentProps = {
   classNameContent?: string;
   classNameSubItem?: string;
@@ -47,7 +38,6 @@ const MenuContent = ({
 }: MegaMenuContentProps) => {
   const pathname = usePathname();
   const { data: listProducts, isLoading } = useGetListCategory({});
-  console.log(listProducts)
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   useEffect(() => {
     if (

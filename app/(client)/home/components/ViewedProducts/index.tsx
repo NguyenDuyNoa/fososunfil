@@ -1,21 +1,10 @@
-import { IMAGES } from "@/constants/Images";
-import Image from "next/image";
-import React from "react";
-import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
-import ProductCard from "@/components/productCard";
 import SwiperCarousel from "@/components/SwiperCarousel";
+import { IMAGES } from "@/constants/Images";
+import { useGetListItemView } from "@/managers/api-management/home/useGetListItemView";
 import { useResizeStore } from "@/stores/useResizeStore";
-
-const productImages = [
-  IMAGES.product9,
-  IMAGES.product10,
-  IMAGES.product11,
-  IMAGES.product12,
-  IMAGES.product13,
-  IMAGES.product14,
-  IMAGES.product15,
-  IMAGES.product16,
-];
+import { getViewedProducts } from "@/utils/localStorage";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const breakpoints = {
   320: { slidesPerView: 2.5 },
@@ -25,13 +14,16 @@ const breakpoints = {
   1280: { slidesPerView: 6 },
 };
 
-const productCards = Array(8)
-  .fill(0)
-  .map((_, index) => <ProductCard key={index} imageSrc={productImages[index]} />);
-
 const ViewedProducts = () => {
   const { isVisibleMobile } = useResizeStore();
-
+  const [viewedProductIds, setViewedProductIds] = useState<string[]>([]);
+  const { data: productCards } = useGetListItemView(viewedProductIds);
+  
+  useEffect(() => {
+    const ids = getViewedProducts();
+    setViewedProductIds(ids);
+  }, []);
+  if (productCards?.length === 0) return null;
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-5">

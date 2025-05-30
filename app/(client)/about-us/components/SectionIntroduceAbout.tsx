@@ -46,10 +46,10 @@ const Sectionintroduce = () => {
 
     return (
         <div
-            className='flex flex-col gap-12 custom-py-section'
+            className='flex flex-col gap-12 custom-py-section bg-white'
             id="intro-about-us"
         >
-            <div className="flex flex-col items-start gap-6 custom-px-responsive">
+            <div className="flex flex-col items-start gap-6 container">
                 <TitleHighlight
                     title='Giới thiệu chung về VietHung Auto'
                     titleClassName='text-start'

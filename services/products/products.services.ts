@@ -55,6 +55,14 @@ const apiProducts = {
       `/api_web/Api_category_product/getListReview?item_id=${item_id}&page=${page}&limit=${limit}`
     );
   },
+
+  addReviewItem(data: any) {
+    return axios.post(`/api_web/Api_Clients/addReviewItem`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 export default apiProducts;

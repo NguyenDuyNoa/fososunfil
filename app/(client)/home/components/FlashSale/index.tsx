@@ -1,51 +1,26 @@
 import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
-import ProductCard from "@/components/productCard";
 import SwiperCarousel from "@/components/SwiperCarousel";
 import { IMAGES } from "@/constants/Images";
 import { useResizeStore } from "@/stores/useResizeStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
-import Countdown from "./Countdown";
 
-const productImages = [
-  IMAGES.product1,
-  IMAGES.product2,
-  IMAGES.product3,
-  IMAGES.product4,
-  IMAGES.product5,
-  IMAGES.product6,
-  IMAGES.product7,
-  IMAGES.product8,
-];
+const breakpoints = {
+  320: { slidesPerView: 2.5 },
+  640: { slidesPerView: 3 },
+  768: { slidesPerView: 3 },
+  1024: { slidesPerView: 4 },
+  1280: { slidesPerView: 6 },
+};
 
-const productCards = Array(8)
-  .fill(0)
-  .map((_, index) => (
-    <ProductCard key={index} imageSrc={productImages[index]} />
-  ));
-  
-  const breakpoints = {
-    320: { slidesPerView: 2.5 },
-    640: { slidesPerView: 3 },
-    768: { slidesPerView: 3 },
-    1024: { slidesPerView: 4 },
-    1280: { slidesPerView: 6 },
-  };
-
-const FlashSale = () => {
+const FlashSale = ({ itemSale }: { itemSale: any }) => {
   const { isVisibleMobile } = useResizeStore();
-
   // Thiết lập thời gian kết thúc cụ thể: 12:30, ngày 15 tháng 5 năm 2025
   const endTime = useMemo(() => {
     const specificEndTime = new Date("2025-05-25T12:30:00");
     return specificEndTime;
   }, []);
-
-  // Callback function khi đếm ngược hoàn thành
-  const handleCountdownComplete = () => {
-    console.log("Flash sale đã kết thúc!");
-  };
 
   return (
     <div className={`${!isVisibleMobile ? "container" : ""}`}>
@@ -65,12 +40,12 @@ const FlashSale = () => {
                   Flash Sale
                 </h2>
               </div>
-              <Countdown
+              {/* <Countdown
                 endTime={endTime}
                 onComplete={handleCountdownComplete}
-              />
+              /> */}
             </div>
-            <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-error-main hover:bg-opacity-10 group">
+            {/* <div className="py-1 xl:px-3 rounded-[20px] flex items-center gap-1 xl:gap-2 cursor-pointer transition-all duration-300 xl:hover:bg-error-main hover:bg-opacity-10 group">
               <Link
                 href="/products"
                 className="text-[8px] xl:text-base font-semibold text-error-main group-hover:text-error-lighter whitespace-nowrap group-hover:font-bold"
@@ -78,10 +53,10 @@ const FlashSale = () => {
                 Xem tất cả{" "}
               </Link>
               <DoubleArrowRightIcon className="text-error-main group-hover:text-error-lighter size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </div>
+            </div> */}
           </div>
           <SwiperCarousel
-            items={productCards as any}
+            items={itemSale as any}
             slidesPerView={isVisibleMobile ? 2.5 : 6}
             spaceBetween={isVisibleMobile ? 8 : 16}
             autoplay={true}

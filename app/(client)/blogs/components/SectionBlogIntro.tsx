@@ -3,7 +3,7 @@ import React from 'react'
 
 const SectionBlogIntro = () => {
     return (
-        <div className='flex flex-col justify-center items-center gap-2'>
+        <div className='flex flex-col justify-center items-center gap-2 container'>
             <h1 className={`${montserrat_sans.className} text-center font-bold text-title-top`}>
                 Tin tức
             </h1>

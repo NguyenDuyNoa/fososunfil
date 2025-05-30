@@ -10,11 +10,20 @@ import ProductTabs from "./components/ProductTabs";
 import Promo from "./components/Promo";
 import RelatedProducts from "./components/Related";
 import Review from "./components/Review";
+import { useEffect } from "react";
+import { saveViewedProduct } from "@/utils/localStorage";
 
 const DetailProduct = () => {
   const { isVisibleMobile } = useResizeStore();
   const params = useParams();
   const { data: detailItem } = useGetDetailItem(params?.id as string);
+
+  // Lưu ID sản phẩm vào localStorage khi xem chi tiết
+  useEffect(() => {
+    if (params?.id) {
+      saveViewedProduct(params.id as string);
+    }
+  }, [params?.id]);
 
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },

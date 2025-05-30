@@ -116,7 +116,7 @@ const SectionBlogRelated = () => {
     const { data: dataNews, isLoading, isFetching, hasNextPage, fetchNextPage } = useBlogList({ limit: "6" })
     const newData = dataNews?.pages?.flatMap((page) => page?.new)
     return (
-        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-8 container'>
             <div className="grid lg:grid-cols-3 md:grid-cols-2 col-span-1 gap-8">
                 {isLoading
                     ?
