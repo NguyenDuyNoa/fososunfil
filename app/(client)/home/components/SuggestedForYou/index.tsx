@@ -34,7 +34,7 @@ const productCards = Array(8)
 
 const SuggestedForYou = ({ itemRelated }: { itemRelated: any }) => {
   const { isVisibleMobile } = useResizeStore();
-console.log(itemRelated)
+
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-3 xl:gap-5">

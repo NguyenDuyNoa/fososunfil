@@ -34,7 +34,7 @@ const HeroBanner = ({
   return (
     <div className="w-full container ">
       {/* Sidebar bên trái */}
-      <div className="bg-white flex lg:bg-white rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
+      <div className="xl:bg-white flex lg:bg-white rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
         <MenuContent
           autoActiveFirstItem={false}
           IsProducts={IsProducts}
