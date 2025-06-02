@@ -23,7 +23,7 @@ const SectionDetailBlogIntro = () => {
     }
 
     return (
-        <div className='flex flex-col justify-center items-center gap-2 custom-px-responsive'>
+        <div className='flex flex-col justify-center items-center gap-2 container'>
             <h2 className='text-[#1A1B20A3] font-normal text-base'>{data?.data?.date ? momentCore(data?.data?.date).format(FORMAT_DATE.DD_MM_YYYY_TEXT) : ""} </h2>
             <h1 className={`${montserrat_sans.className} text-center font-bold text-title-top`}>
                 {data?.data?.title}

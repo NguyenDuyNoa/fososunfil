@@ -90,7 +90,7 @@ const SwiperCarousel = ({
             ))}
       </Swiper>
 
-      {showNavigation && (
+      {showNavigation && items && items.length > slidesPerView && (
         <>
           <button
             onClick={() => swiperRef.current?.slidePrev()}

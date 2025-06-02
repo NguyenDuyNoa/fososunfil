@@ -32,6 +32,11 @@ const ProductTabs = ({
   tabs: TabItem[];
   imageDetail: string;
 }) => {
+  // Kiểm tra nếu không có tabs hoặc tabs rỗng thì return null
+  if ((!tabs || tabs.length === 0) && (!imageDetail || imageDetail.includes("no_image_new.png"))) {
+    return null;
+  }
+
   // Chuyển đổi dữ liệu từ tabs sang định dạng phù hợp
   const tabsData =
     tabs?.reduce((acc: Record<string, TabData>, tab: any) => {
@@ -93,7 +98,7 @@ const ProductTabs = ({
 
   return (
     <div className="flex flex-col gap-3 xl:gap-6 px-3 xl:px-0">
-      {!imageDetail?.includes("no_image.png") && (
+      {!imageDetail?.includes("no_image_new.png") && (
         <div className="rounded-lg xl:h-[700px] overflow-hidden bg-white">
           <Image
             src={imageDetail}

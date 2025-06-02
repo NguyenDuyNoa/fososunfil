@@ -14,25 +14,25 @@ const SectionDetailBlogContent = () => {
     const { data, isLoading } = useBlogDetail(id as string)
 
     return (
-        <div className='flex flex-col items-center xl:gap-[60px] lg:gap-12 gap-8 '>
-            <div className="xxl:px-[112px] xl:px-[92px] lg:px-[72px] px-0">
+        <div className='flex flex-col items-center xl:gap-[60px] lg:gap-12 gap-8 container'>
+            <div className="px-0">
                 {
                     isLoading
                         ?
-                        <Skeleton className='aspect-5/3 object-cover lg:h-[700px] md:h-[450px] h-[278px] w-full' />
+                        <Skeleton className='aspect-5/3 object-cover lg:h-[700px] md:h-[450px] h-[278px] w-full ' />
                         :
                         <Image
                             // src={isVisibleMobile ? '/example/blogs/slug/1mobi.svg' : '/example/blogs/slug/1.svg'}
                             // alt={isVisibleMobile ? '/example/blogs/slug/1mobi.svg' : '/example/blogs/slug/1.svg'}
                             src={data?.data?.featured_image}
                             alt={data?.data?.title}
-                            className='aspect-5/3 object-cover lg:h-[700px] md:h-[450px] h-[278px]'
+                            className='aspect-5/3 object-cover lg:h-[700px] md:h-[450px] h-[278px] rounded-xl'
                             width={1280}
                             height={1024}
                         />
                 }
             </div>
-            <div className="xxl:max-w-[73%] xl:max-w-[80%] lg:max-w-[93%] max-w-[100%] custom-px-responsive">
+            <div className="xxl:max-w-[73%] xl:max-w-[80%] lg:max-w-[93%] max-w-[100%]">
                 <span dangerouslySetInnerHTML={{ __html: data?.data?.content ?? '' }}></span>
             </div>
             {/* <div className="flex flex-col items-center xl:gap-12 lg:gap-10 gap-8 xxl:max-w-[73%] xl:max-w-[80%] lg:max-w-[93%] max-w-[100%] custom-px-responsive">

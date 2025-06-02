@@ -23,9 +23,21 @@ const ProductCard = ({
   product,
   imageFull = false,
 }: ProductCardProps) => {
+  const convertToSlug = (text: string) => {
+    return text
+      ?.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[đĐ]/g, 'd')
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, '-');
+  };
+
+  const productSlug = product?.slug || convertToSlug(product?.name) || '';
+
   return (
     <Link
-      href={`/${product?.slug_category}/${product?.id}`}
+      href={`/${product?.slug_category}/${productSlug}-${product?.id}`}
       className={`flex ${
         isHorizontal ? "flex-row h-fit" : "flex-col h-full"
       } w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer ${className}`}

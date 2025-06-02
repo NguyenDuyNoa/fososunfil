@@ -1,11 +1,7 @@
 import SwiperCarousel from "@/components/SwiperCarousel";
 import { IMAGES } from "@/constants/Images";
-import React from "react";
-import Image from "next/image";
-import ProductCard from "@/components/productCard";
-import DoubleArrowRightIcon from "@/components/icons/DoubleArrowRight";
-import Link from "next/link";
 import { useResizeStore } from "@/stores/useResizeStore";
+import Image from "next/image";
 
 const breakpoints = {
   320: { slidesPerView: 1.5 },
@@ -15,26 +11,9 @@ const breakpoints = {
   1280: { slidesPerView: 4 },
 };
 
-const productImages = [
-  IMAGES.product5,
-  IMAGES.product6,
-  IMAGES.product7,
-  IMAGES.product8,
-  IMAGES.product9,
-  IMAGES.product10,
-  IMAGES.product11,
-  IMAGES.product12,
-];
-
-const productCards = Array(8)
-  .fill(0)
-  .map((_, index) => (
-    <ProductCard key={index} imageSrc={productImages[index]} />
-  ));
-
-const SuggestedForYou = ({ itemRelated }: { itemRelated: any }) => {
+const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemRelated: any }) => {
   const { isVisibleMobile } = useResizeStore();
-
+console.log(imageForYou?.image)
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-3 xl:gap-5">
@@ -61,10 +40,10 @@ const SuggestedForYou = ({ itemRelated }: { itemRelated: any }) => {
             <DoubleArrowRightIcon className="text-brand-500 size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
           </div> */}
         </div>
-        <div className="flex gap-2 xl:gap-6 w-full h-full">
+        <div className="flex gap-2 xl:gap-6 w-full h-full xl:h-[460px]">
           <div className="w-[40%] xl:w-[30%] flex-1">
             <Image
-              src={IMAGES.banner2}
+              src={imageForYou?.image || IMAGES.banner2}
               alt=""
               width={500}
               height={600}

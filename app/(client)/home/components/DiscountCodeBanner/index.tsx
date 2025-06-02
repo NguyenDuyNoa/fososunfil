@@ -1,11 +1,9 @@
-import React from "react";
 import Image from "next/image";
-import { IMAGES } from "@/constants/Images";
 
-const DiscountCodeBanner = () => {
+const DiscountCodeBanner = ({ banner }: { banner: any }) => {
   return (
     <div className="container">
-      <div className="py-1.5 xl:py-3 flex xl:gap-3 justify-center items-center bg-discountCodeBanner bg-cover bg-center bg-no-repeat w-full rounded-xl">
+      {/* <div className="py-1.5 xl:py-3 flex xl:gap-3 justify-center items-center bg-discountCodeBanner bg-cover bg-center bg-no-repeat w-full rounded-xl">
         <div className="relative">
           <Image
             src={IMAGES.union}
@@ -32,7 +30,14 @@ const DiscountCodeBanner = () => {
             *Áp dụng cho khách hàng mới với hoá đơn từ 1 triệu.
           </p>
         </div>
-      </div>
+      </div> */}
+      <Image
+        src={banner?.image}
+        alt="banner"
+        width={1280}
+        height={1000}
+        className="w-full h-full object-cover rounded-xl"
+      />
     </div>
   );
 };

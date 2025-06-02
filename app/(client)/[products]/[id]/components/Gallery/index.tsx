@@ -1,5 +1,6 @@
 "use client";
 import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
+import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -14,17 +15,6 @@ const Gallery = ({ data }: { data: any }) => {
   useEffect(() => {
     setImages(data);
   }, [data]);
-  // const images: ImageItem[] = [
-  //   { id: 1, src: IMAGES.product1, alt: "Bộ lọc không khí 1" },
-  //   { id: 2, src: IMAGES.product2, alt: "Bộ lọc dầu 1" },
-  //   { id: 3, src: IMAGES.product3, alt: "Bộ lọc cabin 1" },
-  //   { id: 4, src: IMAGES.product4, alt: "Bộ lọc dầu 2" },
-  //   { id: 5, src: IMAGES.product5, alt: "Bộ lọc không khí 2" },
-  //   // { id: 6, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
-  //   // { id: 7, src: IMAGES.product6, alt: "Bộ lọc nhiên liệu 1" },
-  //   // { id: 8, src: IMAGES.product8, alt: "Bộ lọc nhiên liệu 1" },
-  //   // { id: 9, src: IMAGES.product9, alt: "Bộ lọc nhiên liệu 1" },
-  // ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
@@ -140,13 +130,17 @@ const Gallery = ({ data }: { data: any }) => {
         ref={mainImageRef}
         className="relative w-full aspect-[677/508] xl:rounded-xl overflow-hidden bg-white"
       >
-        <Image
-          src={images?.[currentIndex] as any}
-          alt=""
-          width={1000}
-          height={1000}
-          className="object-cover w-full h-full"
-        />
+        {images?.length > 0 ? (
+          <Image
+            src={images?.[currentIndex] as any}
+            alt=""
+            width={1000}
+            height={1000}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <Skeleton className="w-full h-full" />
+        )}
 
         {/* Image counter */}
         <div className="absolute bottom-4 right-4 flex items-center gap-1 bg-[#1C252E] text-white px-0.5 py-0.5 rounded-lg text-sm font-semibold">
@@ -172,31 +166,40 @@ const Gallery = ({ data }: { data: any }) => {
         className="flex flex-shrink-0 flex-row gap-3 overflow-auto max-w-full px-3 xl:px-0"
         // style={{ maxHeight: imageHeight }}
       >
-        {images?.map((image: ImageItem, index: number) => (
-          <div
-            key={index}
-            ref={(el) => {
-              thumbnailRefs.current[index] = el;
-            }}
-            className={`relative w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
+        {images?.length > 0 ? (
+          images?.map((image: ImageItem, index: number) => (
+            <div
+              key={index}
+              ref={(el) => {
+                thumbnailRefs.current[index] = el;
+              }}
+              className={`relative w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0 border-2 rounded-lg cursor-pointer overflow-hidden
               ${
                 selectedThumbnail === index
                   ? "border-blue-500"
                   : "border-transparent"
               }`}
-            onClick={() => handleThumbnailClick(index)}
-          >
-            <div className="relative w-full h-full">
-              <Image
-                src={image as any}
-                alt=""
-                fill
-                sizes="64px"
-                className="object-cover"
-              />
+              onClick={() => handleThumbnailClick(index)}
+            >
+              <div className="relative w-full h-full">
+                <Image
+                  src={image as any}
+                  alt=""
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <>
+            <Skeleton className="w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0" />
+            <Skeleton className="w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0" />
+            <Skeleton className="w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0" />
+            <Skeleton className="w-[107px] xl:w-[140px] aspect-[140/105] flex-shrink-0" />
+          </>
+        )}
       </div>
     </div>
   );

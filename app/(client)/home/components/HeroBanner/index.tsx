@@ -25,6 +25,7 @@ const HeroBanner = ({
 }: BannerWithSidebarProps) => {
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const handleMouseLeave = () => {
     setIsOpen(false);
@@ -95,9 +96,10 @@ const HeroBanner = ({
             }}
             loop={true}
             className="w-full h-full"
+            onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
           >
             {bannerSlides?.map((item: any) => (
-              <SwiperSlide key={item.id}>
+              <SwiperSlide key={item.id} className="w-full min-h-full">
                 <Image
                   src={item.image}
                   alt=""
@@ -110,9 +112,14 @@ const HeroBanner = ({
           </Swiper>
 
           <div className="flex items-center justify-center gap-1.5 xl:hidden">
-            <span className="w-2.5 h-[3px] rounded-full bg-grey-400"></span>
-            <span className="w-5 h-[3px] rounded-full bg-brand-600"></span>
-            <span className="w-2.5 h-[3px] rounded-full bg-grey-400"></span>
+            {bannerSlides?.map((item: any, index: number) => (
+              <span 
+                key={item.id} 
+                className={`h-[3px] rounded-full ${
+                  activeSlide === index ? "w-5 bg-brand-600" : "w-2.5 bg-grey-400"
+                }`}
+              ></span>
+            ))}
           </div>
         </div>
       </div>

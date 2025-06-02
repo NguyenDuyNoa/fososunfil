@@ -67,6 +67,7 @@ export const IMAGES = {
   product7: "/home/product7.png",
   product8: "/home/product8.png",
   product9: "/home/product9.png",
+  productEmpty: "/product/productEmpty.png",
   // q
   // r
   reviewEmpty: "/product/reviewEmpty.png",

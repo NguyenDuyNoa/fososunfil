@@ -1,18 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import SidebarFilter from "./components/SidebarFilter";
-import ProductSection from "./components/ProductSection";
-import SidebarFilterMb from "./components/SidebarFilterMb";
-import { useProductFilter } from "./hooks/useProductFilter";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { useGetPageProduct } from "@/managers/api-management/products/useGetPageProduct";
-import { useParams, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import BannerProduct from "./components/BannerProduct";
-import MainContent from "./components/MainContent";
-import FilterIcon from "@/components/icons/FilterIcon";
+import ProductSection from "./components/ProductSection";
+import SidebarFilter from "./components/SidebarFilter";
+import SidebarFilterMb from "./components/SidebarFilterMb";
+import { useProductFilter } from "./hooks/useProductFilter";
 
 interface ProductsPageProps {
   params: {
@@ -29,7 +26,7 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
   );
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
-    { label: "Sản phẩm", href: "/products" },
+    { label: "Sản phẩm", href: "#" },
   ];
 
   return (
@@ -39,6 +36,7 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
         <BannerProduct
           dataCategory={dataPageProduct?.dtCategory}
           dataProduct={dataPageProduct?.dataItems}
+          isLoadingPage={isLoadingPage}
         />
         <div className="flex gap-5 relative">
           <SidebarFilter
@@ -46,9 +44,9 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
             filterData={filterData}
             onFilterChange={handleFilterChange}
           />
-          <ProductSection 
-            slug={params.products} 
-            filters={filters} 
+          <ProductSection
+            slug={params.products}
+            filters={filters}
             onOpenFilter={() => setShowMobileFilter(true)}
           />
           {showMobileFilter && (

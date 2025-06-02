@@ -1,11 +1,12 @@
 import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
 import FilterIcon from "@/components/icons/FilterIcon";
 import ProductCard from "@/components/productCard";
+import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
+import { IMAGES } from "@/constants/Images";
 import { useGetListItemProduct } from "@/managers/api-management/products/useGetListItem";
 import { FilterState, ProductItem } from "@/types/products/IProducts";
-import { useState, useRef, useEffect } from "react";
-import SidebarFilterMb from "../SidebarFilterMb";
-import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 interface ProductSectionProps {
   slug: string;
@@ -13,9 +14,12 @@ interface ProductSectionProps {
   onOpenFilter?: () => void;
 }
 
-const ProductSection = ({ slug, filters, onOpenFilter }: ProductSectionProps) => {
+const ProductSection = ({
+  slug,
+  filters,
+  onOpenFilter,
+}: ProductSectionProps) => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [showFilter, setShowFilter] = useState(false);
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState<string>("Giá:");
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -185,14 +189,28 @@ const ProductSection = ({ slug, filters, onOpenFilter }: ProductSectionProps) =>
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4">
-        {isLoading
-          ? Array.from({ length: 8 }).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))
-          : dataListItemProduct?.map((item: ProductItem, index: number) => (
-              <ProductCard key={index} product={item} />
-            ))}
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4 min-h-[500px]">
+        {isLoading ? (
+          Array.from({ length: 8 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))
+        ) : dataListItemProduct?.length > 0 ? (
+          dataListItemProduct?.map((item: ProductItem, index: number) => (
+            <ProductCard key={index} product={item} />
+          ))
+        ) : (
+          <div className="flex flex-col col-span-4 row-span-4 h-full justify-center items-center gap-y-2 gap-x-3 xl:gap-4">
+            <Image
+              src={IMAGES.productEmpty}
+              alt="product empty"
+              width={250}
+              height={250}
+            />
+            <p className="text-base xl:text-2xl font-semibold text-secondary-new">
+              Không tìm thấy sản phẩm nào.
+            </p>
+          </div>
+        )}
       </div>
       {/* {showFilter && <SidebarFilterMb onClose={() => setShowFilter(false)} />} */}
     </div>

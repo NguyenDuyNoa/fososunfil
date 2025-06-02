@@ -16,14 +16,23 @@ import { saveViewedProduct } from "@/utils/localStorage";
 const DetailProduct = () => {
   const { isVisibleMobile } = useResizeStore();
   const params = useParams();
-  const { data: detailItem } = useGetDetailItem(params?.id as string);
+  
+  // Trích xuất ID từ slug-id
+  const extractProductId = (slugId: string) => {
+    const parts = slugId.split('-');
+    return parts[parts.length - 1];
+  };
+  
+  const productId = params?.id ? extractProductId(params.id as string) : '';
+  
+  const { data: detailItem } = useGetDetailItem(productId);
 
   // Lưu ID sản phẩm vào localStorage khi xem chi tiết
   useEffect(() => {
-    if (params?.id) {
-      saveViewedProduct(params.id as string);
+    if (productId) {
+      saveViewedProduct(productId);
     }
-  }, [params?.id]);
+  }, [productId]);
 
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
