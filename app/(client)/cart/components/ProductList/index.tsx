@@ -76,7 +76,7 @@ const ProductList: React.FC<ProductListProps> = ({
         {products.length > 0 ? (
           products.map((product) => (
             <>
-              <div className="flex gap-2 px-4 xl:hidden">
+              <div className="flex gap-2 py-4 xl:hidden">
                 <div className="flex gap-3">
                   <Image
                     src={product.image}
@@ -87,14 +87,17 @@ const ProductList: React.FC<ProductListProps> = ({
                   />
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-col gap-2">
-                      <p className="text-sm font-semibold text-primary-new">
+                      <p className="text-sm font-semibold text-[#36443F]">
                         {product.name}
                       </p>
-                      <div className="w-[100px] p-4 flex-shrink-0 font-normal text-sm text-primary-new">
-                        Đơn giá: {product.price.toLocaleString()} đ
+                      <div className="font-medium text-sm text-disable-50">
+                        Đơn giá:{" "}
+                        <span className="text-error-dark text-base font-semibold">
+                          {product.price.toLocaleString()} đ
+                        </span>
                       </div>
                     </div>
-                    <div className="flex gap-2 justify-between">
+                    <div className="flex gap-2 justify-between items-center">
                       <div className="h-[34px] p-1 flex items-center border border-[#919EAB33] rounded-full">
                         <button
                           className="p-1"
@@ -116,11 +119,20 @@ const ProductList: React.FC<ProductListProps> = ({
                           <PlusIcon className="size-4" />
                         </button>
                       </div>
+                      <div className="flex flex-col">
+                        <p className="text-sm font-medium text-secondary-new">
+                          Thành tiền:
+                        </p>
+                        <p className="text-sm font-medium text-primary-new">
+                          {(product.price * product.quantity).toLocaleString()}{" "}
+                          <span className="underline">đ</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <button
-                  className="bg-grey-200 rounded p-1.5 hover:bg-gray-200 transition-all duration-300 group"
+                  className="bg-grey-200 rounded p-1.5 hover:bg-gray-200 transition-all duration-300 group w-fit h-fit"
                   onClick={() => removeProduct(product.id)}
                 >
                   <CloseIcon className="text-primary-new group-hover:text-red-400 transition-all duration-300" />
@@ -167,7 +179,8 @@ const ProductList: React.FC<ProductListProps> = ({
                   </div>
                 </div>
                 <div className="w-[110px] p-4 flex-shrink-0 font-normal text-sm text-primary-new">
-                  {(product.price * product.quantity).toLocaleString()}đ
+                  {(product.price * product.quantity).toLocaleString()}{" "}
+                  <span className="underline">đ</span>
                 </div>
                 <div className="w-[68px] p-4 flex-shrink-0">
                   <button

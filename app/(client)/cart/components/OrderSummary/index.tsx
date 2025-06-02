@@ -23,7 +23,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ products }) => {
   const finalPrice = totalPrice - discount;
 
   return (
-    <div className="sticky top-24 w-full xl:w-[25%] h-fit rounded-xl shadow-md bg-white
+    <div className="sticky top-24 w-full xl:w-[25%] h-fit xl:rounded-xl shadow-md bg-white
                 before:content-[''] xl:before:absolute before:bottom-[64px] before:-left-5 before:-translate-y-1/2 before:border-r before:border-grey-300
                     before:w-8 before:h-8 before:bg-[#F4F6F8] before:rounded-full before:z-50
                     after:content-[''] xl:after:absolute after:bottom-[64px] after:-right-5 after:-translate-y-1/2 after:border-l after:border-grey-300
