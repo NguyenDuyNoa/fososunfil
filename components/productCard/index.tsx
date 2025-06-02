@@ -1,6 +1,9 @@
 import { IMAGES } from "@/constants/Images";
 import Image from "next/image";
 import Link from "next/link";
+import { Tooltip } from "../ui/tooltip";
+import { ActionTooltip } from "../tooltip/ActionTooltip";
+import { TooltipHeader } from "../tooltip/TooltipHeader";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -26,14 +29,14 @@ const ProductCard = ({
   const convertToSlug = (text: string) => {
     return text
       ?.toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[đĐ]/g, 'd')
-      .replace(/[^a-z0-9\s]/g, '')
-      .replace(/\s+/g, '-');
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[đĐ]/g, "d")
+      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/\s+/g, "-");
   };
 
-  const productSlug = product?.slug || convertToSlug(product?.name) || '';
+  const productSlug = product?.slug || convertToSlug(product?.name) || "";
 
   return (
     <Link
@@ -115,11 +118,29 @@ const ProductCard = ({
             ) : null}
           </div>
         </div>
-        {!isBanner && (
-          <button className="w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-3 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
-            {buttonText}
+        {/* {!isBanner && ( */}
+        <div className="flex gap-2.5">
+          <button className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-3 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
+            Mua ngay
           </button>
-        )}
+          <TooltipHeader
+            label={<div className="text-black">Thêm vào giỏ</div>}
+            className="p-2 border border-brand-50"
+            children={
+              <button className="flex-shrink-0 bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-3 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
+                {/* {buttonText} */}
+                <Image
+                  src={IMAGES.cart}   
+                  alt="check"
+                  width={24}
+                  height={24}
+                  className="size-5 xl:size-6"
+                />
+              </button>
+            }
+          />
+        </div>
+        {/* )} */}
       </div>
     </Link>
   );

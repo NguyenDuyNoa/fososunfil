@@ -36,7 +36,7 @@ const DetailProduct = () => {
 
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
-    { label: "Sản phẩm", href: "/products" },
+    { label: "Sản phẩm", href: `/${detailItem?.item?.slug_category}` },
     {
       label: detailItem?.item?.name,
       href: `/products/${params?.id}`,

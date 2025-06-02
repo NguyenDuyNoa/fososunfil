@@ -388,7 +388,7 @@ const NewDesktopHeader = ({
             <div className="flex items-center gap-4">
               <CountryOptions />
 
-              <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
+              <Link href="/cart" className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
                 <IconShopping fill="#0154C5" className="size-9" />
                 <span className="text-sm font-medium whitespace-nowrap text-primary-new">
                   Giỏ hàng
@@ -398,7 +398,7 @@ const NewDesktopHeader = ({
                     12
                   </span>
                 </div>
-              </div>
+              </Link>
 
               <Account handleOpenDialog={handleOpenDialog} />
             </div>
