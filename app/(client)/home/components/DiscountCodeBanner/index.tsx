@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 const DiscountCodeBanner = ({ banner }: { banner: any }) => {
+
+  if (!banner?.image) return null;
   return (
     <div className="container">
       {/* <div className="py-1.5 xl:py-3 flex xl:gap-3 justify-center items-center bg-discountCodeBanner bg-cover bg-center bg-no-repeat w-full rounded-xl">
