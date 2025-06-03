@@ -112,7 +112,6 @@ const MegaMenuDropdown = ({
             classNameSubItem={classNameSubItem}
             // activeItem={activeItem}
             // items={items}
-            IsProducts={IsProducts}
             // setActiveItem={setActiveItem}
             // onClose={handleMouseLeave}
             // onHover={() => setIsOpen(true)}
