@@ -17,6 +17,7 @@ export const IMAGES = {
   // c
   car: "/home/Car.png",
   cart: "/product/cart.svg",
+  cartEmpty: "/cart/cartEmpty.webp",
   checkOne: "/product/check-one.svg",
   // d
   delivery1: "/product/delivery1.png",
@@ -75,6 +76,7 @@ export const IMAGES = {
   sale: "/product/sale.svg",
   star: "/home/star.png",
   support: "/product/support.png",
+  successfulOrder: "/cart/successfulOrder.webp",
   // t
   topBanner_1: "/home/TopBanner/Banner_1.png",
   topBanner_2: "/home/TopBanner/Banner_2.png",

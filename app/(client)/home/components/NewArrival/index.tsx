@@ -10,7 +10,7 @@ const breakpoints = {
   640: { slidesPerView: 3 },
   768: { slidesPerView: 3 },
   1024: { slidesPerView: 4 },
-  1280: { slidesPerView: 6 },
+  1280: { slidesPerView: 4.5 },
 };
 
 const NewArrival = ({ itemNew }: { itemNew: any }) => {
@@ -19,7 +19,7 @@ const NewArrival = ({ itemNew }: { itemNew: any }) => {
   return (
     <div className={`${!isVisibleMobile ? "container" : ""}`}>
       <div className="relative p-3 xl:p-12 bg-brand-600 w-full h-fit xl:rounded-xl overflow-hidden">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 relative">
           <div className="flex justify-between gap-2 z-10">
             <div className="flex items-center gap-2">
               <Image
@@ -52,6 +52,8 @@ const NewArrival = ({ itemNew }: { itemNew: any }) => {
             className="flash-sale-swiper z-10"
             breakpoints={breakpoints}
           />
+          <div className="absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#025FCA00] to-[#025FCA] z-10 pointer-events-none"></div>
+
         </div>
       </div>
     </div>

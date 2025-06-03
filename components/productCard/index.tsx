@@ -1,9 +1,7 @@
 import { IMAGES } from "@/constants/Images";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Tooltip } from "../ui/tooltip";
-import { ActionTooltip } from "../tooltip/ActionTooltip";
-import { TooltipHeader } from "../tooltip/TooltipHeader";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -14,6 +12,7 @@ interface ProductCardProps {
   buttonText?: string;
   product?: any;
   imageFull?: boolean;
+  isFlashSale?: boolean;
 }
 
 const ProductCard = ({
@@ -25,6 +24,7 @@ const ProductCard = ({
   buttonText = "Mua hàng",
   product,
   imageFull = false,
+  isFlashSale = false,
 }: ProductCardProps) => {
   const convertToSlug = (text: string) => {
     return text
@@ -41,15 +41,18 @@ const ProductCard = ({
   return (
     <Link
       href={`/${product?.slug_category}/${productSlug}-${product?.id}`}
-      className={`flex ${
-        isHorizontal ? "flex-row h-fit" : "flex-col h-full"
-      } w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer ${className}`}
+      className={cn(
+        "flex w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer",
+        isHorizontal ? "flex-row h-fit" : "flex-col h-full",
+        className
+      )}
     >
       <div
-        className={`p-1 rounded-sm ${isHorizontal ? "w-1/2" : ""} 
-      ${
-        imageFull ? "flex-1" : ""
-      }flex items-center justify-center overflow-hidden`}
+        className={cn(
+          "flex items-center justify-center overflow-hidden p-1 rounded-sm",
+          isHorizontal ? "w-1/2" : "",
+          imageFull ? "flex-1" : ""
+        )}
       >
         <div className="overflow-hidden w-full aspect-square rounded-sm">
           <Image
@@ -61,10 +64,13 @@ const ProductCard = ({
           />
         </div>
       </div>
+
       <div
-        className={`flex-1 flex flex-col justify-between gap-2 ${
-          isHorizontal ? "w-1/2 justify-center p-4 pt-2" : "xl:pt-2 xl:p-4 p-2"
-        }`}
+        className={cn(
+          "flex flex-col justify-between gap-2",
+          isHorizontal ? "w-1/2 justify-center p-4 pt-2" : "xl:pt-2 xl:p-4 p-2",
+          imageFull ? "flex-1" : ""
+        )}
       >
         <div className={`flex flex-col gap-3 xl:gap-4 `}>
           {!isBanner && (
@@ -84,9 +90,8 @@ const ProductCard = ({
             </div>
           )}
 
-          <h4 className=" text-primary-new group-hover:text-[#0375F3] text-sm xl:text-base font-semibold line-clamp-2">
-            {product?.name ||
-              "Lọc gió động cơ Air Filter – Chevrolet Colorado, Trailblazer (52046262)"}
+          <h4 className=" text-primary-new group-hover:text-[#0375F3] text-sm xl:text-base h-10 xl:h-12 font-semibold line-clamp-2">
+            {product?.name}
           </h4>
           <div className="flex flex-col gap-2">
             <div className="text-error-dark font-semibold text-sm xl:text-xl">
@@ -102,7 +107,8 @@ const ProductCard = ({
                 <span>Liên hệ</span>
               )}
             </div>
-            {Number(product?.percent) !== 0 ? (
+            {Number(product?.percent) &&
+            Number(product?.price_promotion) !== 0 ? (
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center text-[#919EAB] font-normal text-[10px] xl:text-sm ">
                   <p className="line-through">
@@ -116,31 +122,41 @@ const ProductCard = ({
                 </span>
               </div>
             ) : null}
+            {isFlashSale && (
+              <div className="py-1 flex flex-col gap-2">
+                <div className="relative">
+                  <div className="opacity-20 z-10 h-1.5 rounded-full bg-gradient-to-r from-error-main to-error-dark"></div>
+                  <div className="absolute top-0 left-0 w-[80%] z-20 ">
+                    <div className="relative h-1.5 rounded-full bg-gradient-to-r from-error-main to-error-dark">
+                      <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center size-[18px] bg-[#FFF1DC] rounded-full">
+                        <Image
+                          src={IMAGES.fire}
+                          alt="fire"
+                          width={16}
+                          height={16}
+                          className="size-2.5 xl:size-4"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-[10px]/[12px] font-normal text-grey-700">
+                  Đã bán 88 sản phẩm
+                </p>
+              </div>
+            )}
           </div>
         </div>
-        {/* {!isBanner && ( */}
-        <div className="flex gap-2.5">
-          <button className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-3 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
-            Mua ngay
-          </button>
-          <TooltipHeader
-            label={<div className="text-black">Thêm vào giỏ</div>}
-            className="p-2 border border-brand-50"
-            children={
-              <button className="flex-shrink-0 bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-3 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
-                {/* {buttonText} */}
-                <Image
-                  src={IMAGES.cart}   
-                  alt="check"
-                  width={24}
-                  height={24}
-                  className="size-5 xl:size-6"
-                />
-              </button>
-            }
-          />
-        </div>
-        {/* )} */}
+        {!isBanner && (
+          <div className="flex justify-between gap-3">
+            <button className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
+              Thêm vào giỏ
+            </button>
+            <button className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300">
+              Mua ngay
+            </button>
+          </div>
+        )}
       </div>
     </Link>
   );

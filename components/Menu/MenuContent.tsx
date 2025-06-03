@@ -6,16 +6,11 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type MegaMenuContentProps = {
   classNameContent?: string;
   classNameSubItem?: string;
-  classNameActiveItem?: string;
-  // activeItem: MenuItem | null;
-  // items: MenuItem[];
-  IsProducts?: boolean;
-  // setActiveItem: (item: MenuItem | null) => void;
   onClose: () => void;
   onHover: () => void;
   isBanner?: boolean;
@@ -26,19 +21,18 @@ type MegaMenuContentProps = {
 const MenuContent = ({
   classNameContent = "",
   classNameSubItem = "",
-  // activeItem,
-  IsProducts = false,
-  // setActiveItem,
   onClose,
   onHover,
   isBanner = false,
-  classNameActiveItem = "",
   isMiniHeader,
   autoActiveFirstItem = true,
 }: MegaMenuContentProps) => {
   const pathname = usePathname();
   const { data: listProducts, isLoading } = useGetListCategory({});
   const [activeItem, setActiveItem] = useState<MenuItem | null>(null);
+  const mainMenuRef = useRef<HTMLDivElement>(null);
+  const [menuHeight, setMenuHeight] = useState<number | null>(null);
+
   useEffect(() => {
     if (
       listProducts &&
@@ -49,6 +43,13 @@ const MenuContent = ({
       setActiveItem(listProducts[0]);
     }
   }, [listProducts, activeItem, autoActiveFirstItem]);
+
+  useEffect(() => {
+    if (mainMenuRef.current && activeItem) {
+      const height = mainMenuRef.current.offsetHeight;
+      setMenuHeight(height);
+    }
+  }, [activeItem, listProducts]);
 
   return (
     <>
@@ -63,11 +64,13 @@ const MenuContent = ({
         />
       )}
       <div
+        style={{ height: menuHeight ? `${menuHeight}px` : "auto" }}
         className={cn(
           " min-w-[260px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none  shadow-none bg-white",
           !isBanner &&
-            "absolute top-[calc(100%+16px)] left-0 max-h-[65vh] min-h-[60vh]",
-          isMiniHeader && "absolute top-[calc(100%+20px)] left-0 max-h-[80vh]",
+            "absolute top-[calc(100%+16px)] left-0 min-h-[60vh]",
+          isMiniHeader && "absolute top-[calc(100%+20px)] left-0",
+          activeItem && "h-fit",
           classNameContent
         )}
         onMouseEnter={onHover}
@@ -100,7 +103,7 @@ const MenuContent = ({
                 alt={item.name}
                 width={200}
                 height={200}
-                className="size-[40px] object-contain aspect-square"
+                className="size-[40px] object-cover rounded-sm aspect-square"
               />
               <span className="text-left">{item.name}</span>
               <ChevronRight className="ml-auto w-4 h-4" />
@@ -110,12 +113,13 @@ const MenuContent = ({
 
         {activeItem && (
           <div
+            ref={mainMenuRef}
             className={cn(
-              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit min-h-full bg-[#F4F6F8] p-6 rounded-tr-sm rounded-br-sm flex flex-col ",
+              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit h-fit bg-[#F4F6F8] p-6 rounded-br-xl flex flex-col ",
               isMiniHeader && "xxl:min-w-[800px] xl:min-w-[750px] min-w-[600px]"
             )}
           >
-            <div className="overflow-y-scroll">
+            <div className="">
               {activeItem.child && activeItem.child.length > 0 && (
                 <div className="grid grid-cols-3 xxl:gap-4 xl:gap-2 gap-1 xxl:mb-2 mb-1 border-b border-[#919EAB] border-opacity-25 pb-4">
                   {activeItem.child.map((sub: any, index: number) => (
@@ -131,7 +135,7 @@ const MenuContent = ({
                           alt={`image-${index}`}
                           width={200}
                           height={200}
-                          className="size-[70px] object-contain aspect-square"
+                          className="size-[70px] object-cover aspect-square rounded-lg"
                         />
                       </div>
                       <p className="font-semibold text-base group-hover:text-brand-650 transition-colors duration-200 text-left">
@@ -144,7 +148,7 @@ const MenuContent = ({
 
               {activeItem.items && (
                 <div className="mt-4 flex-1">
-                  <div className="flex flex-col h-full w-full">
+                  <div className="flex flex-col gap-1 h-full w-full">
                     <div className="flex flex-row justify-between items-center">
                       <h3 className="text-2xl font-bold mb-2 text-[#1C252E]">
                         Sản Phẩm Bán Chạy
@@ -158,14 +162,15 @@ const MenuContent = ({
                       </Link>
                     </div>
                     <div className="flex-1 grid grid-cols-4 gap-4">
-                      {activeItem.items.map((product: any, idx: number) => (
-                        <ProductCard
-                          key={product.id}
-                          // imageSrc={product.icon || productImages[idx % productImages.length]}
-                          product={product}
-                          // ...các props khác nếu cần
-                        />
-                      ))}
+                      {activeItem.items
+                        .slice(0, 4)
+                        .map((product: any, idx: number) => (
+                          <ProductCard
+                            isBanner={true}
+                            key={product.id}
+                            product={product}
+                          />
+                        ))}
                     </div>
                   </div>
                 </div>

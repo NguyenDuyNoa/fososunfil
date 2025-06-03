@@ -33,10 +33,10 @@ const DetailProduct = () => {
       saveViewedProduct(productId);
     }
   }, [productId]);
-
+console.log(detailItem?.item?.category.name)
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
-    { label: "Sản phẩm", href: `/${detailItem?.item?.slug_category}` },
+    { label: detailItem?.item?.category.name, href: `/${detailItem?.item?.slug_category}` },
     {
       label: detailItem?.item?.name,
       href: `/products/${params?.id}`,

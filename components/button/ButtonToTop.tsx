@@ -1,12 +1,13 @@
 'use client'
 
 import { scrollToTop } from '@/utils/scroll/ScrollFunction';
-import { useState, useEffect, useCallback } from 'react'
-
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { HiOutlineArrowNarrowUp } from "react-icons/hi";
 
 const ButtonToTop = () => {
-    const [isShow, sIsShow] = useState(false)
+    const pathname = usePathname();
+    const [isShow, sIsShow] = useState(false);
 
     const handleNavigation = useCallback(() => {
         var heightScreen = window.innerHeight;
@@ -23,6 +24,9 @@ const ButtonToTop = () => {
             window.removeEventListener("scroll", handleNavigation);
         };
     }, [handleNavigation]);
+
+    // Ẩn nếu đang ở trang /cart
+    if (pathname === '/cart') return null;
 
     return (
         <div className='fixed bottom-10 lg:right-10 right-5 md:space-y-4 space-y-4 z-[999]'>

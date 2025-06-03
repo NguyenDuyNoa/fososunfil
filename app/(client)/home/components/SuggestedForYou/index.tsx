@@ -8,7 +8,7 @@ const breakpoints = {
   640: { slidesPerView: 2 },
   768: { slidesPerView: 2 },
   1024: { slidesPerView: 3 },
-  1280: { slidesPerView: 4 },
+  1280: { slidesPerView: 3.5 },
 };
 
 const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemRelated: any }) => {
@@ -40,12 +40,12 @@ console.log(imageForYou?.image)
             <DoubleArrowRightIcon className="text-brand-500 size-3 xl:size-5 transition-transform duration-300 group-hover:translate-x-1" />
           </div> */}
         </div>
-        <div className="flex gap-2 xl:gap-6 w-full h-full xl:h-[460px]">
-          <div className="w-[40%] xl:w-[30%] flex-1">
+        <div className="flex gap-2 xl:gap-6 w-full h-full xl:h-[600px] relative">
+          <div className="w-[40%] xl:w-[23%] flex-1">
             <Image
               src={imageForYou?.image || IMAGES.banner2}
               alt=""
-              width={500}
+              width={380}
               height={600}
               className="w-full h-full object-cover rounded-xl"
             />
@@ -53,6 +53,7 @@ console.log(imageForYou?.image)
           <div className="w-[calc(60%-12px)] xl:w-[calc(70%-24px)] flex-1">
             <SwiperCarousel
               items={itemRelated as any}
+              imageFull={true}
               slidesPerView={isVisibleMobile ? 1.5 : 4}
               spaceBetween={isVisibleMobile ? 8 : 12}
               // autoplay={true}
@@ -61,6 +62,8 @@ console.log(imageForYou?.image)
               className="flash-sale-swiper z-10 h-full"
             />
           </div>
+          <div className="absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#F4F6F800] to-[#F4F6F8] z-10 pointer-events-none"></div>
+
         </div>
       </div>
     </div>

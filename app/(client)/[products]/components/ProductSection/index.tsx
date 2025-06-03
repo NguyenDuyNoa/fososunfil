@@ -189,7 +189,7 @@ const ProductSection = ({
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4 min-h-[500px]">
+      <div className="grid grid-cols-2 xl:grid-cols-3 xxl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4">
         {isLoading ? (
           Array.from({ length: 8 }).map((_, index) => (
             <ProductCardSkeleton key={index} />
@@ -199,7 +199,7 @@ const ProductSection = ({
             <ProductCard key={index} product={item} />
           ))
         ) : (
-          <div className="flex flex-col col-span-4 row-span-4 h-full justify-center items-center gap-y-2 gap-x-3 xl:gap-4">
+          <div className="flex flex-col col-span-4 row-span-4 h-full justify-center items-center gap-y-2 gap-x-3 xl:gap-4 min-h-[500px]">
             <Image
               src={IMAGES.productEmpty}
               alt="product empty"

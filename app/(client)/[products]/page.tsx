@@ -26,7 +26,7 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
   );
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
-    { label: "Sản phẩm", href: "#" },
+    { label: dataPageProduct?.dtCategory?.name, href: "#" },
   ];
 
   return (

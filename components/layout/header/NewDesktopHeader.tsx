@@ -27,18 +27,14 @@ import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
 import { useAuthStore } from "@/stores/useAuthStores";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMenuHeader } from "@/types/menu/IMenu";
-import {
-  Gift,
-  Lock,
-  SearchNormal,
-  UserSquare
-} from "iconsax-react";
+import { Gift, Lock, SearchNormal, UserSquare } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
 import CountryOptions from "./CountryOptions";
+import Cart from "./Cart";
 
 export interface DesktopHeaderProps {
   dataCountryOptions: any[];
@@ -244,20 +240,20 @@ const NewDesktopHeader = ({
   const navigationItems = [
     {
       href: "/about-us",
-      label: "Về Chúng Tôi"
+      label: "Về Chúng Tôi",
     },
     {
       href: "/categories",
-      label: "Catalogue"
+      label: "Catalogue",
     },
     {
       href: "/blogs",
-      label: "Bài Viết"
+      label: "Bài Viết",
     },
     {
       href: "/contact-us",
-      label: "Liên Hệ"
-    }
+      label: "Liên Hệ",
+    },
   ];
 
   return (
@@ -338,14 +334,8 @@ const NewDesktopHeader = ({
                 loading="eager"
               />
             </Link>
-
-            <div className="lg:hidden flex items-center gap-2 cursor-pointer relative bg-[#0154C5] p-2 rounded-full">
-              <IconShopping fill="white" className="size-5" />
-              <div className="absolute top-0 right-0 bg-error-main rounded-full size-4 flex items-center justify-center">
-                <span className="text-white text-[10px]/[16px] font-medium mt-0.5">
-                  12
-                </span>
-              </div>
+            <div className="xl:hidden ">
+              <Cart />
             </div>
           </div>
           <div className="py-2 w-full lg:hidden">
@@ -387,19 +377,7 @@ const NewDesktopHeader = ({
             {/* Right Navigation */}
             <div className="flex items-center gap-4">
               <CountryOptions />
-
-              <Link href="/cart" className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
-                <IconShopping fill="#0154C5" className="size-9" />
-                <span className="text-sm font-medium whitespace-nowrap text-primary-new">
-                  Giỏ hàng
-                </span>
-                <div className="absolute -top-3 left-[22px] bg-error-main rounded-full size-6 flex items-center justify-center">
-                  <span className="text-white text-xs font-medium mt-0.5">
-                    12
-                  </span>
-                </div>
-              </Link>
-
+              <Cart />
               <Account handleOpenDialog={handleOpenDialog} />
             </div>
           </div>
@@ -440,7 +418,9 @@ const NewDesktopHeader = ({
                     key={index}
                     href={item.href}
                     className={`${
-                      pathname === item.href ? "text-[#00A5BD]" : "text-[#1C252E] hover:text-brand-400"
+                      pathname === item.href
+                        ? "text-[#00A5BD]"
+                        : "text-[#1C252E] hover:text-brand-400"
                     } text-base font-medium text-nowrap`}
                   >
                     {item.label}

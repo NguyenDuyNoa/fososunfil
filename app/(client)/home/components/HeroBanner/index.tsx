@@ -38,12 +38,10 @@ const HeroBanner = ({
       <div className="xl:bg-white flex lg:bg-white rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
         <MenuContent
           autoActiveFirstItem={false}
-          IsProducts={IsProducts}
           onClose={handleMouseLeave}
           onHover={() => setIsOpen(true)}
-          classNameContent="hidden xl:block relative bg-white rounded-bl-xl xl:min-h-[550px]"
+          classNameContent="hidden xl:block relative bg-white rounded-bl-xl"
           isBanner={true}
-          classNameActiveItem="rounded-tr-none"
         />
 
         <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden rounded-br-xl">
@@ -105,7 +103,7 @@ const HeroBanner = ({
                   alt=""
                   width={1000}
                   height={1000}
-                  className="object-cover rounded-lg w-full h-full"
+                  className="object-cover rounded-br-lg w-full h-full"
                 />
               </SwiperSlide>
             ))}

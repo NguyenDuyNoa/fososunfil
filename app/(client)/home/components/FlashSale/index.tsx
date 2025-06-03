@@ -11,7 +11,7 @@ const breakpoints = {
   640: { slidesPerView: 3 },
   768: { slidesPerView: 3 },
   1024: { slidesPerView: 4 },
-  1280: { slidesPerView: 6 },
+  1280: { slidesPerView: 4.5 },
 };
 
 const FlashSale = ({ itemSale }: { itemSale: any }) => {
@@ -57,13 +57,15 @@ const FlashSale = ({ itemSale }: { itemSale: any }) => {
           </div>
           <SwiperCarousel
             items={itemSale as any}
+            isFlashSale={true}
             slidesPerView={isVisibleMobile ? 2.5 : 6}
             spaceBetween={isVisibleMobile ? 8 : 16}
-            autoplay={true}
+            // autoplay={true}
             breakpoints={breakpoints}
-            autoplayDelay={2000}
+            // autoplayDelay={2000}
             className="flash-sale-swiper z-10"
           />
+          <div className="absolute right-0 top-0 w-[500px] h-full bg-gradient-to-r from-[#FCF5ED00] to-[#FCF5ED] z-[11] pointer-events-none"></div>
         </div>
         <div className="bg-[#FFDDB5] absolute -top-1/2 left-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>
         <div className="bg-[#FFDDB5] absolute -bottom-1/2 right-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>

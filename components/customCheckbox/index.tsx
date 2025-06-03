@@ -5,6 +5,7 @@ interface CustomCheckboxProps {
   label: string;
   count?: number;
   checked?: boolean;
+  stroke?: string;
   onChange?: (checked: boolean) => void;
 }
 
@@ -13,6 +14,7 @@ export const CustomCheckbox = ({
   label,
   count,
   checked: initialChecked = false,
+  stroke = "#CECCCA",
   onChange,
 }: CustomCheckboxProps) => {
   const [checked, setChecked] = useState(initialChecked);
@@ -69,7 +71,7 @@ export const CustomCheckbox = ({
           >
             <path
               d="M11 21.0002C6.28595 21.0002 3.92893 21.0002 2.46447 19.5358C1 18.0713 1 15.7143 1 11.0002C1 6.2862 1 3.92918 2.46447 2.46471C3.92893 1.00024 6.28595 1.00024 11 1.00024C15.714 1.00024 18.0711 1.00024 19.5355 2.46471C21 3.92918 21 6.2862 21 11.0002C21 15.7143 21 18.0713 19.5355 19.5358C18.0711 21.0002 15.714 21.0002 11 21.0002Z"
-              stroke="#CECCCA"
+              stroke={stroke}
               fill="white"
               strokeWidth="1.5"
             />
@@ -78,7 +80,7 @@ export const CustomCheckbox = ({
       </div>
       <label
         htmlFor={id}
-        className="cursor-pointer text-sm font-medium text-primary-new"
+        className="cursor-pointer text-sm font-medium text-primary-new pt-1"
       >
         {label}{" "}
         <span className="font-normal text-secondary-new">

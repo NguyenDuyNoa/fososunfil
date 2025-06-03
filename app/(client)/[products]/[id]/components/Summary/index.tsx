@@ -60,8 +60,7 @@ const ProductSummary = ({ data }: { data: any }) => {
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.select();
   };
-  console.log(typeof data);
-  console.log(data);
+
   return (
     <>
       <style>{hideNumberInputSpinners}</style>
@@ -121,21 +120,28 @@ const ProductSummary = ({ data }: { data: any }) => {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-4">
-              <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
-                {data?.price_promotion?.toLocaleString()}{" "}
-                <span className="underline">đ</span>
-              </h3>
-              <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
-                <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
-                  {Number(data?.price).toLocaleString()}{" "}
+            {data?.price_promotion && Number(data?.price_promotion) !== 0 ? (
+              <div className="flex items-center gap-4">
+                <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
+                  {data?.price_promotion?.toLocaleString()}{" "}
                   <span className="underline">đ</span>
                 </h3>
-                <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
-                  -{data?.percent}%
-                </span>
+                <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
+                  <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
+                    {Number(data?.price).toLocaleString()}{" "}
+                    <span className="underline">đ</span>
+                  </h3>
+                  <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
+                    -{data?.percent}%
+                  </span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
+                Liên hệ
+              </h3>
+            )}
+
             {/* <p className="text-base font-medium italic text-secondary-new">
             Giá bán đã bao gồm 8% VAT
           </p> */}

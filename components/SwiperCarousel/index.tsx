@@ -26,6 +26,8 @@ interface SwiperCarouselProps {
   className?: string;
   navigationButtonBgColor?: string;
   navigationButtonIconColor?: string;
+  isFlashSale?: boolean;
+  imageFull?: boolean;
 }
 
 const SwiperCarousel = ({
@@ -40,6 +42,8 @@ const SwiperCarousel = ({
   className = "",
   navigationButtonBgColor = "bg-[#3592FD33]",
   navigationButtonIconColor = "text-brand-500",
+  isFlashSale = false,
+  imageFull = false,
 }: SwiperCarouselProps) => {
   const swiperRef = useRef<any>(null);
 
@@ -80,7 +84,7 @@ const SwiperCarousel = ({
         {items && items.length > 0
           ? items.map((item: ProductItem, index: number) => (
               <SwiperSlide className="!h-auto" key={item.id || index}>
-                <ProductCard product={item} />
+                <ProductCard product={item} isFlashSale={isFlashSale} imageFull={imageFull}/>
               </SwiperSlide>
             ))
           : Array.from({ length: 6 }).map((_, index) => (

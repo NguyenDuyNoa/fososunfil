@@ -3,11 +3,7 @@ import SwiperCarousel from "@/components/SwiperCarousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IMAGES } from "@/constants/Images";
 import { useResizeStore } from "@/stores/useResizeStore";
-import {
-  ProductItem,
-  Category,
-  ProductResponse,
-} from "@/types/products/IProducts";
+import { Category, ProductItem } from "@/types/products/IProducts";
 import Image from "next/image";
 
 const productImages = [
@@ -26,7 +22,8 @@ const breakpoints = {
   640: { slidesPerView: 3 },
   768: { slidesPerView: 3 },
   1024: { slidesPerView: 4 },
-  1280: { slidesPerView: 5 },
+  1280: { slidesPerView: 4 },
+  1440: { slidesPerView: 5 },
 };
 
 const productCards = Array(8)
@@ -103,7 +100,7 @@ const BannerProduct = ({
         </>
       )}
 
-      {/* {dataProduct?.length > 0 && ( */}
+      {dataProduct?.length > 0 && (
         <div className=" py-4 px-3 xl:p-12 xl:pb-10">
           <SwiperCarousel
             items={dataProduct}
@@ -115,7 +112,7 @@ const BannerProduct = ({
             breakpoints={breakpoints}
           />
         </div>
-      {/* )} */}
+      )}
     </div>
   );
 };
