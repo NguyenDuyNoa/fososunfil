@@ -3,9 +3,7 @@ import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconSearchHeader from "@/components/icon/IconSearchHeader";
 import IconShopping from "@/components/icon/IconShopping";
 import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
-import {
-  DesktopHeaderProps,
-} from "@/components/layout/header/NewDesktopHeader";
+import { DesktopHeaderProps } from "@/components/layout/header/NewDesktopHeader";
 import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { SelectContent } from "@/components/ui/selectCustom";
@@ -16,6 +14,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
+import Cart from "./Cart";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -68,13 +67,16 @@ const NewDesktopHeaderMini = ({
               />
             </Link>
 
-            <div className="lg:hidden flex items-center gap-2 cursor-pointer relative bg-[#0154C5] p-2 rounded-full">
+            {/* <div className="lg:hidden flex items-center gap-2 cursor-pointer relative bg-[#0154C5] p-2 rounded-full">
               <IconShopping fill="white" className="size-5" />
               <div className="absolute top-0 right-0 bg-error-main rounded-full size-4 flex items-center justify-center">
                 <span className="text-white text-[10px]/[16px] font-medium mt-0.5">
                   12
                 </span>
               </div>
+            </div> */}
+            <div className="xl:hidden">
+              <Cart />
             </div>
           </div>
           <div className="hidden flex-1 xl:flex flex-row justify-between items-center w-full gap-x-12">
@@ -155,7 +157,7 @@ const NewDesktopHeaderMini = ({
                 </Select>
               </div>
 
-              <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
+              {/* <div className="flex items-center gap-2 cursor-pointer relative hover:bg-brand-50 rounded-full py-1 px-2">
                 <IconShopping fill="#0154C5" className="size-9" />
                 <span className="text-sm font-medium whitespace-nowrap text-primary-new">
                   Giỏ hàng
@@ -165,7 +167,9 @@ const NewDesktopHeaderMini = ({
                     12
                   </span>
                 </div>
-              </div>
+              </div> */}
+              <Cart />
+
 
               <Account handleOpenDialog={handleOpenDialog} />
             </div>

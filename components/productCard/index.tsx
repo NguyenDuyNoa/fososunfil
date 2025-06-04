@@ -1,7 +1,9 @@
 import { IMAGES } from "@/constants/Images";
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/stores/useCartStore";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -13,6 +15,7 @@ interface ProductCardProps {
   product?: any;
   imageFull?: boolean;
   isFlashSale?: boolean;
+  isHome?: boolean;
 }
 
 const ProductCard = ({
@@ -25,7 +28,11 @@ const ProductCard = ({
   product,
   imageFull = false,
   isFlashSale = false,
+  isHome = false,
 }: ProductCardProps) => {
+  const { addToCart, openCart, closeCart } = useCartStore();
+  const router = useRouter();
+
   const convertToSlug = (text: string) => {
     return text
       ?.toLowerCase()
@@ -38,16 +45,34 @@ const ProductCard = ({
 
   const productSlug = product?.slug || convertToSlug(product?.name) || "";
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (product) {
+      addToCart(product);
+    }
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (product) {
+      addToCart(product);
+      closeCart();
+      router.push("/cart");
+    }
+  };
+
   return (
-    <Link
-      href={`/${product?.slug_category}/${productSlug}-${product?.id}`}
+    <div
       className={cn(
-        "flex w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)] cursor-pointer",
+        "flex w-full h-fit xl:mb-1 bg-white rounded-lg border border-[#919EAB33] shadow-[0px_12px_24px_-4px_rgba(145,158,171,0.12),0px_0px_2px_0px_rgba(145,158,171,0.20)] group overflow-hidden hover:shadow-[0px_16px_32px_-4px_rgba(145,158,171,0.2)]",
         isHorizontal ? "flex-row h-fit" : "flex-col h-full",
         className
       )}
     >
-      <div
+      <Link
+        href={`/${product?.slug_category}/${productSlug}-${product?.id}`}
         className={cn(
           "flex items-center justify-center overflow-hidden p-1 rounded-sm",
           isHorizontal ? "w-1/2" : "",
@@ -63,16 +88,19 @@ const ProductCard = ({
             className="w-full aspect-square object-cover rounded-sm transition-transform duration-300 group-hover:-translate-y-2"
           />
         </div>
-      </div>
+      </Link>
 
       <div
         className={cn(
           "flex flex-col justify-between gap-2",
           isHorizontal ? "w-1/2 justify-center p-4 pt-2" : "xl:pt-2 xl:p-4 p-2",
-          imageFull ? "flex-1" : ""
+          imageFull ? "" : "flex-1",
+          isHome && "xl:p-2"
         )}
       >
-        <div className={`flex flex-col gap-3 xl:gap-4 `}>
+        <div
+          className={cn(`flex flex-col gap-3 xl:gap-4`, isHome && "xl:gap-2")}
+        >
           {!isBanner && (
             <div className="w-fit flex gap-[3px] xl:gap-1.5 items-center py-[2px] px-1 xl:px-2.5 bg-gradient-to-r from-warning-light to-warning-main rounded-full">
               <div className="flex items-center justify-center size-4 bg-[#FFF1DC] rounded-full">
@@ -90,11 +118,22 @@ const ProductCard = ({
             </div>
           )}
 
-          <h4 className=" text-primary-new group-hover:text-[#0375F3] text-sm xl:text-base h-10 xl:h-12 font-semibold line-clamp-2">
+          <Link
+            href={`/${product?.slug_category}/${productSlug}-${product?.id}`}
+            className={cn(
+              `text-primary-new group-hover:text-[#0375F3] text-sm xl:text-base h-10 xl:h-12 font-semibold line-clamp-2`,
+              isHome && "xl:text-sm xl:h-10"
+            )}
+          >
             {product?.name}
-          </h4>
+          </Link>
           <div className="flex flex-col gap-2">
-            <div className="text-error-dark font-semibold text-sm xl:text-xl">
+            <div
+              className={cn(
+                `text-error-dark font-semibold text-sm xl:text-xl`,
+                isHome && "xl:text-sm"
+              )}
+            >
               {Number(product?.price_promotion) > 0 ? (
                 <>
                   <span>
@@ -149,16 +188,22 @@ const ProductCard = ({
         </div>
         {!isBanner && (
           <div className="flex justify-between gap-3">
-            <button className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300">
+            <button
+              className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
+              onClick={handleAddToCart}
+            >
               Thêm vào giỏ
             </button>
-            <button className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300">
+            <button
+              className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
+              onClick={handleBuyNow}
+            >
               Mua ngay
             </button>
           </div>
         )}
       </div>
-    </Link>
+    </div>
   );
 };
 

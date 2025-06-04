@@ -4,27 +4,27 @@ import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { useGetDetailItem } from "@/managers/api-management/products/useGetDetailItem";
 import { useResizeStore } from "@/stores/useResizeStore";
+import { saveViewedProduct } from "@/utils/localStorage";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 import ProductMainInfo from "./components/MainInfo";
 import ProductTabs from "./components/ProductTabs";
 import Promo from "./components/Promo";
 import RelatedProducts from "./components/Related";
 import Review from "./components/Review";
-import { useEffect } from "react";
-import { saveViewedProduct } from "@/utils/localStorage";
 
 const DetailProduct = () => {
   const { isVisibleMobile } = useResizeStore();
   const params = useParams();
-  
+
   // Trích xuất ID từ slug-id
   const extractProductId = (slugId: string) => {
-    const parts = slugId.split('-');
+    const parts = slugId.split("-");
     return parts[parts.length - 1];
   };
-  
-  const productId = params?.id ? extractProductId(params.id as string) : '';
-  
+
+  const productId = params?.id ? extractProductId(params.id as string) : "";
+
   const { data: detailItem } = useGetDetailItem(productId);
 
   // Lưu ID sản phẩm vào localStorage khi xem chi tiết
@@ -33,10 +33,13 @@ const DetailProduct = () => {
       saveViewedProduct(productId);
     }
   }, [productId]);
-console.log(detailItem?.item?.category.name)
+
   const breadcrumbs = [
     { label: "Trang chủ", href: "/" },
-    { label: detailItem?.item?.category.name, href: `/${detailItem?.item?.slug_category}` },
+    {
+      label: detailItem?.item?.category.name,
+      href: `/${detailItem?.item?.slug_category}`,
+    },
     {
       label: detailItem?.item?.name,
       href: `/products/${params?.id}`,

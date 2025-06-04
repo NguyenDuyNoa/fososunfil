@@ -1,9 +1,6 @@
 "use client";
-import React from "react";
 import Image from "next/image";
-import CloseIcon from "@/components/icons/CloseIcon";
-import MinusIcon from "@/components/icons/MinusIcon";
-import PlusIcon from "@/components/icons/PlusIcon";
+import React from "react";
 
 interface Product {
   id: number;

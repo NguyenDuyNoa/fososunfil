@@ -2,8 +2,10 @@ import MinusIcon from "@/components/icons/MinusIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IMAGES } from "@/constants/Images";
+import { useCartStore } from "@/stores/useCartStore";
 import { Rating } from "@smastrom/react-rating";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const StarDrawing = (
@@ -33,6 +35,8 @@ const hideNumberInputSpinners = `
 
 const ProductSummary = ({ data }: { data: any }) => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart, closeCart } = useCartStore();
+  const router = useRouter();
 
   const handleIncrement = () => {
     if (quantity < 1234) {
@@ -59,6 +63,28 @@ const ProductSummary = ({ data }: { data: any }) => {
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.select();
+  };
+
+  const handleAddToCart = () => {
+    if (data) {
+      const productToAdd = {
+        ...data,
+        quantity: quantity
+      };
+      addToCart(productToAdd);
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (data) {
+      const productToAdd = {
+        ...data,
+        quantity: quantity
+      };
+      addToCart(productToAdd);
+      closeCart();
+      router.push("/cart");
+    }
   };
 
   return (
@@ -123,18 +149,20 @@ const ProductSummary = ({ data }: { data: any }) => {
             {data?.price_promotion && Number(data?.price_promotion) !== 0 ? (
               <div className="flex items-center gap-4">
                 <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
-                  {data?.price_promotion?.toLocaleString()}{" "}
+                  {Number(data?.price_promotion)?.toLocaleString()}{" "}
                   <span className="underline">đ</span>
                 </h3>
-                <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
-                  <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
-                    {Number(data?.price).toLocaleString()}{" "}
-                    <span className="underline">đ</span>
-                  </h3>
-                  <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
-                    -{data?.percent}%
-                  </span>
-                </div>
+                {data?.percent !== 0 && (
+                  <div className="flex items-center gap-3 xl:pl-3 xl:border-l xl:border-[#919EAB33]">
+                    <h3 className="text-sm xl:text-2xl/[24px] font-normal line-through text-[#919EAB]">
+                      {Number(data?.price).toLocaleString()}{" "}
+                      <span className="underline">đ</span>
+                    </h3>
+                    <span className="text-xs xl:text-sm text-white font-bold py-1 px-2 xl:px-3 rounded-full bg-error-main">
+                      -{data?.percent}%
+                    </span>
+                  </div>
+                )}
               </div>
             ) : (
               <h3 className="text-2xl xl:text-[32px]/[38px] font-bold text-error-dark">
@@ -245,11 +273,17 @@ const ProductSummary = ({ data }: { data: any }) => {
               </p>
             </div>
             <div className="fixed bottom-0 left-0 right-0 bg-white xl:static px-3 py-2 xl:px-0 xl:py-0 z-20 flex flex-col gap-2.5 xl:gap-4 w-full xl:w-[491px]">
-              <button className="bg-brand-500 rounded-lg py-3 text-white text-sm xl:text-base font-bold">
+              <button 
+                className="bg-brand-500 rounded-lg py-3 text-white text-sm xl:text-base font-bold hover:bg-brand-400 transition-colors duration-300"
+                onClick={handleBuyNow}
+              >
                 Mua ngay
               </button>
               <div className="flex items-center gap-3 xl:gap-4">
-                <button className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">
+                <button 
+                  className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium hover:bg-brand-50 transition-colors duration-300"
+                  onClick={handleAddToCart}
+                >
                   <Image
                     src={IMAGES.cart}
                     alt="check"
@@ -259,7 +293,7 @@ const ProductSummary = ({ data }: { data: any }) => {
                   />
                   Thêm vào giỏ hàng
                 </button>
-                <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium">
+                <button className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium hover:bg-brand-50 transition-colors duration-300">
                   Xem OEM
                 </button>
               </div>

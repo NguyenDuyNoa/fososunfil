@@ -24,7 +24,9 @@ const ViewedProducts = () => {
     const ids = getViewedProducts();
     setViewedProductIds(ids);
   }, []);
+  
   if (productCards?.length === 0) return null;
+
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-5">
@@ -43,7 +45,7 @@ const ViewedProducts = () => {
 
         <SwiperCarousel
           items={productCards as any}
-          slidesPerView={isVisibleMobile ? 2.5 : 6}
+          // slidesPerView={isVisibleMobile ? 2.5 : 6}
           spaceBetween={isVisibleMobile ? 8 : 16}
           breakpoints={breakpoints}
           className="viewed-products-swiper"

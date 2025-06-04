@@ -6,7 +6,7 @@ import MinusIcon from "@/components/icons/MinusIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
 
 interface Product {
-  id: number;
+  id: number | string;
   name: string;
   price: number;
   quantity: number;
@@ -15,8 +15,8 @@ interface Product {
 
 interface ProductListProps {
   products: Product[];
-  updateQuantity: (id: number, newQuantity: number) => void;
-  removeProduct: (id: number) => void;
+  updateQuantity: (id: number | string, newQuantity: number) => void;
+  removeProduct: (id: number | string) => void;
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -24,14 +24,14 @@ const ProductList: React.FC<ProductListProps> = ({
   updateQuantity,
   removeProduct,
 }) => {
-  const increaseQuantity = (id: number) => {
+  const increaseQuantity = (id: number | string) => {
     const product = products.find((p) => p.id === id);
     if (product) {
       updateQuantity(id, product.quantity + 1);
     }
   };
 
-  const decreaseQuantity = (id: number) => {
+  const decreaseQuantity = (id: number | string) => {
     const product = products.find((p) => p.id === id);
     if (product && product.quantity > 1) {
       updateQuantity(id, product.quantity - 1);
@@ -39,7 +39,7 @@ const ProductList: React.FC<ProductListProps> = ({
   };
 
   const handleQuantityChange = (
-    id: number,
+    id: number | string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = parseInt(e.target.value);
@@ -139,7 +139,7 @@ const ProductList: React.FC<ProductListProps> = ({
                 </button>
               </div>
 
-              <div key={product.id} className="hidden xl:flex items-center">
+              <div key={product.id} className="hidden xl:flex items-center hover:bg-grey-200 transition-all duration-300">
                 <div className="flex items-center w-full p-4 gap-4">
                   <Image
                     src={product.image}
@@ -152,7 +152,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     {product.name}
                   </p>
                 </div>
-                <div className="w-[100px] p-4 flex-shrink-0 font-normal text-sm text-primary-new">
+                <div className="w-[100px] p-4 flex-shrink-0 font-normal text-sm text-primary-new whitespace-nowrap">
                   {product.price.toLocaleString()} đ
                 </div>
                 <div className="w-[130px] p-4 flex-shrink-0">
@@ -165,7 +165,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     </button>
                     <input
                       type="text"
-                      className="w-10 text-center text-sm font-semibold text-primary-new focus:outline-none"
+                      className="w-10 text-center text-sm font-semibold text-primary-new focus:outline-none bg-transparent"
                       value={product.quantity}
                       onChange={(e) => handleQuantityChange(product.id, e)}
                       onFocus={handleFocus}
@@ -178,7 +178,7 @@ const ProductList: React.FC<ProductListProps> = ({
                     </button>
                   </div>
                 </div>
-                <div className="w-[110px] p-4 flex-shrink-0 font-normal text-sm text-primary-new">
+                <div className="w-[110px] p-4 flex-shrink-0 font-normal text-sm text-primary-new whitespace-nowrap">
                   {(product.price * product.quantity).toLocaleString()}{" "}
                   <span className="underline">đ</span>
                 </div>

@@ -68,7 +68,7 @@ const MenuContent = ({
         className={cn(
           " min-w-[260px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none  shadow-none bg-white",
           !isBanner &&
-            "absolute top-[calc(100%+16px)] left-0 min-h-[60vh]",
+            "absolute top-[calc(100%+16px)] left-0",
           isMiniHeader && "absolute top-[calc(100%+20px)] left-0",
           activeItem && "h-fit",
           classNameContent
@@ -161,11 +161,17 @@ const MenuContent = ({
                         Xem tất cả
                       </Link>
                     </div>
-                    <div className="flex-1 grid grid-cols-4 gap-4">
+                    <div
+                      className={cn(
+                        "flex-1 grid grid-cols-6 2xl:grid-cols-5 gap-2",
+                        isMiniHeader && "grid-cols-5"
+                      )}
+                    >
                       {activeItem.items
-                        .slice(0, 4)
+                        .slice(0, isMiniHeader ? 5 : 6)
                         .map((product: any, idx: number) => (
                           <ProductCard
+                            isHome={true}
                             isBanner={true}
                             key={product.id}
                             product={product}

@@ -4,10 +4,11 @@ import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { IMAGES } from "@/constants/Images";
 import { useResizeStore } from "@/stores/useResizeStore";
+import { useCartStore } from "@/stores/useCartStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderSummary from "./components/OrderSummary";
 import ProductList from "./components/ProductList";
 
@@ -23,7 +24,7 @@ const items = [
 ];
 
 interface Product {
-  id: number;
+  id: number | string;
   name: string;
   price: number;
   quantity: number;
@@ -32,58 +33,30 @@ interface Product {
 
 const CartPage = () => {
   const { isVisibleMobile, isVisibleTablet } = useResizeStore();
+  const { items: cartItems, totalPrice: cartTotalPrice, removeFromCart, updateQuantity } = useCartStore();
   const router = useRouter();
-  // Dữ liệu sản phẩm mẫu
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      name: "Lọc gió động cơ Air Filter - Chevrolet Colorado, Trailblazer (52046262)",
-      price: 299000,
-      quantity: 2,
-      image: IMAGES.product,
-    },
-    {
-      id: 2,
-      name: "Lọc nhớt Oil Filter - Chevrolet Cruze, Orlando, Captiva (93745067)",
-      price: 159000,
-      quantity: 1,
-      image: IMAGES.product1,
-    },
-    {
-      id: 3,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product2,
-    },
-    {
-      id: 4,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product4,
-    },
-    {
-      id: 5,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product5,
-    },
-  ]);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  // Chuyển đổi dữ liệu từ cartItems sang định dạng products
+  useEffect(() => {
+    const mappedProducts = cartItems.map(item => ({
+      id: item.id,
+      name: item.name,
+      price: item.price_promotion > 0 ? item.price_promotion : item.price,
+      quantity: item.quantity,
+      image: item.images || IMAGES.product,
+    }));
+    setProducts(mappedProducts);
+  }, [cartItems]);
 
   // Hàm cập nhật số lượng sản phẩm
-  const updateProductQuantity = (id: number, newQuantity: number) => {
-    setProducts(
-      products.map((product) =>
-        product.id === id ? { ...product, quantity: newQuantity } : product
-      )
-    );
+  const updateProductQuantity = (id: number | string, newQuantity: number) => {
+    updateQuantity(id, newQuantity);
   };
 
   // Hàm xóa sản phẩm
-  const removeProduct = (id: number) => {
-    setProducts(products.filter((product) => product.id !== id));
+  const removeProduct = (id: number | string) => {
+    removeFromCart(id);
   };
 
   return (

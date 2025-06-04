@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 interface Product {
-  id: number;
+  id: number | string;
   name: string;
   price: number;
   quantity: number;
