@@ -1,4 +1,4 @@
-import ProductCard from "@/components/productCard";
+import ProductCardWithAuthCheck from "@/components/productCard/withAuthCheck";
 import React from "react";
 import { IMAGES } from "@/constants/Images";
 import SwiperCarousel from "@/components/SwiperCarousel";
@@ -45,7 +45,7 @@ const Related = ({ detailItem }: { detailItem: any }) => {
       <div className="block xl:hidden">
         <SwiperCarousel
           items={detailItem?.map((product: any, index: number) => (
-            <ProductCard
+            <ProductCardWithAuthCheck
               key={index}
               // isHorizontal
               imageSrc={product.imageSrc}
@@ -62,7 +62,7 @@ const Related = ({ detailItem }: { detailItem: any }) => {
       {/* Desktop View */}
       <div className="hidden xl:grid grid-cols-1 gap-4">
         {detailItem?.map((product: any, index: number) => (
-          <ProductCard
+          <ProductCardWithAuthCheck
             key={index}
             isHorizontal
             product={product}

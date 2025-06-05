@@ -7,8 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGetInfoByToken } from "@/managers/api-management/auth/info/useGetInfoByToken";
 import { useStateLayoutMain } from "@/managers/state-management/layout/useStateLayoutMain";
 import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
 import { useAuthStore } from "@/stores/useAuthStores";
@@ -21,7 +19,7 @@ import {
   UserSquare,
 } from "iconsax-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const dataTabProfile = [
@@ -57,13 +55,11 @@ const Account = ({
   handleOpenDialog: (value: string, type_device: string) => void;
 }) => {
   const pathname = usePathname();
-
-  const { isLoading } = useGetInfoByToken();
   const { informationUser } = useAuthStore();
-
   const { isStateLayoutMain, queryKeyIsStateLayoutMain } = useStateLayoutMain();
   const { setOpenAlertDialog } = useAlertDialogStore();
-
+  const router = useRouter();
+  
   const handleDropdownChange = (value: boolean) => {
     queryKeyIsStateLayoutMain({
       header: {
@@ -74,11 +70,7 @@ const Account = ({
   };
   return (
     <>
-      {isLoading ? (
-        <div className="flex items-center gap-2">
-          <Skeleton className="3xl:size-10 3xl:min-w-10 3xl:min-h-10 size-8 min-w-8 min-h-8 rounded-full" />
-        </div>
-      ) : informationUser ? (
+      {informationUser ? (
         <DropdownMenu
           open={isStateLayoutMain?.header?.openDropdownProfile}
           onOpenChange={(value) => handleDropdownChange(value)}
@@ -181,6 +173,7 @@ const Account = ({
               onClick={() => {
                 setOpenAlertDialog(true, "logout");
                 handleDropdownChange(false);
+                router.push("/");
               }}
             >
               <Logout className="size-5 group-hover:text-red-500 hover:text-red-500 custom-transition" />

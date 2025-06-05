@@ -1,14 +1,11 @@
-import { toastCore } from "@/lib/toast";
+import { KEY_COOKIES } from "@/constants/Cookie";
 import apiAuth from "@/services/auth/auth.services";
 import { useAuthStore } from "@/stores/useAuthStores";
 import useCookieStore from "@/stores/useCookieStore";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { KEY_COOKIES } from "@/constants/Cookie";
 import { useToastStore } from "@/stores/useToastStore";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const useGetInfoByToken = () => {
-    const router = useRouter();
 
     const { setToast } = useToastStore();
 

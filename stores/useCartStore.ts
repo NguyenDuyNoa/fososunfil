@@ -1,117 +1,125 @@
-import { CartItem, ICartStore } from "@/types/cart/ICart";
+import apiOrder from "@/services/order/order.service";
+import { ICartStore } from "@/types/cart/ICart";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { useToastStore } from "./useToastStore";
 
-export const useCartStore = create<ICartStore>()(
-  persist(
-    (set, get) => ({
-      items: [],
-      totalItems: 0,
-      totalPrice: 0,
-      isCartOpen: false,
+const { setToast } = useToastStore.getState();
 
-      addToCart: (product) => set((state) => {
-        const existingItem = state.items.find(item => item.id === product.id);
-        
-        if (existingItem) {
-          // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng
-          const updatedItems = state.items.map(item => 
-            item.id === product.id 
-              ? { ...item, quantity: item.quantity + 1 } 
-              : item
-          );
-          
-          const newTotalItems = state.totalItems + 1;
-          const newTotalPrice = state.totalPrice + Number(product.price_promotion || product.price);
-          
-          return { 
-            items: updatedItems, 
-            totalItems: newTotalItems,
-            totalPrice: newTotalPrice,
-            isCartOpen: true
-          };
-        } else {
-          // Xử lý images: nếu là mảng thì lấy phần tử đầu tiên
-          const productImage = Array.isArray(product.images) 
-            ? product.images[0] 
-            : product.images;
-            
-          // Nếu là sản phẩm mới, thêm vào giỏ hàng
-          const newItem: CartItem = {
-            id: product.id,
-            name: product.name,
-            price: Number(product.price || 0),
-            price_promotion: Number(product.price_promotion || 0),
-            images: productImage,
-            quantity: 1,
-            slug_category: product.slug_category,
-            slug: product.slug
-          };
-          
-          const newTotalItems = state.totalItems + 1;
-          const newTotalPrice = state.totalPrice + Number(product.price_promotion || product.price);
-          
-          return { 
-            items: [...state.items, newItem], 
-            totalItems: newTotalItems,
-            totalPrice: newTotalPrice,
-            isCartOpen: true
-          };
-        }
-      }),
-      
-      removeFromCart: (productId) => set((state) => {
-        const itemToRemove = state.items.find(item => item.id === productId);
-        if (!itemToRemove) return state;
-        
-        const newItems = state.items.filter(item => item.id !== productId);
-        const newTotalItems = state.totalItems - itemToRemove.quantity;
-        const itemTotalPrice = itemToRemove.quantity * (itemToRemove.price_promotion || itemToRemove.price);
-        const newTotalPrice = state.totalPrice - itemTotalPrice;
-        
-        return { 
-          items: newItems, 
-          totalItems: newTotalItems,
-          totalPrice: newTotalPrice
-        };
-      }),
-      
-      updateQuantity: (productId, quantity) => set((state) => {
-        const itemToUpdate = state.items.find(item => item.id === productId);
-        if (!itemToUpdate) return state;
-        
-        const quantityDiff = quantity - itemToUpdate.quantity;
-        const updatedItems = state.items.map(item => 
-          item.id === productId ? { ...item, quantity } : item
+export const useCartStore = create<ICartStore>()((set, get) => ({
+  items: [],
+  totalItems: 0,
+  totalPrice: 0,
+  isCartOpen: false,
+  isLoading: false,
+
+  // Các phương thức UI
+  toggleCart: () =>
+    set((state) => ({
+      isCartOpen: !state.isCartOpen,
+    })),
+
+  closeCart: () => set({ isCartOpen: false }),
+
+  openCart: () => set({ isCartOpen: true }),
+
+  // Các phương thức API
+  fetchCart: async () => {
+    set({ isLoading: true });
+    try {
+      const { data } = await apiOrder.getListCart();
+      if (data && data.arrItemList) {
+        const cartItems = data.arrItemList;
+
+        const totalItems = cartItems.reduce(
+          (total: number, item: any) => total + parseInt(item.quantity || 1),
+          0
         );
-        
-        const newTotalItems = state.totalItems + quantityDiff;
-        const itemPrice = itemToUpdate.price_promotion || itemToUpdate.price;
-        const newTotalPrice = state.totalPrice + (quantityDiff * itemPrice);
-        
-        return { 
-          items: updatedItems, 
-          totalItems: newTotalItems,
-          totalPrice: newTotalPrice
-        };
-      }),
-      
-      clearCart: () => set({ 
-        items: [], 
-        totalItems: 0,
-        totalPrice: 0
-      }),
-      
-      toggleCart: () => set((state) => ({ 
-        isCartOpen: !state.isCartOpen 
-      })),
-      
-      closeCart: () => set({ isCartOpen: false }),
-      
-      openCart: () => set({ isCartOpen: true })
-    }),
-    {
-      name: "cart-storage", // tên của key trong localStorage
+
+        const totalPrice = cartItems.reduce((total: number, item: any) => {
+          const price =
+            parseFloat(item.price_discount || 0) > 0
+              ? parseFloat(item.price_discount || 0)
+              : parseFloat(item.price || 0);
+          return total + price * parseInt(item.quantity || 1);
+        }, 0);
+
+        set({
+          items: cartItems,
+          totalItems,
+          totalPrice,
+          isLoading: false,
+        });
+
+        return cartItems;
+      }
+      set({ isLoading: false });
+      return [];
+    } catch (error) {
+      console.error("Lỗi khi lấy giỏ hàng:", error);
+      set({ isLoading: false });
+      return [];
     }
-  )
-); 
+  },
+
+  addToCartAPI: async (productId, quantity = 1) => {
+    
+    set({ isLoading: true });
+    try {
+      const response = await apiOrder.addCart({ item_id: productId, quantity });
+      if (response.data && response.data.result === true) {
+        setToast(true, "success", response?.data?.message, 2500);
+
+        await get().fetchCart();
+        set({ isCartOpen: true });
+      } else {
+        setToast(true, "error", response?.data?.message, 2500);
+
+        set({ isLoading: false });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      set({ isLoading: false });
+      return false;
+    }
+  },
+
+  updateQuantityAPI: async (productId, quantity) => {
+    set({ isLoading: true });
+    try {
+      const response = await apiOrder.updateCartQuantity(productId, quantity);
+
+      if (response.data && response.data.result === true) {
+        await get().fetchCart();
+      } else {
+        set({ isLoading: false });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Lỗi khi cập nhật số lượng:", error);
+      set({ isLoading: false });
+      return false;
+    }
+  },
+
+  removeFromCartAPI: async (productId) => {
+    set({ isLoading: true });
+    try {
+      const response = await apiOrder.removeFromCart(productId);
+
+      if (response.data && response.data.result === true) {
+        await get().fetchCart();
+      } else {
+        set({ isLoading: false });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
+      set({ isLoading: false });
+      return false;
+    }
+  },
+}));

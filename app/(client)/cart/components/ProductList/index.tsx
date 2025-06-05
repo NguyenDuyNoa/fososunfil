@@ -5,16 +5,17 @@ import CloseIcon from "@/components/icons/CloseIcon";
 import MinusIcon from "@/components/icons/MinusIcon";
 import PlusIcon from "@/components/icons/PlusIcon";
 
-interface Product {
-  id: number | string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+// interface Product {
+//   id: number | string;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   images: string;
+//   price_discount?: number;
+// }
 
 interface ProductListProps {
-  products: Product[];
+  products: any[];
   updateQuantity: (id: number | string, newQuantity: number) => void;
   removeProduct: (id: number | string) => void;
 }
@@ -27,7 +28,7 @@ const ProductList: React.FC<ProductListProps> = ({
   const increaseQuantity = (id: number | string) => {
     const product = products.find((p) => p.id === id);
     if (product) {
-      updateQuantity(id, product.quantity + 1);
+      updateQuantity(id, Number(product.quantity) + 1);
     }
   };
 
@@ -74,18 +75,18 @@ const ProductList: React.FC<ProductListProps> = ({
       </div>
       <div className="divide-y divide-[#919EAB33] divide-dashed flex flex-col gap-3 xl:gap-0 px-3 xl:px-0">
         {products.length > 0 ? (
-          products.map((product) => (
-            <>
+          products.filter(product => product.type_gift == 0).map((product) => (
+            <React.Fragment key={product.id}>
               <div className="flex gap-2 py-4 xl:hidden">
-                <div className="flex gap-3">
+                <div className="flex gap-3 w-full">
                   <Image
-                    src={product.image}
+                    src={product.images}
                     alt={product.name}
                     width={64}
                     height={64}
                     className="object-cover w-16 h-16 rounded-xl"
                   />
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 w-full">
                     <div className="flex flex-col gap-2">
                       <p className="text-sm font-semibold text-[#36443F]">
                         {product.name}
@@ -93,7 +94,7 @@ const ProductList: React.FC<ProductListProps> = ({
                       <div className="font-medium text-sm text-disable-50">
                         Đơn giá:{" "}
                         <span className="text-error-dark text-base font-semibold">
-                          {product.price.toLocaleString()} đ
+                          {Number(product?.price_discount)?.toLocaleString()} đ
                         </span>
                       </div>
                     </div>
@@ -139,10 +140,10 @@ const ProductList: React.FC<ProductListProps> = ({
                 </button>
               </div>
 
-              <div key={product.id} className="hidden xl:flex items-center hover:bg-grey-200 transition-all duration-300">
+              <div className="hidden xl:flex items-center hover:bg-grey-200 transition-all duration-300">
                 <div className="flex items-center w-full p-4 gap-4">
                   <Image
-                    src={product.image}
+                    src={product.images}
                     alt={product.name}
                     width={64}
                     height={64}
@@ -153,7 +154,7 @@ const ProductList: React.FC<ProductListProps> = ({
                   </p>
                 </div>
                 <div className="w-[100px] p-4 flex-shrink-0 font-normal text-sm text-primary-new whitespace-nowrap">
-                  {product.price.toLocaleString()} đ
+                  {Number(product?.price_discount)?.toLocaleString()} đ
                 </div>
                 <div className="w-[130px] p-4 flex-shrink-0">
                   <div className="h-[34px] p-1 flex items-center border border-[#919EAB33] rounded-full">
@@ -179,7 +180,7 @@ const ProductList: React.FC<ProductListProps> = ({
                   </div>
                 </div>
                 <div className="w-[110px] p-4 flex-shrink-0 font-normal text-sm text-primary-new whitespace-nowrap">
-                  {(product.price * product.quantity).toLocaleString()}{" "}
+                  {(product.price_discount * product.quantity).toLocaleString()}{" "}
                   <span className="underline">đ</span>
                 </div>
                 <div className="w-[68px] p-4 flex-shrink-0">
@@ -191,7 +192,7 @@ const ProductList: React.FC<ProductListProps> = ({
                   </button>
                 </div>
               </div>
-            </>
+            </React.Fragment>
           ))
         ) : (
           <div className="p-6 text-center text-secondary-new">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 interface Product {
   id: number | string;
@@ -7,22 +7,30 @@ interface Product {
   price: number;
   quantity: number;
   image: string;
+  price_discount?: number;
+  type_gift?: number;
 }
 
 interface OrderSummaryProps {
   products: Product[];
   type: "cart" | "checkout";
   onClick?: () => void;
+  isLoading?: boolean;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   products,
   type,
   onClick,
+  isLoading = false,
 }) => {
+  const [bottomPosition, setBottomPosition] = useState<number>(128);
+  const summaryRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+
   // Tính tổng tiền
   const totalPrice = products.reduce(
-    (sum, product) => sum + product.price * product.quantity,
+    (sum, product) => sum + (product.type_gift == 0 ? (product.price_discount || 0) * product.quantity : 0),
     0
   );
 
@@ -32,14 +40,41 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   // Thành tiền sau giảm giá
   const finalPrice = totalPrice - discount;
 
+  useEffect(() => {
+    if (summaryRef.current && footerRef.current) {
+      const calculatePosition = () => {
+        const footerHeight = footerRef.current?.offsetHeight || 0;
+        setBottomPosition(footerHeight - 32);
+      };
+
+      calculatePosition();
+
+      // Sử dụng ResizeObserver để theo dõi thay đổi kích thước
+      const resizeObserver = new ResizeObserver(calculatePosition);
+      resizeObserver.observe(footerRef.current);
+
+      return () => {
+        if (footerRef.current) {
+          resizeObserver.unobserve(footerRef.current);
+        }
+        resizeObserver.disconnect();
+      };
+    }
+  }, [type, products]);
+
   return (
     <div
+      ref={summaryRef}
       className={`sticky top-24 w-full xl:w-[25%] h-fit xl:rounded-xl shadow-md bg-white
-                before:content-[''] xl:before:absolute  before:-left-5 before:-translate-y-1/2 before:border-r before:border-grey-300
-                    before:w-8 before:h-8 before:bg-[#F4F6F8] before:rounded-full before:z-50
-                    after:content-[''] xl:after:absolute  after:-right-5 after:-translate-y-1/2 after:border-l after:border-grey-300
-                    after:w-8 after:h-8 after:bg-[#F4F6F8] after:rounded-full after:z-50
-                    ${type === "checkout" ? "before:bottom-[128px] after:bottom-[128px]" : "before:bottom-[64px] after:bottom-[64px]"}`}
+                before:content-[''] xl:before:absolute before:-left-5 before:-translate-y-1/2 before:border-r before:border-grey-300
+                    before:w-8 before:h-8 before:bg-[#F4F6F8] before:rounded-full before:z-50 xl:before:bottom-[var(--bottom-position)]
+                    after:content-[''] xl:after:absolute after:-right-5 after:-translate-y-1/2 after:border-l after:border-grey-300
+                    after:w-8 after:h-8 after:bg-[#F4F6F8] after:rounded-full after:z-50 xl:after:bottom-[var(--bottom-position)]`}
+      style={
+        {
+          "--bottom-position": `${bottomPosition}px`,
+        } as React.CSSProperties
+      }
     >
       <h2 className="text-xl font-semibold p-6 text-primary-new">
         Tóm tắt đơn hàng
@@ -68,7 +103,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
               Phí vận chuyển
             </span>
             <span className="text-primary-new text-sm font-normal gap-2 flex">
-              <span className="line-through text-disable-50">32.000 đ</span>{" "}
+              {/* <span className="line-through text-disable-50">32.000 đ</span>{" "} */}
               Miễn phí
             </span>
           </div>
@@ -97,7 +132,10 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         </div>
       </div> */}
 
-      <div className="hidden xl:flex mt-6 p-6 border-t border-[#919EAB33] border-dashed flex-col gap-6">
+      <div
+        className="hidden xl:flex mt-6 p-6 border-t border-[#919EAB33] border-dashed flex-col gap-6"
+        ref={footerRef}
+      >
         {type === "checkout" && (
           <p className="text-sm font-medium text-secondary-new">
             Bằng việc tiến hành đặt mua hàng, bạn đã đồng ý với{" "}
@@ -109,9 +147,16 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         )}
         <button
           onClick={onClick}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-base font-bold text-center"
+          disabled={isLoading}
+          className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-base font-bold text-center ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
         >
-          {type === "cart" ? "Mua hàng" : "Đặt hàng"}
+          {isLoading
+            ? "Đang xử lý..."
+            : type === "cart"
+            ? "Mua hàng"
+            : "Đặt hàng"}
         </button>
       </div>
 
@@ -126,9 +171,16 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         </div>
         <button
           onClick={onClick}
-          className="whitespace-nowrap h-fit py-3.5 px-9 bg-brand-500 hover:bg-brand-700 text-white rounded-lg text-base font-bold text-center"
+          disabled={isLoading}
+          className={`whitespace-nowrap h-fit py-3.5 px-9 bg-brand-500 hover:bg-brand-700 text-white rounded-lg text-base font-bold text-center ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
         >
-          {type === "cart" ? "Mua hàng" : "Đặt hàng"}
+          {isLoading
+            ? "Đang xử lý..."
+            : type === "cart"
+            ? "Mua hàng"
+            : "Đặt hàng"}
         </button>
       </div>
     </div>

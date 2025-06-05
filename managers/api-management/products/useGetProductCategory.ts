@@ -17,5 +17,7 @@ export const useGetListCategory = (params: any) => {
         queryKey: ["getProductCategory", params],
         queryFn: fetchListCategory,
         enabled: !!params,
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 5,
     });
 };

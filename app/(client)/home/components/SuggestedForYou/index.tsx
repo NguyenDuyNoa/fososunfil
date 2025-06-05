@@ -13,7 +13,7 @@ const breakpoints = {
 
 const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemRelated: any }) => {
   const { isVisibleMobile } = useResizeStore();
-console.log(imageForYou?.image)
+
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-3 xl:gap-5">

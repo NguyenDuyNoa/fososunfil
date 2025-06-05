@@ -1,9 +1,12 @@
 import { IMAGES } from "@/constants/Images";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/useAuthStores";
 import { useCartStore } from "@/stores/useCartStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import apiOrder from "@/services/order/order.service";
+import { useToastStore } from "@/stores/useToastStore";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -16,6 +19,7 @@ interface ProductCardProps {
   imageFull?: boolean;
   isFlashSale?: boolean;
   isHome?: boolean;
+  handleOpenDialog?: (value: string, type_device: string) => void;
 }
 
 const ProductCard = ({
@@ -29,9 +33,12 @@ const ProductCard = ({
   imageFull = false,
   isFlashSale = false,
   isHome = false,
+  handleOpenDialog,
 }: ProductCardProps) => {
-  const { addToCart, openCart, closeCart } = useCartStore();
+  const { closeCart, addToCartAPI, fetchCart } = useCartStore();
+  const { informationUser } = useAuthStore();
   const router = useRouter();
+  const { setToast } = useToastStore.getState();
 
   const convertToSlug = (text: string) => {
     return text
@@ -45,21 +52,49 @@ const ProductCard = ({
 
   const productSlug = product?.slug || convertToSlug(product?.name) || "";
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!informationUser) {
+      handleOpenDialog && handleOpenDialog("login", "desktop");
+      return;
+    }
+
     if (product) {
-      addToCart(product);
+      try {
+        await addToCartAPI(product.id, product?.quantity || 1);
+      } catch (error) {
+        console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      }
     }
   };
 
-  const handleBuyNow = (e: React.MouseEvent) => {
+  const handleBuyNow = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!informationUser) {
+      handleOpenDialog && handleOpenDialog("login", "desktop");
+      return;
+    }
+
     if (product) {
-      addToCart(product);
-      closeCart();
-      router.push("/cart");
+      try {
+        const response = await apiOrder.addCart({ item_id: product.id, quantity: product?.quantity || 1 });
+        console.log(response?.data);
+        
+        if (response?.data?.result === true) {
+          setToast(true, "success", response?.data?.message, 2500);
+          await fetchCart();
+          closeCart();
+          router.push("/cart");
+        } else {
+          setToast(true, "error", response?.data?.message, 2500);
+        }
+      } catch (error) {
+        console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      }
     }
   };
 
@@ -187,20 +222,28 @@ const ProductCard = ({
           </div>
         </div>
         {!isBanner && (
-          <div className="flex justify-between gap-3">
+          <>
+            <div className="hidden xl:flex justify-between gap-3">
+              <button
+                className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
+                onClick={handleAddToCart}
+              >
+                Thêm vào giỏ
+              </button>
+              <button
+                className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
+                onClick={handleBuyNow}
+              >
+                Mua ngay
+              </button>
+            </div>
             <button
-              className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
-              onClick={handleAddToCart}
-            >
-              Thêm vào giỏ
-            </button>
-            <button
-              className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
+              className="xl:hidden whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs font-bold px-3 py-1 rounded transition-colors duration-300"
               onClick={handleBuyNow}
             >
               Mua ngay
             </button>
-          </div>
+          </>
         )}
       </div>
     </div>

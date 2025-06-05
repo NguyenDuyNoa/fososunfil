@@ -40,9 +40,9 @@ const NewDesktopHeaderMini = ({
       />
       <header className="w-full py-2 xl:py-1 container">
         <div className="flex items-center justify-between gap-x-12 w-full">
-          <div className="flex flex-row items-center justify-between w-full lg:w-fit">
+          <div className="flex flex-row items-center justify-between w-full xl:w-fit">
             <button onClick={() => setIsMobileMenuOpen(true)}>
-              <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
+              <MenuLeftIcon className="size-6 xl:hidden text-[#0154C5]" />
             </button>
             <Link href="/" className="hidden lg:block">
               <Image
@@ -61,7 +61,7 @@ const NewDesktopHeaderMini = ({
                 alt="logo"
                 width={600}
                 height={111}
-                className="object-contain w-[106px]"
+                className="object-cover w-[106px] flex-shrink-0"
                 quality={100}
                 loading="eager"
               />

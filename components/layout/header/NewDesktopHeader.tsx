@@ -1,9 +1,5 @@
 "use client";
 import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
-import IconCategoryAir from "@/components/icon/categoryProduct/IconCategoryAir";
-import IconCategoryCabin from "@/components/icon/categoryProduct/IconCategoryCabin";
-import IconCategoryFuel from "@/components/icon/categoryProduct/IconCategoryFuel";
-import IconCategoryOil from "@/components/icon/categoryProduct/IconCategoryOil";
 import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconDelivery from "@/components/icon/IconDelivery";
 import IconDiscountHeader from "@/components/icon/IconDiscountHeader";
@@ -12,20 +8,16 @@ import IconFastDeliveryHeader from "@/components/icon/IconFastDeliveryHeader";
 import IconPhone from "@/components/icon/IconPhone";
 import IconReturnHeader from "@/components/icon/IconReturnHeader";
 import IconSearchHeader from "@/components/icon/IconSearchHeader";
-import IconShopping from "@/components/icon/IconShopping";
 import IconSupportHeader from "@/components/icon/IconSupportHeader";
 import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
 import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 import { TooltipHeader } from "@/components/tooltip/TooltipHeader";
-import { Select, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { SelectContent } from "@/components/ui/selectCustom";
 import { IMAGES } from "@/constants/Images";
 import { useGetInfoByToken } from "@/managers/api-management/auth/info/useGetInfoByToken";
 import { useStateLayoutMain } from "@/managers/state-management/layout/useStateLayoutMain";
 import { useStateHeader } from "@/states/Header/useStateHeader";
 import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
 import { useAuthStore } from "@/stores/useAuthStores";
-import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMenuHeader } from "@/types/menu/IMenu";
 import { Gift, Lock, SearchNormal, UserSquare } from "iconsax-react";
 import Image from "next/image";
@@ -33,8 +25,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
-import CountryOptions from "./CountryOptions";
 import Cart from "./Cart";
+import CountryOptions from "./CountryOptions";
 
 export interface DesktopHeaderProps {
   dataCountryOptions: any[];
@@ -43,141 +35,6 @@ export interface DesktopHeaderProps {
   handleCodeChange: (value: string) => void;
   handleOpenDialog: (value: string, type_device: string) => void;
 }
-
-// export const categoryData: MenuItem[] = [
-//   {
-//     id: "filter1",
-//     name: "Bộ Lọc Dầu",
-//     icon: <IconCategoryOil />,
-//     subItems: [
-//       {
-//         name: "Lọc dầu động cơ",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter2",
-//     name: "Bộ lọc không khí",
-//     icon: <IconCategoryAir />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter3",
-//     name: "Bộ lọc nhiên liệu",
-//     icon: <IconCategoryFuel />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter4",
-//     name: "Bộ lọc trong cabin",
-//     icon: <IconCategoryCabin />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter5",
-//     name: "Bộ lọc không khí",
-//     icon: <IconCategoryAir />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter6",
-//     name: "Bộ lọc trong cabin",
-//     icon: <IconCategoryCabin />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter7",
-//     name: "Bộ lọc nhiên liệu",
-//     icon: <IconCategoryFuel />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//       {
-//         name: "Lọc nhớt Hyundai",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-//   {
-//     id: "filter8",
-//     name: "Bộ lọc không khí",
-//     icon: <IconCategoryAir />,
-//     subItems: [
-//       {
-//         name: "Lọc cabin Toyota",
-//         image: "/icons/category/imageSubItem.png",
-//       },
-//     ],
-//   },
-// ];
 
 const dataTabProfile = [
   {
@@ -305,12 +162,12 @@ const NewDesktopHeader = ({
       </div>
 
       {/* header */}
-      <div className="bg-white rounded-b-xl lg:rounded-b-none">
+      <div className="bg-white rounded-b-xl xl:rounded-b-none">
         {/* Main header */}
-        <header className="z-10 w-full py-2 lg:py-3 container flex flex-col lg:flex-row items-center justify-between gap-x-8 2xl:gap-x-12">
-          <div className="flex flex-row items-center justify-between w-full lg:w-fit">
+        <header className="z-10 w-full py-2 lg:py-3 container flex flex-col xl:flex-row items-center justify-between gap-x-8 2xl:gap-x-12">
+          <div className="flex flex-row items-center justify-between w-full xl:w-fit">
             <button onClick={() => setIsMobileMenuOpen(true)}>
-              <MenuLeftIcon className="size-6 lg:hidden text-[#0154C5]" />
+              <MenuLeftIcon className="size-6 xl:hidden text-[#0154C5]" />
             </button>
             <Link href="/" className="hidden xl:block">
               <Image
@@ -318,7 +175,7 @@ const NewDesktopHeader = ({
                 alt="logo"
                 width={600}
                 height={111}
-                className="object-contain lg:w-[250px]"
+                className="object-contain xl:w-[250px]"
                 quality={100}
                 loading="eager"
               />
@@ -334,11 +191,11 @@ const NewDesktopHeader = ({
                 loading="eager"
               />
             </Link>
-            <div className="xl:hidden ">
+            <div className="xl:hidden">
               <Cart />
             </div>
           </div>
-          <div className="py-2 w-full lg:hidden">
+          <div className="py-2 w-full xl:hidden">
             <div className="flex flex-row items-center w-full border-[1.5px] border-brand-500 rounded-full p-1 pl-5">
               <input
                 type="text"
@@ -356,7 +213,7 @@ const NewDesktopHeader = ({
             </div>
           </div>
 
-          <div className="flex-1 hidden lg:flex flex-row justify-between w-full gap-8 2xl:gap-12">
+          <div className="flex-1 hidden xl:flex flex-row justify-between w-full gap-8 2xl:gap-12">
             {/* Search Bar */}
             <div className="flex flex-row items-center w-full border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
               <input
@@ -377,7 +234,9 @@ const NewDesktopHeader = ({
             {/* Right Navigation */}
             <div className="flex items-center gap-4">
               <CountryOptions />
-              <Cart />
+              <div className="hidden lg:block">
+                <Cart />
+              </div>
               <Account handleOpenDialog={handleOpenDialog} />
             </div>
           </div>
@@ -385,7 +244,7 @@ const NewDesktopHeader = ({
 
         {/* category */}
         <div className="relative">
-          <div className="hidden lg:flex items-center justify-between w-full pb-4 container">
+          <div className="hidden xl:flex items-center justify-between w-full pb-4 container">
             {/* Left Side - Categories */}
             <div className="flex items-center gap-9">
               <MegaMenuDropdown
@@ -430,7 +289,7 @@ const NewDesktopHeader = ({
             </div>
 
             {/* Right Side - Features */}
-            <div className="hidden lg:flex items-center gap-5">
+            <div className="hidden xl:flex items-center gap-2 xxl:gap-5">
               <div className="flex items-center gap-2 text-xs whitespace-nowrap text-primary-new font-semibold">
                 <IconSupportHeader fill="#0373F3" />
                 <span className="pt-0.5">Hỗ trợ 24/7</span>

@@ -3,16 +3,19 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { IMAGES } from "@/constants/Images";
+import { usePostHandlingOrder } from "@/managers/api-management/order/usePostHandlingOrder";
+import { useCartStore } from "@/stores/useCartStore";
 import { useResizeStore } from "@/stores/useResizeStore";
+import { OrderData } from "@/types/order/IOrder";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import OrderSummary from "../cart/components/OrderSummary";
-import ProductList from "../cart/components/ProductList";
 import DeliveryInformation from "./components/DeliveryInformation";
 import ProductListCheckout from "./components/ProductListCheckout";
 
-const items = [
+const breadcrumbs = [
   {
     label: "Trang chủ",
     href: "/",
@@ -27,74 +30,110 @@ const items = [
   },
 ];
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+// interface Product {
+//   id: number;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   image: string;
+// }
 
 const CheckoutPage = () => {
   const { isVisibleMobile, isVisibleTablet } = useResizeStore();
+  const deliveryInfoRef = useRef<any>(null);
+  const { items, fetchCart } = useCartStore();
+  const [products, setProducts] = useState<any[]>([]);
 
-  // Dữ liệu sản phẩm mẫu
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      name: "Lọc gió động cơ Air Filter - Chevrolet Colorado, Trailblazer (52046262)",
-      price: 299000,
-      quantity: 2,
-      image: IMAGES.product,
-    },
-    {
-      id: 2,
-      name: "Lọc nhớt Oil Filter - Chevrolet Cruze, Orlando, Captiva (93745067)",
-      price: 159000,
-      quantity: 1,
-      image: IMAGES.product1,
-    },
-    {
-      id: 3,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product2,
-    },
-    {
-      id: 4,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product4,
-    },
-    {
-      id: 5,
-      name: "Bugi Iridium - Chevrolet Spark (96964137)",
-      price: 235000,
-      quantity: 3,
-      image: IMAGES.product5,
-    },
-  ]);
+   // Sử dụng API từ store để lấy dữ liệu giỏ hàng
+   useEffect(() => {
+    const loadCart = async () => {
+      await fetchCart();
+    };
+    loadCart();
+  }, []);
 
-  // Hàm cập nhật số lượng sản phẩm
-  const updateProductQuantity = (id: number, newQuantity: number) => {
-    setProducts(
-      products.map((product) =>
-        product.id === id ? { ...product, quantity: newQuantity } : product
-      )
-    );
-  };
+  // Cập nhật state products khi items thay đổi
+  useEffect(() => {
+    setProducts(items as any);
+  }, [items]);
+  
+  const {
+    mutate: handleOrder,
+    isPending,
+    orderStatus,
+  } = usePostHandlingOrder();
 
-  // Hàm xóa sản phẩm
-  const removeProduct = (id: number) => {
-    setProducts(products.filter((product) => product.id !== id));
+  // Hàm xử lý đặt hàng
+  const handlePlaceOrder = () => {
+    if (!deliveryInfoRef.current) {
+      toast.error("Không thể lấy thông tin giao hàng");
+      return;
+    }
+
+    const deliveryInfo = deliveryInfoRef.current.getDeliveryInfo();
+
+    if (!deliveryInfo) {
+      toast.error("Vui lòng điền đầy đủ thông tin giao hàng");
+      return;
+    }
+
+    const { customerName, phone, email, province, district, ward, address } =
+      deliveryInfo;
+
+    // Tạo dữ liệu đơn hàng
+    const orderData: OrderData = {
+      customer_name_delivery: customerName,
+      phone_delivery: phone,
+      email_delivery: email || "",
+      province_delivery: province,
+      district_delivery: district,
+      ward_delivery: ward,
+      address_delivery: address,
+      promotion: [], // Mã khuyến mãi
+      cost_delivery: 0,
+      discount_percent: 0,
+      discount_direct: 0,
+      type_bills: deliveryInfo.needInvoice ? 1 : 0,
+      items: [
+        ...products.map((product) => ({
+          item_id: product.item_id,
+          quantity: product.quantity,
+          price: product.price,
+          discount_percent_item: product.discount,
+          promotion_item_gift_id: product.promotion_item_gift_id,
+          psi_gift_id: product.psi_gift_id,
+        })),
+        ...products.flatMap((product) =>
+          product.children && product.children.length > 0
+            ? product.children.map((child: any) => ({
+                item_id: child.item_id,
+                quantity: child.quantity,
+                price: child.price,
+                discount_percent_item: child.discount,
+                promotion_item_gift_id: child.promotion_item_gift_id,
+                psi_gift_id: child.psi_gift_id,
+              }))
+            : []
+        ),
+      ],
+    };
+
+    // Gọi hàm xử lý đơn hàng
+    handleOrder(orderData, {
+      onSuccess: (data) => {
+        console.log(data)
+        // Kiểm tra kết quả trả về và gọi fetchCart nếu result = 1
+        if (data?.data?.result == true) {
+          fetchCart();
+        }
+      }
+    });
   };
 
   return (
     <div className="flex flex-col gap-4 xl:gap-8 pt-4 xl:pt-6">
       <div className="container">
-        <Breadcrumbs items={items} />
+        <Breadcrumbs items={breadcrumbs} />
       </div>
       {products.length > 0 ? (
         <div
@@ -103,15 +142,16 @@ const CheckoutPage = () => {
           }`}
         >
           <div className="flex flex-col gap-4 xl:gap-6 w-full xl:w-[75%]">
-            <ProductListCheckout
-              products={products}
-              updateQuantity={updateProductQuantity}
-              removeProduct={removeProduct}
-            />
-            <DeliveryInformation />
+            <ProductListCheckout products={products} />
+            <DeliveryInformation ref={deliveryInfoRef} />
           </div>
 
-          <OrderSummary products={products} type="checkout" />
+          <OrderSummary
+            products={products}
+            type="checkout"
+            onClick={handlePlaceOrder}
+            isLoading={orderStatus.isProcessing}
+          />
         </div>
       ) : (
         <>

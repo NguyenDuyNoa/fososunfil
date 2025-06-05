@@ -1,10 +1,10 @@
 "use client";
-import React, { ReactNode, useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import { ProductItem } from "@/types/products/IProducts";
-import ProductCard from "../productCard";
+import { useRef } from "react";
+import { Autoplay, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import ProductCardWithAuthCheck from "../productCard/withAuthCheck";
 import ProductCardSkeleton from "../skeleton/ProductCardSkeleton";
 
 type BreakpointOptions = {
@@ -32,7 +32,7 @@ interface SwiperCarouselProps {
 
 const SwiperCarousel = ({
   items,
-  slidesPerView = 1,
+  slidesPerView,
   spaceBetween = 8,
   autoplay = false,
   loop = false,
@@ -57,7 +57,9 @@ const SwiperCarousel = ({
     640: { slidesPerView: 2 },
     768: { slidesPerView: 3 },
     1024: { slidesPerView: 4 },
-    1280: { slidesPerView: 6 },
+    1280: { slidesPerView: 4 },
+    1440: { slidesPerView: 5 },
+    1600: { slidesPerView: 6 },
   };
 
   return (
@@ -65,7 +67,6 @@ const SwiperCarousel = ({
       <Swiper
         modules={modules}
         spaceBetween={spaceBetween}
-        slidesPerView={slidesPerView}
         loop={loop}
         autoplay={
           autoplay
@@ -80,11 +81,16 @@ const SwiperCarousel = ({
         }}
         breakpoints={breakpoints || defaultBreakpoints}
         className={`swiper-carousel ${className}`}
+        slidesPerView={slidesPerView && !breakpoints ? slidesPerView : undefined}
       >
         {items && items.length > 0
           ? items.map((item: ProductItem, index: number) => (
               <SwiperSlide className="!h-auto" key={item.id || index}>
-                <ProductCard product={item} isFlashSale={isFlashSale} imageFull={imageFull}/>
+                <ProductCardWithAuthCheck
+                  product={item}
+                  isFlashSale={isFlashSale}
+                  imageFull={imageFull}
+                />
               </SwiperSlide>
             ))
           : Array.from({ length: 6 }).map((_, index) => (
@@ -94,7 +100,7 @@ const SwiperCarousel = ({
             ))}
       </Swiper>
 
-      {showNavigation && items && items.length > slidesPerView && (
+      {showNavigation && items && items.length > (slidesPerView || 1) && (
         <>
           <button
             onClick={() => swiperRef.current?.slidePrev()}

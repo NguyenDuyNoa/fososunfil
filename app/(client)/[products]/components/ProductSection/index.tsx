@@ -1,6 +1,6 @@
 import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
 import FilterIcon from "@/components/icons/FilterIcon";
-import ProductCard from "@/components/productCard";
+import ProductCardWithAuthCheck from "@/components/productCard/withAuthCheck";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSkeleton";
 import { IMAGES } from "@/constants/Images";
 import { useGetListItemProduct } from "@/managers/api-management/products/useGetListItem";
@@ -196,7 +196,7 @@ const ProductSection = ({
           ))
         ) : dataListItemProduct?.length > 0 ? (
           dataListItemProduct?.map((item: ProductItem, index: number) => (
-            <ProductCard key={index} product={item} />
+            <ProductCardWithAuthCheck key={index} product={item} />
           ))
         ) : (
           <div className="flex flex-col col-span-4 row-span-4 h-full justify-center items-center gap-y-2 gap-x-3 xl:gap-4 min-h-[500px]">

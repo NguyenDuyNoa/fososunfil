@@ -7,6 +7,7 @@ export interface CartItem {
   quantity: number;
   slug_category?: string;
   slug?: string;
+  price_discount?: number;
 }
 
 export interface ICartStore {
@@ -14,13 +15,16 @@ export interface ICartStore {
   totalItems: number;
   totalPrice: number;
   isCartOpen: boolean;
+  isLoading: boolean;
   
-  // Methods
-  addToCart: (product: any) => void;
-  removeFromCart: (productId: string | number) => void;
-  updateQuantity: (productId: string | number, quantity: number) => void;
-  clearCart: () => void;
+  // UI methods
   toggleCart: () => void;
   closeCart: () => void;
   openCart: () => void;
+  
+  // API methods
+  fetchCart: () => Promise<CartItem[]>;
+  addToCartAPI: (productId: string | number, quantity?: number) => Promise<boolean>;
+  updateQuantityAPI: (productId: string | number, quantity: number) => Promise<boolean>;
+  removeFromCartAPI: (productId: string | number) => Promise<boolean>;
 } 

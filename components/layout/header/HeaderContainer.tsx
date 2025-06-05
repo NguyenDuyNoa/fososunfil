@@ -67,7 +67,8 @@ const HeaderContainer = () => {
   const { getCookie, setCookie, removeCookie } = useCookieStore();
   const { isVisibleTablet } = useResizeStore();
   const { isStateHeader, queryKeyIsStateHeader } = useStateHeader();
-  const { setOpenDialogCustom, setStatusDialog } = useDialogStore();
+  const { setOpenDialogCustom, setStatusDialog, setHandleOpenDialog } =
+    useDialogStore();
   const { language, setLanguage } = useLanguage();
 
   const [isMiniHeader, setIsMiniHeader] = useState(false);
@@ -143,53 +144,46 @@ const HeaderContainer = () => {
     }
   };
 
+  // Set handleOpenDialog to the store
+  useEffect(() => {
+    setHandleOpenDialog(handleOpenDialog);
+  }, []);
+
   return (
     <header className="md:bg-transparent bg-white w-full z-[999]">
       <div>
-        {/* {isVisibleTablet ? ( */}
-           {/* màn hình mobile, tablet */}
-          {/* <TabletHeader
+        {/* Header chính luôn hiển thị */}
+        <div className="w-full">
+          <NewDesktopHeader
             dataHeader={dataHeader}
+            dataCountryOptions={dataCountryOptions}
             handleToggleMenu={handleToggleMenu}
+            handleCodeChange={handleCodeChange}
             handleOpenDialog={handleOpenDialog}
           />
-        ) : ( */}
-          {/* // màn hình laptop */}
-          <>
-            {/* Header chính luôn hiển thị */}
-            <div className="w-full">
-              <NewDesktopHeader
+        </div>
+
+        {/* Header mini dạng sticky khi cuộn xuống */}
+        <AnimatePresence>
+          {isStateHeader.isHeaderFixed && (
+            <motion.div
+              className="fixed top-0 left-0 right-0 z-50 shadow-md"
+              key="mini"
+              initial={{ y: -80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -80, opacity: 0 }}
+              transition={{ duration: 0.1, ease: "easeInOut" }}
+            >
+              <NewDesktopHeaderMini
                 dataHeader={dataHeader}
                 dataCountryOptions={dataCountryOptions}
                 handleToggleMenu={handleToggleMenu}
                 handleCodeChange={handleCodeChange}
                 handleOpenDialog={handleOpenDialog}
               />
-            </div>
-            
-            {/* Header mini dạng sticky khi cuộn xuống */}
-            <AnimatePresence>
-              {isStateHeader.isHeaderFixed && (
-                <motion.div
-                  className="fixed top-0 left-0 right-0 z-50 shadow-md"
-                  key="mini"
-                  initial={{ y: -80, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -80, opacity: 0 }}
-                  transition={{ duration: 0.1, ease: "easeInOut" }}
-                >
-                  <NewDesktopHeaderMini
-                    dataHeader={dataHeader}
-                    dataCountryOptions={dataCountryOptions}
-                    handleToggleMenu={handleToggleMenu}
-                    handleCodeChange={handleCodeChange}
-                    handleOpenDialog={handleOpenDialog}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        {/* )} */}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );

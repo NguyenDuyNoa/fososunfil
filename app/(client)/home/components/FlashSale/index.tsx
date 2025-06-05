@@ -65,7 +65,7 @@ const FlashSale = ({ itemSale }: { itemSale: any }) => {
             // autoplayDelay={2000}
             className="flash-sale-swiper z-10"
           />
-          <div className="absolute right-0 top-0 w-[500px] h-full bg-gradient-to-r from-[#FCF5ED00] to-[#FCF5ED] z-[11] pointer-events-none"></div>
+          <div className="absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#FCF5ED00] to-[#FCF5ED] z-[11] pointer-events-none"></div>
         </div>
         <div className="bg-[#FFDDB5] absolute -top-1/2 left-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>
         <div className="bg-[#FFDDB5] absolute -bottom-1/2 right-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>

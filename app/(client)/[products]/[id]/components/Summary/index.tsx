@@ -35,7 +35,12 @@ const hideNumberInputSpinners = `
 
 const ProductSummary = ({ data }: { data: any }) => {
   const [quantity, setQuantity] = useState(1);
-  const { addToCart, closeCart } = useCartStore();
+  const { 
+    addToCartAPI, 
+    isLoading, 
+    openCart,
+    closeCart
+  } = useCartStore();
   const router = useRouter();
 
   const handleIncrement = () => {
@@ -65,23 +70,15 @@ const ProductSummary = ({ data }: { data: any }) => {
     e.target.select();
   };
 
-  const handleAddToCart = () => {
-    if (data) {
-      const productToAdd = {
-        ...data,
-        quantity: quantity
-      };
-      addToCart(productToAdd);
+  const handleAddToCart = async () => {
+    if (data && data.id) {
+      await addToCartAPI(data.id, quantity);
     }
   };
 
-  const handleBuyNow = () => {
-    if (data) {
-      const productToAdd = {
-        ...data,
-        quantity: quantity
-      };
-      addToCart(productToAdd);
+  const handleBuyNow = async () => {
+    if (data && data.id) {
+      await addToCartAPI(data.id, quantity);
       closeCart();
       router.push("/cart");
     }
@@ -276,6 +273,7 @@ const ProductSummary = ({ data }: { data: any }) => {
               <button 
                 className="bg-brand-500 rounded-lg py-3 text-white text-sm xl:text-base font-bold hover:bg-brand-400 transition-colors duration-300"
                 onClick={handleBuyNow}
+                disabled={isLoading}
               >
                 Mua ngay
               </button>
@@ -283,6 +281,7 @@ const ProductSummary = ({ data }: { data: any }) => {
                 <button 
                   className="w-full flex items-center gap-2 justify-center border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium hover:bg-brand-50 transition-colors duration-300"
                   onClick={handleAddToCart}
+                  disabled={isLoading}
                 >
                   <Image
                     src={IMAGES.cart}

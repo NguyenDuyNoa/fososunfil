@@ -1,5 +1,4 @@
 import { CustomCheckbox } from "@/components/customCheckbox";
-import React, { useState, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -7,109 +6,187 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/selectCustom";
+import { useGetListDistrict } from "@/managers/api-management/order/useGetListDistrict";
+import { useGetListProvince } from "@/managers/api-management/order/useGetListProvince";
+import { useGetListWard } from "@/managers/api-management/order/useGetListWard";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { z } from "zod";
 
-// Mock data cho thành phố, quận huyện, phường xã
-const mockCities = [
-  { id: "1", value: "hanoi", label: "Hà Nội" },
-  { id: "2", value: "hochiminh", label: "Hồ Chí Minh" },
-  { id: "3", value: "danang", label: "Đà Nẵng" },
-];
+// Schema xác thực cho thông tin giao hàng
+const deliverySchema = z.object({
+  customerName: z.string().min(1, "Vui lòng nhập họ tên người nhận"),
+  phone: z
+    .string()
+    .min(10, "Số điện thoại không hợp lệ")
+    .max(11, "Số điện thoại không hợp lệ"),
+  email: z.string().email("Email không hợp lệ").optional().or(z.literal("")),
+  province: z.string().min(1, "Vui lòng chọn thành phố"),
+  district: z.string().min(1, "Vui lòng chọn quận/huyện"),
+  ward: z.string().min(1, "Vui lòng chọn phường/xã"),
+  address: z.string().min(1, "Vui lòng nhập địa chỉ cụ thể"),
+  note: z.string().optional(),
+  needInvoice: z.boolean(),
+});
 
-const mockDistricts = {
-  hanoi: [
-    { id: "h1", value: "badinh", label: "Ba Đình" },
-    { id: "h2", value: "caugiay", label: "Cầu Giấy" },
-    { id: "h3", value: "dongda", label: "Đống Đa" },
-  ],
-  hochiminh: [
-    { id: "hcm1", value: "quan1", label: "Quận 1" },
-    { id: "hcm2", value: "quan2", label: "Quận 2" },
-    { id: "hcm3", value: "quan3", label: "Quận 3" },
-  ],
-  danang: [
-    { id: "dn1", value: "haichau", label: "Hải Châu" },
-    { id: "dn2", value: "sontra", label: "Sơn Trà" },
-    { id: "dn3", value: "nguhanhson", label: "Ngũ Hành Sơn" },
-  ],
-};
+// Kiểu dữ liệu từ schema
+type DeliveryFormData = z.infer<typeof deliverySchema>;
 
-const mockWards = {
-  badinh: [
-    { id: "bd1", value: "phucxa", label: "Phúc Xá" },
-    { id: "bd2", value: "trungphung", label: "Trúc Phụng" },
-  ],
-  caugiay: [
-    { id: "cg1", value: "dichvong", label: "Dịch Vọng" },
-    { id: "cg2", value: "maidinh", label: "Mai Dịch" },
-  ],
-  dongda: [
-    { id: "dd1", value: "catlinh", label: "Cát Linh" },
-    { id: "dd2", value: "vanhoa", label: "Văn Hoa" },
-  ],
-  quan1: [
-    { id: "q11", value: "bennghe", label: "Bến Nghé" },
-    { id: "q12", value: "benthanhq1", label: "Bến Thành" },
-  ],
-  quan2: [
-    { id: "q21", value: "thaodiena", label: "Thảo Điền" },
-    { id: "q22", value: "anphu", label: "An Phú" },
-  ],
-  quan3: [
-    { id: "q31", value: "phuongthai", label: "Phường Thái" },
-    { id: "q32", value: "phuongnguyen", label: "Phường Nguyễn" },
-  ],
-  haichau: [
-    { id: "hc1", value: "thachthang", label: "Thạch Thang" },
-    { id: "hc2", value: "haichauhc", label: "Hải Châu" },
-  ],
-  sontra: [
-    { id: "st1", value: "mantra", label: "Mân Trà" },
-    { id: "st2", value: "thokhe", label: "Thọ Khê" },
-  ],
-  nguhanhson: [
-    { id: "nhs1", value: "mykhue", label: "Mỹ Khuê" },
-    { id: "nhs2", value: "khuemy", label: "Khuê Mỹ" },
-  ],
-};
-
-const DeliveryInformation = () => {
+const DeliveryInformation = forwardRef((props, ref) => {
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [selectedDistrict, setSelectedDistrict] = useState<string>("");
   const [selectedWard, setSelectedWard] = useState<string>("");
-  const [availableDistricts, setAvailableDistricts] = useState<any[]>([]);
-  const [availableWards, setAvailableWards] = useState<any[]>([]);
+  const [customerName, setCustomerName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [note, setNote] = useState<string>("");
+  const [needInvoice, setNeedInvoice] = useState<boolean>(false);
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof DeliveryFormData, string>>
+  >({});
+
+  const { data: listProvince } = useGetListProvince();
+  const { data: listDistrict } = useGetListDistrict(selectedCity);
+  const { data: listWard } = useGetListWard(selectedDistrict);
+
+  // Hàm xác thực từng trường riêng lẻ
+  const validateField = (field: keyof DeliveryFormData, value: any) => {
+    try {
+      const fieldSchema = deliverySchema.shape[field];
+      fieldSchema.parse(value);
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({ ...prev, [field]: error.errors[0].message }));
+      }
+    }
+  };
+
+  // Cập nhật và xác thực khi thay đổi giá trị
+  const handleCustomerNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCustomerName(value);
+    validateField("customerName", value);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPhone(value);
+    validateField("phone", value);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    validateField("email", value);
+  };
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAddress(value);
+    validateField("address", value);
+  };
+
+  const handleNoteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNote(e.target.value);
+  };
+
+  const handleCityChange = (value: string) => {
+    setSelectedCity(value);
+    validateField("province", value);
+  };
+
+  const handleDistrictChange = (value: string) => {
+    setSelectedDistrict(value);
+    validateField("district", value);
+  };
+
+  const handleWardChange = (value: string) => {
+    setSelectedWard(value);
+    validateField("ward", value);
+  };
+
+  // Hàm xác thực dữ liệu
+  const validateForm = () => {
+    try {
+      deliverySchema.parse({
+        customerName,
+        phone,
+        email,
+        province: selectedCity,
+        district: selectedDistrict,
+        ward: selectedWard,
+        address,
+        note,
+        needInvoice,
+      });
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors: Partial<Record<keyof DeliveryFormData, string>> =
+          {};
+        error.errors.forEach((err) => {
+          const path = err.path[0] as keyof DeliveryFormData;
+          formattedErrors[path] = err.message;
+        });
+        setErrors(formattedErrors);
+      }
+      return false;
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    getDeliveryInfo: () => {
+      // Kiểm tra xác thực dữ liệu trước khi trả về
+      if (!validateForm()) {
+        return null;
+      }
+
+      return {
+        customerName,
+        phone,
+        email,
+        province: selectedCity,
+        district: selectedDistrict,
+        ward: selectedWard,
+        address,
+        note,
+        needInvoice,
+      };
+    },
+  }));
 
   // Cập nhật quận/huyện khi thành phố thay đổi
   useEffect(() => {
     if (selectedCity) {
-      setAvailableDistricts(mockDistricts[selectedCity as keyof typeof mockDistricts] || []);
       setSelectedDistrict("");
       setSelectedWard("");
-      setAvailableWards([]);
     } else {
-      setAvailableDistricts([]);
       setSelectedDistrict("");
       setSelectedWard("");
-      setAvailableWards([]);
     }
   }, [selectedCity]);
 
   // Cập nhật phường/xã khi quận/huyện thay đổi
   useEffect(() => {
     if (selectedDistrict) {
-      setAvailableWards(mockWards[selectedDistrict as keyof typeof mockWards] || []);
       setSelectedWard("");
     } else {
-      setAvailableWards([]);
       setSelectedWard("");
     }
   }, [selectedDistrict]);
 
   // CSS chung cho input
-  const inputClassName = "w-full px-[14px] py-4 text-sm font-normal text-primary-new placeholder:text-disable-50 border border-[#919EAB33] rounded-lg focus:outline-none focus:border-brand-600 transition-colors";
-  
+  const inputClassName =
+    "w-full px-[14px] py-4 text-sm font-normal text-primary-new placeholder:text-disable-50 border border-[#919EAB33] rounded-lg focus:outline-none focus:border-brand-600 transition-colors";
+
   // CSS chung cho select trigger
-  const selectClassName = "w-full px-[14px] py-3.5 text-sm font-normal text-primary-new placeholder:text-disable-50 border border-[#919EAB33] rounded-lg focus:outline-none focus:border-brand-600 transition-colors focus:ring-0 focus:ring-offset-0 h-auto data-[state=open]:border-brand-600 data-[state=open]:ring-0";
+  const selectClassName =
+    "w-full px-[14px] py-3.5 text-sm font-normal text-primary-new placeholder:text-disable-50 border border-[#919EAB33] rounded-lg focus:outline-none focus:border-brand-600 transition-colors focus:ring-0 focus:ring-offset-0 h-auto data-[state=open]:border-brand-600 data-[state=open]:ring-0";
+
+  // CSS cho thông báo lỗi
+  const errorClassName = "text-red-500 text-xs mt-1";
 
   return (
     <div className="p-3 py-6 xl:p-6 w-full h-fit bg-white xl:rounded-xl shadow-sm flex flex-col gap-6">
@@ -117,118 +194,187 @@ const DeliveryInformation = () => {
         Thông tin giao hàng
       </h2>
       <form action="" className="flex flex-col gap-3 xl:gap-6">
-        <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-4">
+        <div className="flex flex-col xl:flex-row items-start gap-3 xl:gap-4">
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder="Họ tên người nhận hàng"
+              className={`${inputClassName} ${
+                errors.customerName ? "border-red-500" : ""
+              }`}
+              value={customerName}
+              onChange={handleCustomerNameChange}
+            />
+            {errors.customerName && (
+              <p className={errorClassName}>{errors.customerName}</p>
+            )}
+          </div>
+          <div className="w-full">
+            <input
+              type="text"
+              placeholder="Số điện thoại"
+              className={`${inputClassName} ${
+                errors.phone ? "border-red-500" : ""
+              }`}
+              value={phone}
+              onChange={handlePhoneChange}
+            />
+            {errors.phone && <p className={errorClassName}>{errors.phone}</p>}
+          </div>
+        </div>
+        <div className="w-full">
           <input
             type="text"
-            placeholder="Họ tên người nhận hàng"
-            className={inputClassName}
+            placeholder="E-mail (không bắt buộc)"
+            className={`${inputClassName} ${
+              errors.email ? "border-red-500" : ""
+            }`}
+            value={email}
+            onChange={handleEmailChange}
           />
+          {errors.email && <p className={errorClassName}>{errors.email}</p>}
+        </div>
+        <div className="flex flex-col xl:flex-row items-start gap-3 xl:gap-4">
+          <div className="w-full">
+            <Select value={selectedCity} onValueChange={handleCityChange}>
+              <SelectTrigger
+                className={`${selectClassName} ${
+                  errors.province ? "border-red-500" : ""
+                }`}
+              >
+                {selectedCity
+                  ? listProvince?.data?.find(
+                      (city: any) => city.provinceid === selectedCity
+                    )?.name
+                  : "Chọn thành phố"}
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup className="space-y-2">
+                  {listProvince?.data?.map((city: any) => (
+                    <SelectItem
+                      key={city.provinceid}
+                      value={city.provinceid}
+                      className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
+                    >
+                      <div className="flex justify-between w-full">
+                        <div className="font-normal">{city.name}</div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.province && (
+              <p className={errorClassName}>{errors.province}</p>
+            )}
+          </div>
+
+          <div className="w-full">
+            <Select
+              value={selectedDistrict}
+              onValueChange={handleDistrictChange}
+              disabled={!selectedCity}
+            >
+              <SelectTrigger
+                className={`${selectClassName} ${
+                  errors.district ? "border-red-500" : ""
+                }`}
+              >
+                {selectedDistrict
+                  ? listDistrict?.data?.find(
+                      (district: any) =>
+                        district.districtid === selectedDistrict
+                    )?.name
+                  : "Quận/huyện"}
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup className="space-y-2">
+                  {listDistrict?.data?.map((district: any) => (
+                    <SelectItem
+                      key={district.districtid}
+                      value={district.districtid}
+                      className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
+                    >
+                      <div className="flex justify-between w-full">
+                        <div className="font-normal">{district.name}</div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.district && (
+              <p className={errorClassName}>{errors.district}</p>
+            )}
+          </div>
+
+          <div className="w-full">
+            <Select
+              value={selectedWard}
+              onValueChange={handleWardChange}
+              disabled={!selectedDistrict}
+            >
+              <SelectTrigger
+                className={`${selectClassName} ${
+                  errors.ward ? "border-red-500" : ""
+                }`}
+              >
+                {selectedWard
+                  ? listWard?.data?.find(
+                      (ward: any) => ward.wardid === selectedWard
+                    )?.name
+                  : "Phường/xã"}
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup className="space-y-2">
+                  {listWard?.data?.map((ward: any) => (
+                    <SelectItem
+                      key={ward.wardid}
+                      value={ward.wardid}
+                      className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
+                    >
+                      <div className="flex justify-between w-full">
+                        <div className="font-normal">{ward.name}</div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.ward && <p className={errorClassName}>{errors.ward}</p>}
+          </div>
+        </div>
+        <div className="w-full">
           <input
             type="text"
-            placeholder="Số điện thoại"
-            className={inputClassName}
+            placeholder="Nhập địa chỉ cụ thể"
+            className={`${inputClassName} ${
+              errors.address ? "border-red-500" : ""
+            }`}
+            value={address}
+            onChange={handleAddressChange}
           />
+          {errors.address && <p className={errorClassName}>{errors.address}</p>}
         </div>
-        <input
-          type="text"
-          placeholder="E-mail (không bắt buộc)"
-          className={inputClassName}
-        />
-        <div className="flex flex-col xl:flex-row items-center gap-3 xl:gap-4">
-          <Select
-            value={selectedCity}
-            onValueChange={(value: string) => setSelectedCity(value)}
-          >
-            <SelectTrigger className={selectClassName}>
-              {selectedCity ? mockCities.find(city => city.value === selectedCity)?.label : "Chọn thành phố"}
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup className="space-y-2">
-                {mockCities.map((city) => (
-                  <SelectItem
-                    key={city.id}
-                    value={city.value}
-                    className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
-                  >
-                    <div className="flex justify-between w-full">
-                      <div className="font-normal">{city.label}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={selectedDistrict}
-            onValueChange={(value: string) => setSelectedDistrict(value)}
-            disabled={!selectedCity}
-          >
-            <SelectTrigger className={selectClassName}>
-              {selectedDistrict ? availableDistricts.find(district => district.value === selectedDistrict)?.label : "Quận/huyện"}
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup className="space-y-2">
-                {availableDistricts.map((district) => (
-                  <SelectItem
-                    key={district.id}
-                    value={district.value}
-                    className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
-                  >
-                    <div className="flex justify-between w-full">
-                      <div className="font-normal">{district.label}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={selectedWard}
-            onValueChange={(value: string) => setSelectedWard(value)}
-            disabled={!selectedDistrict}
-          >
-            <SelectTrigger className={selectClassName}>
-              {selectedWard ? availableWards.find(ward => ward.value === selectedWard)?.label : "Phường/xã"}
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup className="space-y-2">
-                {availableWards.map((ward) => (
-                  <SelectItem
-                    key={ward.id}
-                    value={ward.value}
-                    className="w-full block focus:bg-[#98E6F6]/30 px-2 text-sm cursor-pointer"
-                  >
-                    <div className="flex justify-between w-full">
-                      <div className="font-normal">{ward.label}</div>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <input
-          type="text"
-          placeholder="Nhập địa chỉ cụ thể"
-          className={inputClassName}
-        />
         <input
           type="text"
           placeholder="Ghi chú thêm cho đơn hàng (không bắt buộc)"
           className={inputClassName}
+          value={note}
+          onChange={handleNoteChange}
         />
         <CustomCheckbox
           id="delivery"
           stroke="#637381"
           label="Yêu cầu xuất hoá đơn điện tử"
-          checked={false}
-          onChange={() => {}}
+          checked={needInvoice}
+          onChange={() => setNeedInvoice(!needInvoice)}
         />
       </form>
     </div>
   );
-};
+});
+
+DeliveryInformation.displayName = "DeliveryInformation";
 
 export default DeliveryInformation;

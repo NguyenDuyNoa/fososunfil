@@ -1,15 +1,19 @@
 import { create } from "zustand";
 
-interface DialogStoreProps {
-    openDialogCustom: boolean
-    statusDialog: string
-    setStatusDialog: (type: string) => void
-    setOpenDialogCustom: (key: boolean) => void
+interface DialogStore {
+    openDialogCustom: boolean;
+    statusDialog: string;
+    setOpenDialogCustom: (key: boolean) => void;
+    setStatusDialog: (type: string) => void;
+    handleOpenDialog: (status: string, type_device: string) => void;
+    setHandleOpenDialog: (handler: (status: string, type_device: string) => void) => void;
 }
 
-export const useDialogStore = create<DialogStoreProps>((set) => ({
+export const useDialogStore = create<DialogStore>((set) => ({
     openDialogCustom: false,
     statusDialog: "",
-    setStatusDialog: (type: string) => set((state: DialogStoreProps) => ({ statusDialog: type })),
-    setOpenDialogCustom: (key: boolean) => set((state: DialogStoreProps) => ({ openDialogCustom: key })),
+    handleOpenDialog: () => {},
+    setOpenDialogCustom: (key: boolean) => set((state) => ({ ...state, openDialogCustom: key })),
+    setStatusDialog: (type: string) => set((state) => ({ ...state, statusDialog: type })),
+    setHandleOpenDialog: (handler) => set((state) => ({ ...state, handleOpenDialog: handler })),
 }));
