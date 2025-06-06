@@ -54,7 +54,6 @@ const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemR
             <SwiperCarousel
               items={itemRelated as any}
               imageFull={true}
-              slidesPerView={isVisibleMobile ? 1.5 : 4}
               spaceBetween={isVisibleMobile ? 8 : 12}
               // autoplay={true}
               // autoplayDelay={2000}
