@@ -27,6 +27,7 @@ import { useState } from "react";
 import Account from "./Account";
 import Cart from "./Cart";
 import CountryOptions from "./CountryOptions";
+import SearchBar from "./SearchBar";
 
 export interface DesktopHeaderProps {
   dataCountryOptions: any[];
@@ -71,7 +72,6 @@ const NewDesktopHeader = ({
   handleOpenDialog,
 }: DesktopHeaderProps) => {
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { isLoading } = useGetInfoByToken();
@@ -195,41 +195,15 @@ const NewDesktopHeader = ({
               <Cart />
             </div>
           </div>
-          <div className="py-2 w-full xl:hidden">
-            <div className="flex flex-row items-center w-full border-[1.5px] border-brand-500 rounded-full p-1 pl-5">
-              <input
-                type="text"
-                placeholder="Tìm sản phẩm"
-                className="flex-1 bg-transparent pt-0.5 text-disable-50 border-none outline-none placeholder:text-disable-50 text-sm/[24px] font-normal"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button className="mr-2">
-                <IconCameraHeader fill="#041F2F" className="size-6" />
-              </button>
-              <button className="bg-brand-500 rounded-full py-2 px-3">
-                <IconSearchHeader fill="white" className="size-4" />
-              </button>
-            </div>
+          
+          {/* Mobile Search Bar */}
+          <div className="xl:hidden w-full">
+            <SearchBar isMobile={true} />
           </div>
 
           <div className="flex-1 hidden xl:flex flex-row justify-between w-full gap-8 2xl:gap-12">
-            {/* Search Bar */}
-            <div className="flex flex-row items-center w-full border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
-              <input
-                type="text"
-                placeholder="Tìm sản phẩm"
-                className="flex-1 xxl:py-2 xxl:px-4 lg:py-1 lg:px-2 text-disable-50 border-none outline-none placeholder:text-disable-50 text-base font-normal"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button className="mr-2">
-                <IconCameraHeader fill="#041F2F" />
-              </button>
-              <button className="bg-blue-600 rounded-full xxl:py-2 xxl:px-5 py-[6px] px-4">
-                <IconSearchHeader fill="white" />
-              </button>
-            </div>
+            {/* Desktop Search Bar */}
+            <SearchBar />
 
             {/* Right Navigation */}
             <div className="flex items-center gap-4">

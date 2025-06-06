@@ -175,7 +175,7 @@ const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
     <div className={`fixed inset-0 z-[60] bg-white overflow-hidden ${isOpen ? 'animate-slideIn' : 'animate-slideOut'}`}>
       {/* Header */}
       <div className="flex items-center gap-3 py-2 px-3 bg-brand-700">
-        <button onClick={onClose} className="p-2">
+        <button onClick={onClose} className="p-1">
           <X className="size-6 text-white" />
         </button>
         <div className="flex flex-row items-center w-full rounded-full p-1 pl-5 bg-white">

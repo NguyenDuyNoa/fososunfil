@@ -10,6 +10,7 @@ import DoubleArrowRightIcon from "../icons/DoubleArrowRight";
 import { useGetListCategory } from "@/managers/api-management/products/useGetProductCategory";
 import { MenuItem } from "@/types/categories/ICategoryes";
 import { IMAGES } from "@/constants/Images";
+import SearchBar from "../layout/header/SearchBar";
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
@@ -122,22 +123,10 @@ const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
     >
       {/* Header */}
       <div className="flex items-center gap-3 py-2 px-3 bg-brand-700">
-        <button onClick={onClose} className="p-2">
+        <button onClick={onClose} className="p-1">
           <X className="size-6 text-white" />
         </button>
-        <div className="flex flex-row items-center w-full rounded-full p-1 pl-5 bg-white">
-          <input
-            type="text"
-            placeholder="Tìm sản phẩm"
-            className="flex-1 bg-transparent pt-0.5 text-disable-50 border-none outline-none placeholder:text-disable-50 text-sm/[24px] font-normal"
-          />
-          <button className="mr-2">
-            <IconCameraHeader fill="#041F2F" className="size-6" />
-          </button>
-          <button className="bg-brand-500 rounded-full py-2 px-3">
-            <IconSearchHeader fill="white" className="size-4" />
-          </button>
-        </div>
+        <SearchBar isMobile={true} isBorder={false} />
         <CountryOptions textColor="text-white" sizeIcon="size-6" />
       </div>
 

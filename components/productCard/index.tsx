@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import apiOrder from "@/services/order/order.service";
 import { useToastStore } from "@/stores/useToastStore";
 import { useDialogStore } from "@/stores/useDialogStore";
+import { convertToSlug } from "@/utils/format/ConvertToSlug";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -44,16 +45,6 @@ const ProductCard = ({
   const { setToast } = useToastStore.getState();
   const { setOpenDialogCustom, setStatusDialog, setProductData } =
     useDialogStore();
-
-  const convertToSlug = (text: string) => {
-    return text
-      ?.toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[đĐ]/g, "d")
-      .replace(/[^a-z0-9\s]/g, "")
-      .replace(/\s+/g, "-");
-  };
 
   const productSlug = product?.slug || convertToSlug(product?.name) || "";
 

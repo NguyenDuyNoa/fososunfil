@@ -50,7 +50,7 @@ const SidebarFilter = ({
   filterData,
   onFilterChange,
 }: SidebarFilterProps) => {
-  console.log(filterData)
+
   return (
     <div className="hidden sticky top-[100px] bg-white rounded-lg xl:flex flex-col gap-4 py-3 min-w-[315px] max-w-[315px] h-fit">
       <div className="p-3 flex items-center gap-3">
