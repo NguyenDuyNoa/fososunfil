@@ -189,7 +189,7 @@ const ProductSection = ({
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-3 xxl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xxl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4">
         {isLoading ? (
           Array.from({ length: 8 }).map((_, index) => (
             <ProductCardSkeleton key={index} />

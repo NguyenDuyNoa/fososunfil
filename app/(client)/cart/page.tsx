@@ -8,11 +8,9 @@ import { useResizeStore } from "@/stores/useResizeStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import OrderSummary from "./components/OrderSummary";
 import ProductList from "./components/ProductList";
-import { useAuthStore } from "@/stores/useAuthStores";
-import { useDialogStore } from "@/stores/useDialogStore";
 
 const breadcrumbItems = [
   {
@@ -36,44 +34,32 @@ interface Product {
 }
 
 const CartPage = () => {
+  const router = useRouter();
   const { isVisibleMobile, isVisibleTablet } = useResizeStore();
   const { items, isLoading, fetchCart, updateQuantityAPI, removeFromCartAPI } =
     useCartStore();
-  const router = useRouter();
   const [products, setProducts] = useState<Product[]>(items as any);
   const [loadingItems, setLoadingItems] = useState<
     Record<string | number, boolean>
   >({});
-  // const { informationUser } = useAuthStore();
-  const { handleOpenDialog } = useDialogStore();
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-  // Kiểm tra người dùng đã đăng nhập chưa
-  // useEffect(() => {
-  //   if (!informationUser) {
-  //     setIsAuthenticated(false);
-  //     handleOpenDialog && handleOpenDialog("login", "desktop");
-  //   } else {
-  //     setIsAuthenticated(true);
-  //   }
-  // }, [informationUser, handleOpenDialog]);
+  
+  // Sử dụng useRef để lưu trữ các timeout cho debounce
+  const timeoutRef = useRef<Record<string | number, NodeJS.Timeout>>({});
 
   // Sử dụng API từ store để lấy dữ liệu giỏ hàng
   useEffect(() => {
-    if (isAuthenticated) {
-      const loadCart = async () => {
-        await fetchCart();
-      };
-      loadCart();
-    }
-  }, [isAuthenticated, fetchCart]);
+    const loadCart = async () => {
+      await fetchCart();
+    };
+    loadCart();
+  }, [fetchCart]);
 
   // Cập nhật state products khi items thay đổi
   useEffect(() => {
     setProducts(items as any);
   }, [items]);
 
-  // Hàm cập nhật số lượng sản phẩm
+  // Hàm cập nhật số lượng sản phẩm với debounce
   const updateProductQuantity = async (
     id: number | string,
     newQuantity: number
@@ -89,11 +75,23 @@ const CartPage = () => {
         )
       );
 
-      // Gọi API để cập nhật số lượng
-      await updateQuantityAPI(id, newQuantity);
+      // Xóa timeout cũ nếu có
+      if (timeoutRef.current[id]) {
+        clearTimeout(timeoutRef.current[id]);
+      }
 
-      // Kết thúc trạng thái loading cho sản phẩm
-      setLoadingItems((prev) => ({ ...prev, [id]: false }));
+      // Tạo timeout mới để gọi API sau 500ms
+      timeoutRef.current[id] = setTimeout(async () => {
+        try {
+          // Gọi API để cập nhật số lượng
+          await updateQuantityAPI(id, newQuantity);
+        } catch (error) {
+          console.error("Lỗi khi cập nhật số lượng:", error);
+        } finally {
+          // Kết thúc trạng thái loading cho sản phẩm
+          setLoadingItems((prev) => ({ ...prev, [id]: false }));
+        }
+      }, 500);
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error);
       setLoadingItems((prev) => ({ ...prev, [id]: false }));
@@ -112,42 +110,14 @@ const CartPage = () => {
     }
   };
 
-  // // Nếu chưa đăng nhập, hiển thị giao diện giỏ hàng trống
-  // if (!isAuthenticated) {
-  //   return (
-  //     <div className="flex flex-col gap-8 pt-6">
-  //       <div className="container">
-  //         <Breadcrumbs items={breadcrumbItems} />
-  //       </div>
-  //       <div className="flex flex-col justify-center items-center gap-9 w-full">
-  //         <Image
-  //           src={IMAGES.cartEmpty}
-  //           alt="cartEmpty"
-  //           width={480}
-  //           height={360}
-  //         />
-  //         <div className="flex flex-col gap-3 items-center">
-  //           <h3 className="text-2xl leading-7 font-semibold text-primary-new">
-  //             Giỏ hàng trống
-  //           </h3>
-  //           <p className="text-secondary-new text-base font-normal">
-  //             Vui lòng đăng nhập để xem giỏ hàng của bạn.
-  //           </p>
-  //         </div>
-  //         <Link
-  //           href="/"
-  //           className="w-fit xl:w-[480px] text-center bg-brand-500 text-base font-bold text-white px-4 py-3 rounded-lg"
-  //         >
-  //           Tiếp tục mua sắm
-  //         </Link>
-  //       </div>
-  //       <div className="container">
-  //         <ServiceHighlights />
-  //       </div>
-  //       <StoreLocatorBanner />
-  //     </div>
-  //   );
-  // }
+  // Xóa các timeout khi component unmount
+  useEffect(() => {
+    return () => {
+      Object.values(timeoutRef.current).forEach(timeout => {
+        clearTimeout(timeout);
+      });
+    };
+  }, []);
 
   return (
     <div className="flex flex-col gap-8 pt-6">
@@ -168,7 +138,6 @@ const CartPage = () => {
             products={products}
             updateQuantity={updateProductQuantity}
             removeProduct={removeProduct}
-            // loadingItems={loadingItems}
           />
           <OrderSummary
             products={products}

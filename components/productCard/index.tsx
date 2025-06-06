@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import apiOrder from "@/services/order/order.service";
 import { useToastStore } from "@/stores/useToastStore";
+import { useDialogStore } from "@/stores/useDialogStore";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -19,6 +20,7 @@ interface ProductCardProps {
   imageFull?: boolean;
   isFlashSale?: boolean;
   isHome?: boolean;
+  isRelated?: boolean;
   handleOpenDialog?: (value: string, type_device: string) => void;
 }
 
@@ -33,12 +35,15 @@ const ProductCard = ({
   imageFull = false,
   isFlashSale = false,
   isHome = false,
+  isRelated = false,
   handleOpenDialog,
 }: ProductCardProps) => {
   const { closeCart, addToCartAPI, fetchCart } = useCartStore();
   const { informationUser } = useAuthStore();
   const router = useRouter();
   const { setToast } = useToastStore.getState();
+  const { setOpenDialogCustom, setStatusDialog, setProductData } =
+    useDialogStore();
 
   const convertToSlug = (text: string) => {
     return text
@@ -79,21 +84,33 @@ const ProductCard = ({
       return;
     }
 
-    if (product) {
-      try {
-        const response = await apiOrder.addCart({ item_id: product.id, quantity: product?.quantity || 1 });
-        console.log(response?.data);
-        
-        if (response?.data?.result === true) {
-          setToast(true, "success", response?.data?.message, 2500);
-          await fetchCart();
-          closeCart();
-          router.push("/cart");
-        } else {
-          setToast(true, "error", response?.data?.message, 2500);
+    // Đối với desktop, tiếp tục hành vi mua ngay trực tiếp
+    if (window.innerWidth >= 1280) {
+      if (product) {
+        try {
+          const response = await apiOrder.addCart({
+            item_id: product.id,
+            quantity: product?.quantity || 1,
+          });
+          if (response?.data?.result === true) {
+            setToast(true, "success", response?.data?.message, 2500);
+            await fetchCart();
+            closeCart();
+            router.push("/cart");
+          } else {
+            setToast(true, "error", response?.data?.message, 2500);
+          }
+        } catch (error) {
+          console.error("Lỗi khi thêm vào giỏ hàng:", error);
         }
-      } catch (error) {
-        console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      }
+    }
+    // Đối với mobile, mở bottom sheet chọn số lượng
+    else {
+      if (product) {
+        setProductData(product);
+        setStatusDialog("quantity_selection");
+        setOpenDialogCustom(true);
       }
     }
   };
@@ -223,20 +240,29 @@ const ProductCard = ({
         </div>
         {!isBanner && (
           <>
-            <div className="hidden xl:flex justify-between gap-3">
+            {!isRelated ? (
+              <div className="hidden xl:flex justify-between gap-3">
+                <button
+                  className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
+                  onClick={handleAddToCart}
+                >
+                  Thêm vào giỏ
+                </button>
+                <button
+                  className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
+                  onClick={handleBuyNow}
+                >
+                  Mua ngay
+                </button>
+              </div>
+            ) : (
               <button
                 className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
-                onClick={handleAddToCart}
-              >
-                Thêm vào giỏ
-              </button>
-              <button
-                className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
                 onClick={handleBuyNow}
               >
                 Mua ngay
               </button>
-            </div>
+            )}
             <button
               className="xl:hidden whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs font-bold px-3 py-1 rounded transition-colors duration-300"
               onClick={handleBuyNow}

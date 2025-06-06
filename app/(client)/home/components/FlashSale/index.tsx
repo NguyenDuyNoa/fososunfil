@@ -15,7 +15,7 @@ const breakpoints = {
 };
 
 const FlashSale = ({ itemSale }: { itemSale: any }) => {
-  const { isVisibleMobile } = useResizeStore();
+  const { isVisibleMobile, isVisibleTablet } = useResizeStore();
   // Thiết lập thời gian kết thúc cụ thể: 12:30, ngày 15 tháng 5 năm 2025
   const endTime = useMemo(() => {
     const specificEndTime = new Date("2025-05-25T12:30:00");
@@ -23,7 +23,7 @@ const FlashSale = ({ itemSale }: { itemSale: any }) => {
   }, []);
 
   return (
-    <div className={`${!isVisibleMobile ? "container" : ""}`}>
+    <div className={`${!isVisibleMobile && !isVisibleTablet ? "container" : ""}`}>
       <div className="relative p-3 xl:p-12 bg-gradient-to-r from-[#FFEDD933] to-[#FFE8CE4D] w-full h-fit lg:rounded-xl overflow-hidden">
         <div className="flex flex-col gap-5 z-[5] relative">
           <div className="flex justify-between gap-2 z-10">
@@ -58,14 +58,13 @@ const FlashSale = ({ itemSale }: { itemSale: any }) => {
           <SwiperCarousel
             items={itemSale as any}
             isFlashSale={true}
-            slidesPerView={isVisibleMobile ? 2.5 : 6}
             spaceBetween={isVisibleMobile ? 8 : 16}
-            // autoplay={true}
+            autoplay={true}
             breakpoints={breakpoints}
-            // autoplayDelay={2000}
+            autoplayDelay={2000}
             className="flash-sale-swiper z-10"
           />
-          <div className="absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#FCF5ED00] to-[#FCF5ED] z-[11] pointer-events-none"></div>
+          <div className="hidden xl:block absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#FCF5ED00] to-[#FCF5ED] z-[11] pointer-events-none"></div>
         </div>
         <div className="bg-[#FFDDB5] absolute -top-1/2 left-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>
         <div className="bg-[#FFDDB5] absolute -bottom-1/2 right-0 w-1/2 h-full rounded-[50%] blur-3xl z-[2] pointer-events-none"></div>

@@ -219,7 +219,7 @@ const Cart = () => {
 
       {isCartOpen && (
         <div
-          className={`absolute top-[calc(100%+14px)] right-0 w-[400px] max-h-[70vh] z-20 border border-gray-200 py-5 px-4 bg-white rounded-xl flex flex-col gap-4 cart-dropdown transform transition-all duration-500 ease-in-out ${
+          className={`absolute top-[calc(100%+14px)] right-0 w-[400px] max-h-[70vh] z-20 border border-gray-200 py-5 px-4 bg-white rounded-xl gap-4 cart-dropdown transform transition-all duration-500 ease-in-out hidden xl:flex flex-col ${
             isCartOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-8"

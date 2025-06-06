@@ -58,7 +58,6 @@ const SidebarFilterMb = ({
   onFilterChange,
   onReset 
 }: SidebarFilterMbProps) => {
-  console.log(filterData)
 
   return (
     <div className="fixed inset-0 w-full h-full bg-[#025FCA80] z-50 backdrop-blur-[2px] animate-fadeIn">

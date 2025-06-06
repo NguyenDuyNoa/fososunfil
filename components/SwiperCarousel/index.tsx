@@ -1,7 +1,7 @@
 "use client";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 import { ProductItem } from "@/types/products/IProducts";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCardWithAuthCheck from "../productCard/withAuthCheck";
@@ -16,7 +16,6 @@ type BreakpointOptions = {
 
 interface SwiperCarouselProps {
   items: ProductItem[];
-  slidesPerView?: number;
   spaceBetween?: number;
   autoplay?: boolean;
   loop?: boolean;
@@ -32,7 +31,6 @@ interface SwiperCarouselProps {
 
 const SwiperCarousel = ({
   items,
-  slidesPerView,
   spaceBetween = 8,
   autoplay = false,
   loop = false,
@@ -46,6 +44,7 @@ const SwiperCarousel = ({
   imageFull = false,
 }: SwiperCarouselProps) => {
   const swiperRef = useRef<any>(null);
+  const [currentSlidesPerView, setCurrentSlidesPerView] = useState(1);
 
   const modules = [Navigation];
   if (autoplay) {
@@ -62,6 +61,39 @@ const SwiperCarousel = ({
     1600: { slidesPerView: 6 },
   };
 
+  // Lấy slidesPerView dựa trên kích thước màn hình hiện tại
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const activeBreakpoints = breakpoints || defaultBreakpoints;
+      
+      // Sắp xếp các breakpoint theo thứ tự tăng dần
+      const sortedBreakpoints = Object.entries(activeBreakpoints)
+        .map(([key, value]) => ({ 
+          width: parseInt(key), 
+          slidesPerView: value.slidesPerView 
+        }))
+        .sort((a, b) => a.width - b.width);
+      
+      // Tìm breakpoint lớn nhất nhỏ hơn hoặc bằng kích thước màn hình hiện tại
+      let slidesPerView = sortedBreakpoints[0]?.slidesPerView || 1;
+      
+      for (const bp of sortedBreakpoints) {
+        if (width >= bp.width) {
+          slidesPerView = bp.slidesPerView;
+        } else {
+          break;
+        }
+      }
+      
+      setCurrentSlidesPerView(slidesPerView);
+    };
+
+    handleResize(); // Gọi ngay khi component mount
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [breakpoints]);
+  
   return (
     <div className="relative h-full mb-[2px]">
       <Swiper
@@ -81,7 +113,6 @@ const SwiperCarousel = ({
         }}
         breakpoints={breakpoints || defaultBreakpoints}
         className={`swiper-carousel ${className}`}
-        slidesPerView={slidesPerView && !breakpoints ? slidesPerView : undefined}
       >
         {items && items.length > 0
           ? items.map((item: ProductItem, index: number) => (
@@ -100,7 +131,7 @@ const SwiperCarousel = ({
             ))}
       </Swiper>
 
-      {showNavigation && items && items.length > (slidesPerView || 1) && (
+      {showNavigation && items && items.length > currentSlidesPerView && (
         <>
           <button
             onClick={() => swiperRef.current?.slidePrev()}

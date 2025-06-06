@@ -35,7 +35,7 @@ const HeroBanner = ({
   return (
     <div className="w-full container ">
       {/* Sidebar bên trái */}
-      <div className="xl:bg-white flex lg:bg-white rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
+      <div className="xl:bg-white flex rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
         <MenuContent
           autoActiveFirstItem={false}
           onClose={handleMouseLeave}
@@ -44,7 +44,7 @@ const HeroBanner = ({
           isBanner={true}
         />
 
-        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden rounded-br-xl">
+        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden">
           <Swiper
             modules={[Autoplay]}
             autoplay={{
@@ -56,13 +56,13 @@ const HeroBanner = ({
             onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
           >
             {bannerSlides?.map((item: any) => (
-              <SwiperSlide key={item.id} className="w-full min-h-full">
+              <SwiperSlide key={item.id} className="w-full h-full">
                 <Image
                   src={item.image}
                   alt=""
                   width={1000}
                   height={1000}
-                  className="object-cover rounded-lg xl:rounded-br-lg w-full h-full"
+                  className="object-cover rounded-lg xl:rounded-none xl:rounded-br-lg w-full h-full"
                 />
               </SwiperSlide>
             ))}

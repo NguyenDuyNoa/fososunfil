@@ -6,7 +6,7 @@ import LongArrowIcon from "@/components/icons/LongArrowIcon";
 const StoreLocatorBanner = () => {
   return (
     <div className="bg-brand-50">
-      <div className="container py-4 xl:py-4 flex flex-col gap-1 xl:flex-row items-center justify-between">
+      <div className="container py-4 xl:py-4 flex flex-col gap-1 lg:flex-row items-center justify-between">
         <div className="flex items-center gap-4">
           <Image
             src={IMAGES.location}

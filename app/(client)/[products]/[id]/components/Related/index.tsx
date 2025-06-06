@@ -1,30 +1,5 @@
 import ProductCardWithAuthCheck from "@/components/productCard/withAuthCheck";
-import React from "react";
-import { IMAGES } from "@/constants/Images";
 import SwiperCarousel from "@/components/SwiperCarousel";
-
-const products = [
-  {
-    imageSrc: IMAGES.product11,
-    buttonText: "Mua ngay"
-  },
-  {
-    imageSrc: IMAGES.product,
-    buttonText: "Mua ngay"
-  },
-  {
-    imageSrc: IMAGES.product10,
-    buttonText: "Mua ngay"
-  },
-  {
-    imageSrc: IMAGES.product8,
-    buttonText: "Mua ngay"
-  },
-  {
-    imageSrc: IMAGES.product3,
-    buttonText: "Mua ngay"
-  }
-];
 
 const breakpoints = {
   320: { slidesPerView: 2.5 },
@@ -40,20 +15,12 @@ const Related = ({ detailItem }: { detailItem: any }) => {
       <h2 className="text-lg xl:text-2xl font-semibold text-primary-new">
         Sản phẩm liên quan
       </h2>
-      
+
       {/* Mobile View */}
       <div className="block xl:hidden">
         <SwiperCarousel
-          items={detailItem?.map((product: any, index: number) => (
-            <ProductCardWithAuthCheck
-              key={index}
-              // isHorizontal
-              imageSrc={product.imageSrc}
-              buttonText={product.buttonText}
-            />
-          ))}
+          items={detailItem}
           breakpoints={breakpoints}
-          slidesPerView={2.5}
           spaceBetween={8}
           showNavigation={false}
         />
@@ -66,7 +33,7 @@ const Related = ({ detailItem }: { detailItem: any }) => {
             key={index}
             isHorizontal
             product={product}
-            buttonText="Mua ngay"
+            isRelated={true}
           />
         ))}
       </div>

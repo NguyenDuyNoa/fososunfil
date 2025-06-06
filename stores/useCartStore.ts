@@ -86,20 +86,39 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
   },
 
   updateQuantityAPI: async (productId, quantity) => {
-    set({ isLoading: true });
     try {
       const response = await apiOrder.updateCartQuantity(productId, quantity);
 
       if (response.data && response.data.result === true) {
-        await get().fetchCart();
-      } else {
-        set({ isLoading: false });
+        // Chỉ lấy dữ liệu mới mà không đặt isLoading = true
+        const { data } = await apiOrder.getListCart();
+        if (data && data.arrItemList) {
+          const cartItems = data.arrItemList;
+
+          const totalItems = cartItems.reduce(
+            (total: number, item: any) => total + parseInt(item.quantity || 1),
+            0
+          );
+
+          const totalPrice = cartItems.reduce((total: number, item: any) => {
+            const price =
+              parseFloat(item.price_discount || 0) > 0
+                ? parseFloat(item.price_discount || 0)
+                : parseFloat(item.price || 0);
+            return total + price * parseInt(item.quantity || 1);
+          }, 0);
+
+          set({
+            items: cartItems,
+            totalItems,
+            totalPrice,
+          });
+        }
       }
 
       return true;
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error);
-      set({ isLoading: false });
       return false;
     }
   },
@@ -110,6 +129,7 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
       const response = await apiOrder.removeFromCart(productId);
 
       if (response.data && response.data.result === true) {
+        setToast(true, "success", response?.data?.message, 2500);
         await get().fetchCart();
       } else {
         set({ isLoading: false });

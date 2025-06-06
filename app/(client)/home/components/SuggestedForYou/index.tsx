@@ -62,7 +62,7 @@ const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemR
               className="flash-sale-swiper z-10 h-full"
             />
           </div>
-          <div className="absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#F4F6F800] to-[#F4F6F8] z-10 pointer-events-none"></div>
+          <div className="hidden xl:block absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#F4F6F800] to-[#F4F6F8] z-10 pointer-events-none"></div>
 
         </div>
       </div>

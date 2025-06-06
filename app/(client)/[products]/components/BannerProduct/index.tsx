@@ -104,7 +104,6 @@ const BannerProduct = ({
         <div className=" py-4 px-3 xl:p-12 xl:pb-10">
           <SwiperCarousel
             items={dataProduct}
-            slidesPerView={6}
             spaceBetween={8}
             navigationButtonBgColor="bg-brand-100"
             navigationButtonIconColor="text-brand-800"
