@@ -59,7 +59,7 @@ const Account = ({
   const { isStateLayoutMain, queryKeyIsStateLayoutMain } = useStateLayoutMain();
   const { setOpenAlertDialog } = useAlertDialogStore();
   const router = useRouter();
-  
+
   const handleDropdownChange = (value: boolean) => {
     queryKeyIsStateLayoutMain({
       header: {
@@ -68,6 +68,7 @@ const Account = ({
       },
     });
   };
+
   return (
     <>
       {informationUser ? (
@@ -88,23 +89,36 @@ const Account = ({
                   }
                 />
               </div>
-              <div
-                className={`${
-                  isStateLayoutMain?.header?.openDropdownProfile
-                    ? "text-[#07A6FF]"
-                    : "text-[#333538]"
-                } text-sm-default font-semibold group-hover:text-[#07A6FF] text-nowrap whitespace-nowrap custom-transition`}
-              >
-                {informationUser?.company}
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`${
+                      isStateLayoutMain?.header?.openDropdownProfile
+                        ? "text-[#07A6FF]"
+                        : "text-[#333538]"
+                    } text-sm-default font-semibold group-hover:text-[#07A6FF] text-nowrap whitespace-nowrap custom-transition`}
+                  >
+                    {informationUser?.company}
+                  </div>
+                  <ArrowDown2
+                    variant="Bold"
+                    className={`${
+                      isStateLayoutMain?.header?.openDropdownProfile
+                        ? "rotate-180 text-[#07A6FF]"
+                        : "text-[#333538]"
+                    } group-hover:text-[#07A6FF] size-5 custom-transition`}
+                  />
+                </div>
+                {informationUser?.status_sunfil !== "0" ? (
+                  <p className="whitespace-nowrap text-xs text-success-main font-medium bg-success-lighter/50 rounded-full px-2 py-1">
+                    Đã xác thực
+                  </p>
+                ) : (
+                  <p className="whitespace-nowrap text-xs text-error-main font-medium bg-error-lighter/50 rounded-full px-2 py-1">
+                    Chưa xác thực
+                  </p>
+                )}
               </div>
-              <ArrowDown2
-                variant="Bold"
-                className={`${
-                  isStateLayoutMain?.header?.openDropdownProfile
-                    ? "rotate-180 text-[#07A6FF]"
-                    : "text-[#333538]"
-                } group-hover:text-[#07A6FF] size-5 custom-transition`}
-              />
             </div>
           </DropdownMenuTrigger>
 
@@ -129,6 +143,16 @@ const Account = ({
               <div className="text-sm-default text-neutral-500 font-semibold">
                 {informationUser?.company}
               </div>
+              
+              {informationUser?.status_sunfil !== "0" ? (
+                  <p className="whitespace-nowrap text-xs text-success-main font-medium bg-success-lighter/50 rounded-full px-2 py-1">
+                    Đã xác thực
+                  </p>
+                ) : (
+                  <p className="whitespace-nowrap text-xs text-error-main font-medium bg-error-lighter/50 rounded-full px-2 py-1">
+                    Chưa xác thực
+                  </p>
+                )}
             </div>
 
             <DottedSeparator />

@@ -43,7 +43,8 @@ interface IInformationUser {
     client_image: string | null
     birtday: string | null,
     gender: string,
-    is_register: string
+    is_register: string,
+    status_sunfil: string
 }
 // interface IInformationUser {
 //     fullname: string;

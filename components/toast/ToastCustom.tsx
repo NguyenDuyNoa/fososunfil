@@ -1,8 +1,6 @@
 import { ToastClose } from "@/components/ui/toast";
-// import { useSendOneNotification } from "@/managers/api-management/other/useSendNotification";
 import { useToastStore } from "@/stores/useToastStore";
 import { CloseCircle, TickCircle, Warning2 } from "iconsax-react";
-import { useRouter } from "next/navigation";
 
 type Props = {
     type: 'success' | 'error' | 'warning'
@@ -10,11 +8,7 @@ type Props = {
     description?: string,
 }
 const ToastCustom = ({ type, content, description }: Props) => {
-    const router = useRouter()
-
     const { showType, dataObject } = useToastStore()
-
-    // const { handleClickOneNotification } = useSendOneNotification()
 
     const types = {
         success: <TickCircle
@@ -43,23 +37,24 @@ const ToastCustom = ({ type, content, description }: Props) => {
             </div>
             <div className={'flex flex-col gap-2'}>
                 <h1 className={'text-[#1B2124] dark:text-white font-bold text-base leading-5'}>
-                    {
+                    {/* {
                         showType
                             ?
                             type.replace(/^./, (char) => char.toUpperCase())
                             :
                             content
-                    }
+                    } */}
+                     {content}
                 </h1>
                 <div className="flex flex-col gap-0.5">
                     {
                         showType && (
                             <h2 className={'text-[#717A95] dark:text-white font-normal text-base'}>
-                                {content}
+                              {description}
                             </h2>
                         )
                     }
-                    {
+                    {/* {
                         description &&
                         <h2
                             onClick={() => {
@@ -70,7 +65,7 @@ const ToastCustom = ({ type, content, description }: Props) => {
                             className={`${dataObject ? "cursor-pointer" : ""} text-[#717A95] dark:text-white font-normal text-sm`}>
                             {description}
                         </h2>
-                    }
+                    } */}
                 </div>
             </div>
         </div>

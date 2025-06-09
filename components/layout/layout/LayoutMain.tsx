@@ -189,13 +189,14 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
   const showToast = (
     type: "success" | "error" | "warning",
     message: string,
-    description?: string
+    description?: string,
+    customTitle?: string
   ) => {
     return toast({
       duration: duration,
       className: "rounded-[13px] max-w-[336px]",
       description: (
-        <ToastCustom type={type} content={message} description={description} />
+        <ToastCustom type={type} content={message} description={description} customTitle={customTitle} />
       ),
     });
   };

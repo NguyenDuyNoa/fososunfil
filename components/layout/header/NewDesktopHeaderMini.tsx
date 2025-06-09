@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Account from "./Account";
 import Cart from "./Cart";
+import SearchBar from "./SearchBar";
 
 const NewDesktopHeaderMini = ({
   dataHeader,
@@ -39,7 +40,7 @@ const NewDesktopHeaderMini = ({
         onClose={() => setIsMobileMenuOpen(false)}
       />
       <header className="w-full py-2 xl:py-1 container">
-        <div className="flex items-center justify-between gap-x-12 w-full">
+        <div className="flex items-center justify-between gap-x-6 w-full">
           <div className="flex flex-row items-center justify-between w-full xl:w-fit">
             <button onClick={() => setIsMobileMenuOpen(true)}>
               <MenuLeftIcon className="size-6 xl:hidden text-[#0154C5]" />
@@ -79,7 +80,7 @@ const NewDesktopHeaderMini = ({
               <Cart />
             </div>
           </div>
-          <div className="hidden flex-1 xl:flex flex-row justify-between items-center w-full gap-x-12">
+          <div className="hidden flex-1 xl:flex flex-row justify-between items-center w-full gap-x-4 xxl:gap-x-12">
             <MegaMenuDropdown
               triggerLabel="Danh Mục Sản Phẩm"
               // items={categoryData as any}
@@ -106,7 +107,7 @@ const NewDesktopHeaderMini = ({
             />
 
             {/* Search Bar */}
-            <div className="flex flex-row items-center w-full  border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
+            {/* <div className="flex flex-row items-center w-full  border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
               <input
                 type="text"
                 placeholder="Tìm sản phẩm"
@@ -120,10 +121,12 @@ const NewDesktopHeaderMini = ({
               <button className="bg-blue-600 rounded-full xxl:py-2 xxl:px-5 py-[6px] px-4">
                 <IconSearchHeader fill="white" />
               </button>
-            </div>
+            </div> */}
+            <SearchBar />
+
 
             {/* Right Navigation */}
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4">
               <div className="flex items-center">
                 <Select
                   value={selectedOption?.code}

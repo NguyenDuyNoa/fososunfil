@@ -49,6 +49,14 @@ const apiOrder = {
   removeFromCart(id: string | number) {
     return axios.get(`/api_web/Api_order/deleteItemCart?id_cart=${id}`);
   },
+
+  getHistoryListOrder(data: any, page: number = 1, limit: number = 10) {
+    return axios.post("/api_web/Api_order/getListOrder", {
+      ...data,
+      page,
+      limit,
+    });
+  },
 };
 
 export default apiOrder;

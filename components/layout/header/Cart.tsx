@@ -194,7 +194,7 @@ const Cart = () => {
         <span className="text-sm font-medium whitespace-nowrap text-primary-new">
           Giỏ hàng
         </span>
-        <div className="absolute -top-3 left-[22px] bg-error-main rounded-full size-6 flex items-center justify-center">
+        <div className="absolute -top-3 left-[26px] bg-error-main rounded-full size-6 flex items-center justify-center">
           <span className="text-white text-xs font-medium mt-0.5">
             {totalItems}
           </span>

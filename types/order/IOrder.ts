@@ -21,6 +21,7 @@ export interface OrderData {
   discount_direct: number;
   items: OrderItem[];
   type_bills: number;
+  note: string;
 }
 
 export interface OrderResponse {

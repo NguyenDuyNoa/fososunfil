@@ -77,7 +77,7 @@ const CheckoutPage = () => {
       return;
     }
 
-    const { customerName, phone, email, province, district, ward, address } =
+    const { customerName, phone, email, province, district, ward, address , note} =
       deliveryInfo;
 
     // Tạo dữ liệu đơn hàng
@@ -93,6 +93,7 @@ const CheckoutPage = () => {
       cost_delivery: 0,
       discount_percent: 0,
       discount_direct: 0,
+      note: note || "",
       type_bills: deliveryInfo.needInvoice ? 1 : 0,
       items: [
         ...products.map((product) => ({

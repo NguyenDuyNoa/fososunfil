@@ -89,7 +89,13 @@ const ProductCard = ({
             closeCart();
             router.push("/cart");
           } else {
-            setToast(true, "error", response?.data?.message, 2500);
+            setToast(
+              true,
+              "error",
+              "Thất bại",
+              2500,
+              response?.data?.message,
+            );
           }
         } catch (error) {
           console.error("Lỗi khi thêm vào giỏ hàng:", error);

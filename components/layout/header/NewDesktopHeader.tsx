@@ -1,13 +1,11 @@
 "use client";
 import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
-import IconCameraHeader from "@/components/icon/IconCameraHeader";
 import IconDelivery from "@/components/icon/IconDelivery";
 import IconDiscountHeader from "@/components/icon/IconDiscountHeader";
 import IconDownloadApp from "@/components/icon/IconDownloadApp";
 import IconFastDeliveryHeader from "@/components/icon/IconFastDeliveryHeader";
 import IconPhone from "@/components/icon/IconPhone";
 import IconReturnHeader from "@/components/icon/IconReturnHeader";
-import IconSearchHeader from "@/components/icon/IconSearchHeader";
 import IconSupportHeader from "@/components/icon/IconSupportHeader";
 import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
 import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
@@ -195,7 +193,7 @@ const NewDesktopHeader = ({
               <Cart />
             </div>
           </div>
-          
+
           {/* Mobile Search Bar */}
           <div className="xl:hidden w-full">
             <SearchBar isMobile={true} />

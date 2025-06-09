@@ -62,17 +62,16 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
   },
 
   addToCartAPI: async (productId, quantity = 1) => {
-    
     set({ isLoading: true });
     try {
       const response = await apiOrder.addCart({ item_id: productId, quantity });
       if (response.data && response.data.result === true) {
-        setToast(true, "success", response?.data?.message, 2500);
+        setToast(true, "success", "Thành công", 2500, response?.data?.message);
 
         await get().fetchCart();
         set({ isCartOpen: true });
       } else {
-        setToast(true, "error", response?.data?.message, 2500);
+        setToast(true, "error", "Có lỗi xảy ra", 2500, response?.data?.message);
 
         set({ isLoading: false });
       }
@@ -80,6 +79,7 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
       return true;
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      setToast(true, "error", "Không thể thêm sản phẩm vào giỏ hàng", 2500, "");
       set({ isLoading: false });
       return false;
     }
@@ -129,15 +129,17 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
       const response = await apiOrder.removeFromCart(productId);
 
       if (response.data && response.data.result === true) {
-        setToast(true, "success", response?.data?.message, 2500);
+        setToast(true, "success", "Thành công", 2500, response?.data?.message);
         await get().fetchCart();
       } else {
+        setToast(true, "error", "Thất bại", 2500, response?.data?.message);
         set({ isLoading: false });
       }
 
       return true;
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
+      setToast(true, "error", "Có lỗi xảy ra", 2500);
       set({ isLoading: false });
       return false;
     }
