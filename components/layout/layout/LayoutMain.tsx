@@ -196,7 +196,7 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
       duration: duration,
       className: "rounded-[13px] max-w-[336px]",
       description: (
-        <ToastCustom type={type} content={message} description={description} customTitle={customTitle} />
+        <ToastCustom type={type} content={message} description={description} />
       ),
     });
   };
