@@ -200,7 +200,7 @@ const OrderDetailPage = () => {
                         {item?.item_name}
                       </h3>
                       {item?.discount_percent_item > 0 && (
-                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs">
+                        <span className="px-2 py-0.5 rounded-full bg-error-main text-white text-xs">
                           Giảm {item.discount_percent_item}%
                         </span>
                       )}
