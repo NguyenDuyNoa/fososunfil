@@ -234,6 +234,6 @@ const config: Config = {
     },
   },
   // important: true,
-  plugins: [animate],
+  plugins: [animate, require('tailwind-scrollbar-hide')],
 };
 export default config;

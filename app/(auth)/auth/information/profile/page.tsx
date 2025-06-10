@@ -295,7 +295,6 @@ const Profile = (props: Props) => {
                             },
                         }}
                         render={({ field: { onChange, onBlur, ref, value }, fieldState }) => {
-                            console.log('value', value);
 
                             return (
                                 <FormItem className='xl:col-span-1 col-span-2 flex flex-col w-full'>

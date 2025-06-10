@@ -16,15 +16,18 @@ export interface ICartStore {
   totalPrice: number;
   isCartOpen: boolean;
   isLoading: boolean;
+  shouldRedirectToCart: boolean;
   
   // UI methods
   toggleCart: () => void;
   closeCart: () => void;
   openCart: () => void;
+  resetRedirect: () => void;
   
   // API methods
   fetchCart: () => Promise<CartItem[]>;
   addToCartAPI: (productId: string | number, quantity?: number) => Promise<boolean>;
+  addToCartBuyNow: (productId: string | number, quantity?: number) => Promise<boolean>;
   updateQuantityAPI: (productId: string | number, quantity: number) => Promise<boolean>;
   removeFromCartAPI: (productId: string | number) => Promise<boolean>;
 } 

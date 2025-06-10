@@ -6,7 +6,7 @@ import { useCartStore } from "@/stores/useCartStore";
 import { Rating } from "@smastrom/react-rating";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDialogStore } from "@/stores/useDialogStore";
 import { useAuthStore } from "@/stores/useAuthStores";
 
@@ -40,8 +40,10 @@ const ProductSummary = ({ data }: { data: any }) => {
   const { 
     addToCartAPI, 
     isLoading, 
-    openCart,
-    closeCart
+    closeCart,
+    addToCartBuyNow,
+    shouldRedirectToCart,
+    resetRedirect
   } = useCartStore();
   const router = useRouter();
   const { handleOpenDialog } = useDialogStore();
@@ -92,12 +94,17 @@ const ProductSummary = ({ data }: { data: any }) => {
     }
 
     if (data && data.id) {
-      await addToCartAPI(data.id, quantity);
-      closeCart();
-      router.push("/cart");
+      await addToCartBuyNow(data.id, quantity);
     }
   };
 
+  useEffect(() => {
+    if (shouldRedirectToCart) {
+      router.push("/cart");
+      resetRedirect();
+    }
+  }, [shouldRedirectToCart, router, resetRedirect]);
+  
   return (
     <>
       <style>{hideNumberInputSpinners}</style>

@@ -57,6 +57,14 @@ const apiOrder = {
       limit,
     });
   },
+
+  getHistoryDetailOrder(id: string) {
+    return axios.get(`/api_web/Api_order/getDetailOrder/${id}`);
+  },
+
+  getStatusOrder() {
+    return axios.get(`/api_web/Api_order/getStatusOrder`);
+  },
 };
 
 export default apiOrder;

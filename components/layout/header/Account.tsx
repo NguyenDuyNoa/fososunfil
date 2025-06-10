@@ -16,6 +16,7 @@ import {
   Lock,
   Logout,
   SearchNormal,
+  ShoppingBag,
   UserSquare,
 } from "iconsax-react";
 import Link from "next/link";
@@ -40,6 +41,12 @@ const dataTabProfile = [
     name: `Lịch sử quà tặng`,
     icon: Gift,
     link: "/auth/information/gift-history",
+  },
+  {
+    id: 542323,
+    name: `Lịch sử đơn hàng`,
+    icon: ShoppingBag,
+    link: "/auth/information/order-history",
   },
   {
     id: 323,

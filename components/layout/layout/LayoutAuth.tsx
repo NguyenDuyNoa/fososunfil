@@ -109,25 +109,31 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
   const listSidebar = [
     {
       id: 144324,
-      name: `My Account`,
+      name: `Tài khoản của tôi`,
       icon: UserSquare,
       link: "/auth/information/profile",
     },
     {
       id: 5232134,
-      name: `Search History`,
+      name: `Lịch sử tìm kiếm`,
       icon: SearchNormal,
       link: "/auth/information/search-history",
     },
     {
       id: 54,
-      name: `Gift History`,
+      name: `Lịch sử quà tặng`,
       icon: Gift,
       link: "/auth/information/gift-history",
     },
     {
+      id: 542323,
+      name: `Lịch sử đơn hàng`,
+      icon: ShoppingBag,
+      link: "/auth/information/order-history",
+    },
+    {
       id: 323,
-      name: `Change Password`,
+      name: `Đổi mật khẩu`,
       icon: Lock,
       link: "/auth/setting/change-password",
     },
@@ -189,7 +195,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                   {informationUser?.company}
                 </div>
               )}
-              
+
               {informationUser?.status_sunfil !== "0" ? (
                 <p className="whitespace-nowrap text-xs text-success-main font-medium bg-success-lighter/50 rounded-full px-2 py-1">
                   Đã xác thực

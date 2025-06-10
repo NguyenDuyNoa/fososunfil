@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         url: `${process.env.NEXT_PUBLIC_URL_WEBSITE}`,
         siteName: "SUNFIL1",
         images: {
-            url: '/opengraph-image.png',
+            url: '/opengraph-image1.png',
             alt: "logo",
             width: 1200,
             height: 630,

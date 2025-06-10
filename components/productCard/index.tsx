@@ -9,6 +9,7 @@ import apiOrder from "@/services/order/order.service";
 import { useToastStore } from "@/stores/useToastStore";
 import { useDialogStore } from "@/stores/useDialogStore";
 import { convertToSlug } from "@/utils/format/ConvertToSlug";
+import { useEffect } from "react";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -39,10 +40,9 @@ const ProductCard = ({
   isRelated = false,
   handleOpenDialog,
 }: ProductCardProps) => {
-  const { closeCart, addToCartAPI, fetchCart } = useCartStore();
+  const { closeCart, addToCartAPI, fetchCart, addToCartBuyNow, shouldRedirectToCart, resetRedirect } = useCartStore();
   const { informationUser } = useAuthStore();
   const router = useRouter();
-  const { setToast } = useToastStore.getState();
   const { setOpenDialogCustom, setStatusDialog, setProductData } =
     useDialogStore();
 
@@ -78,28 +78,29 @@ const ProductCard = ({
     // Đối với desktop, tiếp tục hành vi mua ngay trực tiếp
     if (window.innerWidth >= 1280) {
       if (product) {
-        try {
-          const response = await apiOrder.addCart({
-            item_id: product.id,
-            quantity: product?.quantity || 1,
-          });
-          if (response?.data?.result === true) {
-            setToast(true, "success", response?.data?.message, 2500);
-            await fetchCart();
-            closeCart();
-            router.push("/cart");
-          } else {
-            setToast(
-              true,
-              "error",
-              "Thất bại",
-              2500,
-              response?.data?.message,
-            );
-          }
-        } catch (error) {
-          console.error("Lỗi khi thêm vào giỏ hàng:", error);
-        }
+        // try {
+        //   const response = await apiOrder.addCart({
+        //     item_id: product.id,
+        //     quantity: product?.quantity || 1,
+        //   });
+        //   if (response?.data?.result === true) {
+        //     setToast(true, "success", response?.data?.message, 2500);
+        //     await fetchCart();
+        //     closeCart();
+        //     router.push("/cart");
+        //   } else {
+        //     setToast(
+        //       true,
+        //       "error",
+        //       "Thất bại",
+        //       2500,
+        //       response?.data?.message,
+        //     );
+        //   }
+        // } catch (error) {
+        //   console.error("Lỗi khi thêm vào giỏ hàng:", error);
+        // }
+        await addToCartBuyNow(product.id, product?.quantity || 1);
       }
     }
     // Đối với mobile, mở bottom sheet chọn số lượng
@@ -111,6 +112,13 @@ const ProductCard = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (shouldRedirectToCart) {
+      router.push("/cart");
+      resetRedirect();
+    }
+  }, [shouldRedirectToCart, router, resetRedirect]);
 
   return (
     <div
