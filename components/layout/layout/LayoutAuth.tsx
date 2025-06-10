@@ -196,12 +196,13 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                 </div>
               )}
 
-              {informationUser?.status_sunfil !== "0" ? (
-                <p className="whitespace-nowrap text-xs text-success-main font-medium bg-success-lighter/50 rounded-full px-2 py-1">
+              {Number(informationUser?.status_sunfil) !== 0 &&
+              informationUser?.phonenumber !== "" ? (
+                <p className="w-fit whitespace-nowrap text-xs text-success-main font-medium bg-success-lighter/50 rounded-full px-2 py-1">
                   Đã xác thực
                 </p>
               ) : (
-                <p className="whitespace-nowrap text-xs text-error-main font-medium bg-error-lighter/50 rounded-full px-2 py-1">
+                <p className="w-fit whitespace-nowrap text-xs text-error-main font-medium bg-error-lighter/50 rounded-full px-2 py-1">
                   Chưa xác thực
                 </p>
               )}

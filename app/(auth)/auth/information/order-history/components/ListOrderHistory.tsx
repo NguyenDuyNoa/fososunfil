@@ -185,7 +185,7 @@ const ListOrderHistory = ({
       ) : dataHistoryListOrder?.length === 0 ? (
         <div className="flex flex-col gap-6 justify-center items-center py-10">
           <Image
-            src={IMAGES.cartEmpty}
+            src={IMAGES.emptyOrder}
             alt="cartEmpty"
             width={480}
             height={360}

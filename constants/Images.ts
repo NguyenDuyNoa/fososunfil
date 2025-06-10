@@ -22,6 +22,7 @@ export const IMAGES = {
   // d
   delivery1: "/product/delivery1.png",
   // e
+  emptyOrder: "/cart/emptyOrder.png",
   // f
   facebook: "/product/facebook.svg",
   filter: "/product/filter.png",
