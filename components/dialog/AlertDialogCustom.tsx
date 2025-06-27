@@ -1,20 +1,11 @@
 import {
     AlertDialog,
     AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
-    AlertDialogTitle
+    AlertDialogOverlay
 } from "@/components/ui/alert-dialog";
-import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
-import { Button } from '../ui/button';
-// import {usePostLogout} from "@/managers/api-management/auth/normal/usePostLogout";
-import ButtonLoading from "../button/ButtonLoading";
-// import LogoutComponent from "@/features/auth/components/logout-card";
-// import ChangeStatusProgress from "@/features/ui/alert/change-status-progress";
-import { X } from "lucide-react";
 import LogoutComponent from "@/features/auth/components/logout-card";
+import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
+import { X } from "lucide-react";
 
 type Props = {}
 

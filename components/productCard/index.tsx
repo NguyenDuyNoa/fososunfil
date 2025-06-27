@@ -257,7 +257,7 @@ const ProductCard = ({
                   className="whitespace-nowrap w-full bg-brand-500 text-white text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-400 transition-colors duration-300"
                   onClick={handleBuyNow}
                 >
-                  Mua ngay
+                  Đặt hàng
                 </button>
               </div>
             ) : (
@@ -265,14 +265,14 @@ const ProductCard = ({
                 className="whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs xl:text-sm font-bold px-2 py-1 xl:py-2 rounded-lg hover:bg-brand-100 transition-colors duration-300"
                 onClick={handleBuyNow}
               >
-                Mua ngay
+                Đặt hàng
               </button>
             )}
             <button
               className="xl:hidden whitespace-nowrap w-full bg-brand-50 text-brand-600 text-xs font-bold px-3 py-1 rounded transition-colors duration-300"
               onClick={handleBuyNow}
             >
-              Mua ngay
+              Đặt hàng
             </button>
           </>
         )}

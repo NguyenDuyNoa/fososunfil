@@ -56,7 +56,7 @@ const CountryOptions = ({
   };
 
   return (
-    <div className="flex items-center w-fit">
+    <div className="flex items-center w-fit p-1 hover:bg-brand-50 transition-colors duration-300 rounded-full">
       <Select
         value={selectedOption?.code}
         onValueChange={handleCodeChange}

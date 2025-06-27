@@ -33,18 +33,18 @@ const HeroBanner = ({
   };
 
   return (
-    <div className="w-full container ">
+    <div className="w-full container">
       {/* Sidebar bên trái */}
-      <div className="xl:bg-white flex rounded-b-xl lg:shadow-sm relative lg:h-[600px]">
+      <div className="mt-2 flex gap-2 relative lg:h-[600px]">
         <MenuContent
           autoActiveFirstItem={false}
           onClose={handleMouseLeave}
           onHover={() => setIsOpen(true)}
-          classNameContent="hidden xl:block relative bg-white rounded-bl-xl"
+          classNameContent="hidden xl:block relative bg-white transition-all duration-300"
           isBanner={true}
         />
 
-        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden">
+        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden shadow-xl rounded-xl">
           <Swiper
             modules={[Autoplay]}
             autoplay={{
@@ -56,13 +56,14 @@ const HeroBanner = ({
             onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
           >
             {bannerSlides?.map((item: any) => (
-              <SwiperSlide key={item.id} className="w-full h-full">
+              <SwiperSlide key={item.id} className="w-full h-full rounded-xl">
                 <Image
                   src={item.image}
                   alt=""
-                  width={1000}
-                  height={1000}
-                  className="object-cover rounded-lg xl:rounded-none xl:rounded-br-lg w-full h-full"
+                  width={2000}
+                  height={1200}
+                  priority
+                  className="object-cover rounded-xl w-full h-full shadow-xl"
                 />
               </SwiperSlide>
             ))}
@@ -70,10 +71,12 @@ const HeroBanner = ({
 
           <div className="flex items-center justify-center gap-1.5 xl:hidden">
             {bannerSlides?.map((item: any, index: number) => (
-              <span 
-                key={item.id} 
+              <span
+                key={item.id}
                 className={`h-[3px] rounded-full ${
-                  activeSlide === index ? "w-5 bg-brand-600" : "w-2.5 bg-grey-400"
+                  activeSlide === index
+                    ? "w-5 bg-brand-600"
+                    : "w-2.5 bg-grey-400 xl:bg-transparent"
                 }`}
               ></span>
             ))}

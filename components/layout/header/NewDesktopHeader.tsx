@@ -1,12 +1,8 @@
 "use client";
 import MegaMenuDropdown from "@/components/dropdown/DropdownMenu";
-import IconDelivery from "@/components/icon/IconDelivery";
 import IconDiscountHeader from "@/components/icon/IconDiscountHeader";
 import IconDownloadApp from "@/components/icon/IconDownloadApp";
-import IconFastDeliveryHeader from "@/components/icon/IconFastDeliveryHeader";
 import IconPhone from "@/components/icon/IconPhone";
-import IconReturnHeader from "@/components/icon/IconReturnHeader";
-import IconSupportHeader from "@/components/icon/IconSupportHeader";
 import MenuLeftIcon from "@/components/icons/MenuLeftIcon";
 import MobileMenuOverlay from "@/components/Menu/MobileMenuOverlay";
 import { TooltipHeader } from "@/components/tooltip/TooltipHeader";
@@ -258,29 +254,6 @@ const NewDesktopHeader = ({
                   </Link>
                 ))}
               </nav>
-            </div>
-
-            {/* Right Side - Features */}
-            <div className="hidden xl:flex items-center gap-2 xxl:gap-5">
-              <div className="flex items-center gap-2 text-xs whitespace-nowrap text-primary-new font-semibold">
-                <IconSupportHeader fill="#0373F3" />
-                <span className="pt-0.5">Hỗ trợ 24/7</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs whitespace-nowrap text-primary-new font-semibold">
-                <IconDelivery fill="#0373F3" />
-                <span className="pt-0.5">Miễn Phí Vận Chuyển</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs whitespace-nowrap text-primary-new font-semibold">
-                <IconFastDeliveryHeader fill="#0373F3" />
-                <span className="pt-0.5">Giao Hàng Nhanh 2h</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs whitespace-nowrap text-primary-new font-semibold">
-                <IconReturnHeader fill="#0373F3" />
-                <span className="pt-0.5">30 Ngày Đổi Trả</span>
-              </div>
             </div>
           </div>
         </div>

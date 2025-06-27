@@ -199,7 +199,7 @@ export function DialogCustom({}: Props) {
       },
     },
   };
-  console.log(currentProduct);
+
   return (
     <AnimatePresence mode="wait">
       {openDialogCustom && (
@@ -485,7 +485,7 @@ export function DialogCustom({}: Props) {
                         className="flex-1 bg-brand-500 text-white text-sm font-bold py-2.5 rounded-lg"
                         onClick={handleBuyNow}
                       >
-                        Mua ngay
+                        Đặt hàng
                       </button>
                     </div>
                   </div>

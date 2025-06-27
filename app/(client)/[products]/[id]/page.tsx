@@ -69,7 +69,6 @@ const DetailProduct = () => {
             />
           </div>
           <div className="flex flex-col gap-3 xl:gap-6">
-            <Promo promotion={detailItem?.item?.arrPromotion} />
             <RelatedProducts detailItem={detailItem?.dataItems} />
           </div>
         </div>

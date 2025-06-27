@@ -45,6 +45,7 @@ import FooterContainer from "@/components/layout/footer/FooterContainer";
 import AlertDialogCustom from "@/components/dialog/AlertDialogCustom";
 import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
 import ContactButtons from "@/components/ContactButtons";
+import LastTimeUpdater from "@/components/auth/LastTimeUpdater";
 
 const LayoutTranslate = dynamic(() => import("./LayoutTranslate"), {
   ssr: false,
@@ -239,6 +240,9 @@ const LayoutMain = ({ children }: { children: React.ReactNode }) => {
 
           {openDialogCustom && <DialogCustom />}
           {openAlertDialog && <AlertDialogCustom />}
+          
+          {/* Component cập nhật thời gian hoạt động */}
+          <LastTimeUpdater />
         </div>
 
         <ToastShadcnUi />

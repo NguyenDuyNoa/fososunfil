@@ -31,6 +31,18 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
     set({ isLoading: true });
     try {
       const { data } = await apiOrder.getListCart();
+      
+      // Kiểm tra nếu response trả về lỗi token không hợp lệ
+      if (data && data.result === 0 && data.message === "Token không hợp lệ") {
+        set({
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+          isLoading: false,
+        });
+        return [];
+      }
+      
       if (data && data.arrItemList) {
         const cartItems = data.arrItemList;
 
@@ -58,9 +70,20 @@ export const useCartStore = create<ICartStore>()((set, get) => ({
       }
       set({ isLoading: false });
       return [];
-    } catch (error) {
+    } catch (error: any) {
       console.error("Lỗi khi lấy giỏ hàng:", error);
-      set({ isLoading: false });
+      // Xử lý khi API trả về lỗi 401 hoặc message "Token không hợp lệ"
+      if (error?.response?.status === 401 || 
+          (error?.response?.data && error?.response?.data?.message === "Token không hợp lệ")) {
+        set({
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+          isLoading: false,
+        });
+      } else {
+        set({ isLoading: false });
+      }
       return [];
     }
   },

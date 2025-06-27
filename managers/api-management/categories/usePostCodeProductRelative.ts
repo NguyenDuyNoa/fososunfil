@@ -23,7 +23,8 @@ export const usePostCodeProductRelative = (code: string, type: string, isKey: st
             if (data && data.success) {
                 return data;
             } else {
-                setToast(true, "error", "Vui lòng đăng nhập để xem thông tin!", 2500)
+                // setToast(true, "error", "Vui lòng đăng nhập để xem thông tin!", 2500)
+                setToast(true, "error", "Không có thông tin sản phần bạn tìm!", 2500)
                 return undefined;
             }
         } catch (err) {

@@ -57,7 +57,7 @@ const MenuContent = ({
       {activeItem && (
         <div
           className={cn(
-            "fixed left-0 right-0 bottom-0 top-0 bg-black/25 backdrop-blur-sm pointer-events-none",
+            "fixed left-0 right-0 bottom-0 top-0 bg-black/30 pointer-events-none",
             pathname === "/" ? "z-[10]" : "z-[-1]",
             isMiniHeader && "z-[-1]"
           )}
@@ -66,11 +66,10 @@ const MenuContent = ({
       <div
         style={{ height: menuHeight ? `${menuHeight}px` : "auto" }}
         className={cn(
-          " min-w-[260px] rounded-tl-sm rounded-bl-sm rounded-br-none z-20 p-0 border-none  shadow-none bg-white",
-          !isBanner &&
-            "absolute top-[calc(100%+16px)] left-0",
+          "min-w-[280px] z-20 p-0 bg-white shadow-md border border-gray-200",
+          !isBanner && "absolute top-[calc(100%+16px)] left-0",
           isMiniHeader && "absolute top-[calc(100%+20px)] left-0",
-          activeItem && "h-fit",
+          activeItem ? "h-fit rounded-tl-xl rounded-bl-xl" : "min-h-full rounded-xl",
           classNameContent
         )}
         onMouseEnter={onHover}
@@ -81,33 +80,40 @@ const MenuContent = ({
       >
         <div
           className={cn(
-            "divide-y flex flex-col gap-3 overflow-y-scroll rounded-bl-lg",
+            "flex flex-col overflow-y-scroll h-full overflow-hidden",
+            activeItem ? "rounded-l-xl" : "rounded-xl",
             isBanner && "max-h-[600px]"
             // isMiniHeader && "max-h-[80vh]"
           )}
         >
-          {listProducts?.map((item: any) => (
-            <div
-              key={item.id}
-              onMouseEnter={() => setActiveItem(item)}
-              className={cn(
-                "h-[66px] cursor-pointer flex items-center gap-2 p-4 w-full text-left border-l-2 bg-white border-t-white border-l-white",
-                activeItem?.id === item.id &&
-                  " border-l-brand-700 text-brand-700 bg-disable-100",
-                classNameSubItem
+          {listProducts?.map((item: any, index: number) => (
+            <>
+              <div
+                key={item.id}
+                onMouseEnter={() => setActiveItem(item)}
+                className={cn(
+                  "h-[70px] cursor-pointer flex items-center gap-3 p-4 w-full text-left bg-white transition-all duration-200 hover:translate-x-1",
+                  activeItem?.id === item.id
+                    ? "border-l-4 border-l-brand-700 text-brand-700 bg-brand-50 font-semibold shadow-md"
+                    : "border-l-4 border-l-white",
+                  classNameSubItem
+                )}
+              >
+                {/* {item.icon && item.icon} */}
+                <Image
+                  src={item.icon}
+                  alt={item.name}
+                  width={200}
+                  height={200}
+                  className="size-[40px] object-cover rounded-sm aspect-square"
+                />
+                <span className="text-left">{item.name}</span>
+                <ChevronRight className="ml-auto w-4 h-4" />
+              </div>
+              {index !== listProducts.length - 1 && (
+                <hr className="border-t border-gray-200" />
               )}
-            >
-              {/* {item.icon && item.icon} */}
-              <Image
-                src={item.icon}
-                alt={item.name}
-                width={200}
-                height={200}
-                className="size-[40px] object-cover rounded-sm aspect-square"
-              />
-              <span className="text-left">{item.name}</span>
-              <ChevronRight className="ml-auto w-4 h-4" />
-            </div>
+            </>
           ))}
         </div>
 
@@ -115,7 +121,7 @@ const MenuContent = ({
           <div
             ref={mainMenuRef}
             className={cn(
-              "absolute left-full top-0 bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit h-fit bg-[#F4F6F8] p-6 rounded-br-xl flex flex-col ",
+              "absolute left-full top-[-1px] bottom-0 xxl:min-w-[1000px] xl:min-w-[900px] min-w-[700px] w-fit h-fit bg-brand-50 p-6 rounded-r-xl flex flex-col ",
               isMiniHeader && "xxl:min-w-[800px] xl:min-w-[750px] min-w-[600px]"
             )}
           >

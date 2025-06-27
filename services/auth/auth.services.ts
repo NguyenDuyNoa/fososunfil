@@ -85,6 +85,11 @@ const apiAuth = {
     async postUpdateAvatar(data: FormData) {
         return await instance.post("/api_web/Api_Clients/update_image", data);
     },
+
+    // api post update last time
+    async postUpdateLastTime() {
+        return await instance.get("/api_web/Api_Clients/updateLastTime");
+    },
 };
 
 export default apiAuth;

@@ -3,25 +3,25 @@ import { AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDial
 import { KEY_COOKIES } from '@/constants/Cookie'
 import { useAlertDialogStore } from '@/stores/useAlertDialogStore'
 import { useAuthStore } from '@/stores/useAuthStores'
+import { useCartStore } from '@/stores/useCartStore'
 import useCookieStore from '@/stores/useCookieStore'
 import { variantButtonPressZoom } from '@/utils/variants-animation/VariantsAnimation'
+import { useQueryClient } from '@tanstack/react-query'
 import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {}
 
 const LogoutComponent = (props: Props) => {
     const router = useRouter()
-
     const pathname = usePathname()
-
+    const queryClient = useQueryClient()
 
     const { setOpenAlertDialog } = useAlertDialogStore()
-
     const { removeCookie } = useCookieStore()
-
     const { setInformationUser } = useAuthStore()
+    const { fetchCart } = useCartStore()
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         if (pathname?.startsWith("/order-public-admin") || pathname?.startsWith("/auth")) {
             router.push("/")
         }
@@ -29,6 +29,8 @@ const LogoutComponent = (props: Props) => {
         removeCookie(KEY_COOKIES.WEBSITE)
         setOpenAlertDialog(false, "")
         setInformationUser(undefined)
+        queryClient.removeQueries({ queryKey: ['updateLastTime'] })
+        await fetchCart()
     }
 
     return (

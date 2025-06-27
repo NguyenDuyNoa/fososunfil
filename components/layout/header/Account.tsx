@@ -20,7 +20,7 @@ import {
   UserSquare,
 } from "iconsax-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const dataTabProfile = [
@@ -65,7 +65,6 @@ const Account = ({
   const { informationUser } = useAuthStore();
   const { isStateLayoutMain, queryKeyIsStateLayoutMain } = useStateLayoutMain();
   const { setOpenAlertDialog } = useAlertDialogStore();
-  const router = useRouter();
 
   const handleDropdownChange = (value: boolean) => {
     queryKeyIsStateLayoutMain({
@@ -206,7 +205,7 @@ const Account = ({
               onClick={() => {
                 setOpenAlertDialog(true, "logout");
                 handleDropdownChange(false);
-                router.push("/");
+                // router.push("/");
               }}
             >
               <Logout className="size-5 group-hover:text-red-500 hover:text-red-500 custom-transition" />

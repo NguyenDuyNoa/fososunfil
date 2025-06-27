@@ -26,7 +26,6 @@ const Cart = () => {
   const pathname = usePathname();
   const isCartPage = pathname === "/cart";
   const fetchedRef = useRef(false);
-  const isMountedRef = useRef(false);
 
   useEffect(() => {
     if (!isCartPage && !hasInitiallyFetchedCart) {
@@ -50,10 +49,19 @@ const Cart = () => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       // Kiểm tra nếu không phải là nút "Thêm vào giỏ" hoặc "Mua ngay"
-      const isAddToCartButton = target.closest('button')?.textContent?.includes('Thêm vào giỏ');
-      const isBuyNowButton = target.closest('button')?.textContent?.includes('Mua ngay');
-      
-      if (!target.closest(".cart-dropdown") && isCartOpen && !isAddToCartButton && !isBuyNowButton) {
+      const isAddToCartButton = target
+        .closest("button")
+        ?.textContent?.includes("Thêm vào giỏ");
+      const isBuyNowButton = target
+        .closest("button")
+        ?.textContent?.includes("Đặt hàng");
+
+      if (
+        !target.closest(".cart-dropdown") &&
+        isCartOpen &&
+        !isAddToCartButton &&
+        !isBuyNowButton
+      ) {
         closeCart();
       }
     };
@@ -150,7 +158,7 @@ const Cart = () => {
     if (isLoading) {
       return (
         <div className="flex flex-col gap-4 items-center justify-center py-4">
-           <Image
+          <Image
             src={IMAGES.cartEmpty}
             alt="Giỏ hàng trống"
             width={200}
@@ -192,7 +200,7 @@ const Cart = () => {
       >
         <IconShopping fill="#0154C5" className="size-9" />
         <span className="text-sm font-medium whitespace-nowrap text-primary-new">
-          Giỏ hàng
+          {totalItems === 0 ? "Đặt hàng" : "Giỏ hàng"}
         </span>
         <div className="absolute -top-3 left-[26px] bg-error-main rounded-full size-6 flex items-center justify-center">
           <span className="text-white text-xs font-medium mt-0.5">

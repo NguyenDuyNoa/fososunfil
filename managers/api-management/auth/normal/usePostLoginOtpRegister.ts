@@ -1,20 +1,14 @@
 "use client";
 
-import { toastCore } from "@/lib/toast";
 import { KEY_COOKIES } from "@/constants/Cookie";
-
-import { useMutation } from "@tanstack/react-query";
-
-import useCookieStore from "@/stores/useCookieStore";
-// import { useDialogStore } from "@/stores/useDialogStores";
-
-import apiAuth from "@/services/auth/auth.services";
+import { toastCore } from "@/lib/toast";
 import { useStateAuth } from "@/managers/state-management/auth/useStateAuth";
-
-// import { usePostLoginFacebook } from "../facebook/usePostLoginFacebook";
-// import { usePostLoginGoogle } from "../google/usePostLoginGoogle";
-import { useToastStore } from "@/stores/useToastStore";
+import apiAuth from "@/services/auth/auth.services";
+import { useCartStore } from "@/stores/useCartStore";
+import useCookieStore from "@/stores/useCookieStore";
 import { useDialogStore } from "@/stores/useDialogStore";
+import { useToastStore } from "@/stores/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 declare global {
     interface Window {
@@ -24,6 +18,7 @@ declare global {
 export const usePostLoginOtpRegister = () => {
     // const { dataLang } = useTranslate();
     const formData = new FormData();
+    const queryClient = useQueryClient();
 
     const { setCookie, getCookie } = useCookieStore();
 
@@ -31,6 +26,8 @@ export const usePostLoginOtpRegister = () => {
 
     const { setToast } = useToastStore();
     const { setOpenDialogCustom, setStatusDialog } = useDialogStore();
+
+    const { fetchCart } = useCartStore();
 
     // const { redirectFacebook } = usePostLoginFacebook();
 
@@ -94,7 +91,9 @@ export const usePostLoginOtpRegister = () => {
                         if (res?.result) {
                             setCookie(KEY_COOKIES.WEBSITE, res?.data?.token);
                             setOpenDialogCustom(false);
-
+                            fetchCart();
+                            // Kích hoạt query updateLastTime
+                            queryClient.invalidateQueries({ queryKey: ['updateLastTime'] });
                             setToast(true, "success", res?.message, 2500);
                             return;
                         }
@@ -162,6 +161,9 @@ export const usePostLoginOtpRegister = () => {
                             setStatusDialog("");
                         }, 200);
                         queryKeyIsStateAuth({ form: data });
+                        fetchCart();
+                        // Kích hoạt query updateLastTime
+                        queryClient.invalidateQueries({ queryKey: ['updateLastTime'] });
                         setToast(true, "success", res?.message, 2500);
                         return;
                     }
