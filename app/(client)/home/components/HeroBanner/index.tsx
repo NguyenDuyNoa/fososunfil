@@ -44,7 +44,7 @@ const HeroBanner = ({
           isBanner={true}
         />
 
-        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden shadow-xl rounded-xl">
+        <div className="flex-1 flex flex-col gap-2 w-full h-full xl:overflow-hidden rounded-xl">
           <Swiper
             modules={[Autoplay]}
             autoplay={{
@@ -63,7 +63,7 @@ const HeroBanner = ({
                   width={2000}
                   height={1200}
                   priority
-                  className="object-cover rounded-xl w-full h-full shadow-xl"
+                  className="object-cover rounded-xl w-full h-full"
                 />
               </SwiperSlide>
             ))}
