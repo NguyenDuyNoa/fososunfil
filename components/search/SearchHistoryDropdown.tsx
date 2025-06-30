@@ -1,7 +1,19 @@
+import { useAuthStore } from "@/stores/useAuthStores";
+import { useCartStore } from "@/stores/useCartStore";
+import { useDialogStore } from "@/stores/useDialogStore";
+import { convertToSlug } from "@/utils/format/ConvertToSlug";
 import Image from "next/image";
 import Link from "next/link";
-import IconSearchHeader from "../icon/IconSearchHeader";
-import { convertToSlug } from "@/utils/format/ConvertToSlug";
+import { useRouter, usePathname } from "next/navigation";
+
+// Hàm loại bỏ dấu tiếng Việt
+const removeAccents = (str: string): string => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+};
 
 interface ProductItem {
   id: string;
@@ -34,35 +46,88 @@ const SearchHistoryDropdown = ({
   isLoading = false,
   searchQuery = "",
 }: SearchHistoryDropdownProps) => {
+  const { informationUser } = useAuthStore();
+  const { handleOpenDialog } = useDialogStore();
+  const { addToCartBuyNow } = useCartStore();
+  const router = useRouter();
+  const pathname = usePathname();
   const hasSearchResults = searchResults.length > 0;
 
   const noResults =
     !isLoading && !hasSearchResults && searchQuery.trim().length > 0;
 
   // Hàm để làm nổi bật từ khóa tìm kiếm trong văn bản
-  const highlightSearchQuery = (text: string, query: string) => {
+  const highlightSearchQuery = (
+    text: string,
+    query: string,
+    color: string = "text-brand-700"
+  ) => {
     if (!query.trim()) return text;
 
-    const regex = new RegExp(`(${query.trim()})`, "gi");
-    const parts = text.split(regex);
+    const normalizedText = removeAccents(text.toLowerCase());
+    const normalizedQuery = removeAccents(query.toLowerCase().trim());
 
-    return parts.map((part, index) =>
-      regex.test(part) ? (
-        <span key={index} className="text-brand-700 font-semibold">
-          {part}
+    // Tạo regex với từ khóa đã được chuẩn hóa
+    const regex = new RegExp(`(${normalizedQuery})`, "gi");
+
+    // Tìm tất cả các vị trí match trong text đã chuẩn hóa
+    const matches = Array.from(normalizedText.matchAll(regex));
+
+    if (matches.length === 0) return text;
+
+    // Tạo mảng chứa các phần của text gốc
+    const result = [];
+    let lastIndex = 0;
+
+    matches.forEach((match) => {
+      const startIndex = match.index!;
+      const matchLength = match[0].length;
+
+      // Thêm phần text trước match
+      if (startIndex > lastIndex) {
+        result.push(text.slice(lastIndex, startIndex));
+      }
+
+      // Thêm phần text match với highlight
+      result.push(
+        <span key={startIndex} className={`${color} font-semibold`}>
+          {text.slice(startIndex, startIndex + matchLength)}
         </span>
-      ) : (
-        part
-      )
-    );
+      );
+
+      lastIndex = startIndex + matchLength;
+    });
+
+    // Thêm phần text còn lại
+    if (lastIndex < text.length) {
+      result.push(text.slice(lastIndex));
+    }
+
+    return result;
+  };
+
+  const handleBuyNow = async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!informationUser) {
+      handleOpenDialog("login", "desktop");
+      return;
+    }
+
+    // Chỉ đóng dropdown khi không ở trang giỏ hàng
+    if (pathname !== '/cart') {
+      onClose();
+    }
+    
+    await addToCartBuyNow(productId, 1);
   };
 
   return (
     <div
       className={`absolute left-0 top-[calc(100%+10px)] w-full bg-white rounded-xl shadow-lg z-50 border border-gray-200 transition-all duration-300 ease-in-out ${
-        isOpen 
-        ? "opacity-100 visible translate-y-0" 
-        : "opacity-0 invisible -translate-y-8"
+        isOpen
+          ? "opacity-100 visible translate-y-0"
+          : "opacity-0 invisible -translate-y-8"
       }`}
     >
       <div className="w-full max-h-[400px] overflow-auto p-4 flex flex-col gap-6">
@@ -96,51 +161,50 @@ const SearchHistoryDropdown = ({
 
         {/* Hiển thị kết quả sản phẩm */}
         {hasSearchResults && (
-          <div className="flex flex-col gap-6">
-            {/* Phần gợi ý tìm kiếm */}
-            <div className="flex flex-col">
-              {searchResults.slice(0, 5).map((product: any, index) => (
-                <div
-                  key={`suggestion-${product.id}-${index}`}
-                  className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 transition-colors rounded-lg p-2 px-3"
-                  onClick={() => onSelect && onSelect(product.name)}
-                >
-                  <IconSearchHeader
-                    fill="#1C252E"
-                    className="size-4 flex-shrink-0"
+          <div className="flex flex-col gap-2 -mt-4">
+            <h3 className="text-base font-bold text-primary-new capitalize px-3 pt-3 pb-2 border-b border-gray-100 sticky -top-4 bg-white z-10">
+              Sản phẩm
+            </h3>
+            {searchResults?.map((product: any) => (
+              <Link
+                key={product.id}
+                href={`/${product.slug_category}/${convertToSlug(
+                  product?.name
+                )}-${product.id}`}
+                onClick={onClose}
+                className="flex gap-3 p-2 cursor-pointer hover:bg-gray-100 transition-colors w-full rounded-lg group"
+              >
+                <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                  <Image
+                    src={product.images}
+                    alt={product.name}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain"
                   />
-                  <p className="text-sm text-primary-new line-clamp-1 font-medium">
-                    {highlightSearchQuery(product.name, searchQuery)}
-                  </p>
                 </div>
-              ))}
-            </div>
-
-            {/* Phần sản phẩm */}
-            <div className="flex flex-col">
-              <h3 className="text-base font-bold text-primary-new capitalize px-3 mb-2">
-                Sản phẩm
-              </h3>
-              {searchResults?.map((product: any) => (
-                <Link
-                  key={product.id}
-                  href={`/${product.slug_category}/${convertToSlug(product?.name)}-${product.id}`}
-                  onClick={onClose}
-                  className="flex gap-3 p-2 cursor-pointer hover:bg-gray-100 transition-colors w-full rounded-lg"
-                >
-                  <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
-                    <Image
-                      src={product.images}
-                      alt={product.name}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col gap-2">
-                    <p className="text-sm text-[#36443F] font-medium line-clamp-2">
-                      {product.name}
-                    </p>
+                <div className="flex-1 min-w-0 flex flex-col gap-1">
+                  <p className="text-sm text-[#36443F] font-medium line-clamp-2">
+                    {highlightSearchQuery(
+                      product.name,
+                      searchQuery,
+                      "text-brand-500"
+                    )}
+                  </p>
+                  {product.dtKeyWord.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      {product.dtKeyWord.map((item: string, index: number) => (
+                        <span key={index} className="text-xs text-primary-new">
+                          #{highlightSearchQuery(
+                            item,
+                            searchQuery,
+                            "text-brand-500"
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 justify-between">
                     {product.price_promotion == 0 ? (
                       <span className="text-base text-error-dark font-semibold">
                         Liên hệ
@@ -164,10 +228,17 @@ const SearchHistoryDropdown = ({
                           )}
                       </div>
                     )}
+                    <button
+                      className="bg-brand-500 rounded-lg py-1 px-2 text-white text-sm font-semibold hover:bg-brand-400 transition-colors duration-300"
+                      onClick={(e) => handleBuyNow(e, product.id)}
+                      disabled={isLoading}
+                    >
+                      Đặt hàng
+                    </button>
                   </div>
-                </Link>
-              ))}
-            </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
 

@@ -22,6 +22,8 @@ const FlashSale = ({ itemSale }: { itemSale: any }) => {
     return specificEndTime;
   }, []);
 
+  if (itemSale?.length === 0) return null;
+
   return (
     <div className={`${!isVisibleMobile && !isVisibleTablet ? "container" : ""}`}>
       <div className="relative p-3 xl:p-12 bg-gradient-to-r from-[#FFEDD933] to-[#FFE8CE4D] w-full h-fit lg:rounded-xl overflow-hidden">

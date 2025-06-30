@@ -159,7 +159,7 @@ const ProductList: React.FC<ProductListProps> = ({
                 <div className="w-[130px] p-4 flex-shrink-0">
                   <div className="h-[34px] p-1 flex items-center border border-[#919EAB33] rounded-full">
                     <button
-                      className="p-1"
+                      className="p-1 group rounded-full hover:bg-white transition-all duration-300"
                       onClick={() => decreaseQuantity(product.id)}
                     >
                       <MinusIcon className="size-4" />
@@ -172,7 +172,7 @@ const ProductList: React.FC<ProductListProps> = ({
                       onFocus={handleFocus}
                     />
                     <button
-                      className="p-1"
+                      className="p-1 group rounded-full hover:bg-white transition-all duration-300"
                       onClick={() => increaseQuantity(product.id)}
                     >
                       <PlusIcon className="size-4" />

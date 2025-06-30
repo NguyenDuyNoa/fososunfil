@@ -9,7 +9,6 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import ProductMainInfo from "./components/MainInfo";
 import ProductTabs from "./components/ProductTabs";
-import Promo from "./components/Promo";
 import RelatedProducts from "./components/Related";
 import Review from "./components/Review";
 

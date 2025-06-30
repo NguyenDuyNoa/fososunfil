@@ -73,7 +73,7 @@ const MegaMenuDropdown = ({
       {/* Trigger button */}
       <button
         className={cn(
-          "flex items-center gap-2 py-3 px-4 relative z-10 bg-brand-650 text-white font-bold rounded-md whitespace-nowrap",
+          "flex items-center gap-2 py-3 px-4 relative z-10 bg-brand-650 hover:bg-brand-500 transition-all duration-300 text-white font-bold rounded-md whitespace-nowrap cursor-pointer",
           classNameButton
         )}
         // onMouseEnter={handleMouseEnter}

@@ -125,6 +125,10 @@ const SearchBar = ({
     setIsDropdownOpen(false);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   if (isMobile) {
     return (
       <div className="py-2 w-full relative" ref={searchRef}>
@@ -159,7 +163,10 @@ const SearchBar = ({
       className={`flex flex-row items-center w-full relative ${className}`}
       ref={searchRef}
     >
-      <form className="flex flex-row items-center w-full border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2">
+      <form 
+        className="flex flex-row items-center w-full border-[2px] border-brand-500 rounded-full xxl:px-4 xxl:py-2 xl:py-[6px] xl:px-2 py-1 px-2"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           placeholder="Tìm sản phẩm"
@@ -202,7 +209,7 @@ const SearchBar = ({
           <IconCameraHeader fill="#041F2F" />
         </button>
         <button
-          type="submit"
+          // type="submit"
           className="bg-blue-600 rounded-full xxl:py-2 xxl:px-5 py-[6px] px-4"
         >
           <IconSearchHeader fill="white" />

@@ -280,7 +280,7 @@ const ProductSummary = ({ data }: { data: any }) => {
                   className="w-full border border-brand-500 rounded-lg py-3 text-brand-500 text-sm xl:text-base font-medium hover:bg-brand-50 transition-colors duration-300"
                   onClick={handleViewOEM}
                 >
-                  Xem OEM
+                  Tra cứu sản phẩm
                 </button>
               </div>
             </div>
