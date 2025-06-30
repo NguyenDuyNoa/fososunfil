@@ -51,10 +51,10 @@ const SearchHistoryDropdown = ({
   const { addToCartBuyNow } = useCartStore();
   const router = useRouter();
   const pathname = usePathname();
-  const hasSearchResults = searchResults.length > 0;
+  const hasSearchResults = searchResults?.length > 0;
 
   const noResults =
-    !isLoading && !hasSearchResults && searchQuery.trim().length > 0;
+    !isLoading && !hasSearchResults && searchQuery.trim()?.length > 0;
 
   // Hàm để làm nổi bật từ khóa tìm kiếm trong văn bản
   const highlightSearchQuery = (
@@ -191,9 +191,9 @@ const SearchHistoryDropdown = ({
                       "text-brand-500"
                     )}
                   </p>
-                  {product.dtKeyWord.length > 0 && (
+                  {product?.dtKeyWord?.length > 0 && (
                     <div className="flex items-center gap-2">
-                      {product.dtKeyWord.map((item: string, index: number) => (
+                      {product?.dtKeyWord?.map((item: string, index: number) => (
                         <span key={index} className="text-xs text-primary-new">
                           #{highlightSearchQuery(
                             item,
