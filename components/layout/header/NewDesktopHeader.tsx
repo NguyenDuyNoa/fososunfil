@@ -171,6 +171,7 @@ const NewDesktopHeader = ({
                 height={111}
                 className="object-contain xl:w-[250px]"
                 quality={100}
+                priority
                 loading="eager"
               />
             </Link>
@@ -182,6 +183,7 @@ const NewDesktopHeader = ({
                 height={111}
                 className="object-contain w-[106px]"
                 quality={100}
+                priority
                 loading="eager"
               />
             </Link>

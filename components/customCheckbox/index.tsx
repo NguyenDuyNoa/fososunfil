@@ -28,7 +28,7 @@ export const CustomCheckbox = ({
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 group w-fit cursor-pointer">
       <div
         className="relative w-5 h-5 cursor-pointer flex-shrink-0"
         onClick={handleChange}
@@ -80,7 +80,7 @@ export const CustomCheckbox = ({
       </div>
       <label
         htmlFor={id}
-        className="cursor-pointer text-sm font-medium text-primary-new pt-1"
+        className="cursor-pointer text-sm font-medium text-primary-new pt-1 group-hover:text-brand-600"
       >
         {label}{" "}
         <span className="font-normal text-secondary-new">

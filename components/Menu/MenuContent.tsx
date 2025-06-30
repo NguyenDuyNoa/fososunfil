@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 type MegaMenuContentProps = {
   classNameContent?: string;
@@ -87,9 +87,8 @@ const MenuContent = ({
           )}
         >
           {listProducts?.map((item: any, index: number) => (
-            <>
+            <React.Fragment key={item.id}>
               <div
-                key={item.id}
                 onMouseEnter={() => setActiveItem(item)}
                 className={cn(
                   "h-[70px] cursor-pointer flex items-center gap-3 p-4 w-full text-left bg-white transition-all duration-200 hover:translate-x-1",
@@ -113,7 +112,7 @@ const MenuContent = ({
               {index !== listProducts.length - 1 && (
                 <hr className="border-t border-gray-200" />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
 

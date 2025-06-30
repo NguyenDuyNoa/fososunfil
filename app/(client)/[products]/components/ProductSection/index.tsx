@@ -6,7 +6,7 @@ import { IMAGES } from "@/constants/Images";
 import { useGetListItemProduct } from "@/managers/api-management/products/useGetListItem";
 import { FilterState, ProductItem } from "@/types/products/IProducts";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 interface ProductSectionProps {
   slug: string;
@@ -14,16 +14,29 @@ interface ProductSectionProps {
   onOpenFilter?: () => void;
 }
 
-const ProductSection = ({
+const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionProps>(({
   slug,
   filters,
   onOpenFilter,
-}: ProductSectionProps) => {
+}, ref) => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState<string>("Giá:");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [sortPrice, setSortPrice] = useState<"asc" | "desc" | number>(-1);
+
+  useImperativeHandle(ref, () => ({
+    scrollToTop: () => {
+      if (sectionRef.current) {
+        const yOffset = sectionRef.current.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({
+          top: yOffset,
+          behavior: "smooth"
+        });
+      }
+    }
+  }));
 
   const filterOptions = ["Bán chạy", "Mới nhất", "Nổi bật"];
   const priceOptions = ["Giá: Thấp → Cao", "Giá: Cao → Thấp"];
@@ -72,7 +85,7 @@ const ProductSection = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-5">
+    <div ref={sectionRef} className="flex w-full flex-col gap-5">
       <div className="w-full flex gap-1 flex-col xl:flex-row xl:items-center xl:justify-between pb-2">
         <h2 className="text-base xl:text-xl font-semibold text-primary-new">
           Danh sách sản phẩm
@@ -215,6 +228,8 @@ const ProductSection = ({
       {/* {showFilter && <SidebarFilterMb onClose={() => setShowFilter(false)} />} */}
     </div>
   );
-};
+});
+
+ProductSection.displayName = 'ProductSection';
 
 export default ProductSection;

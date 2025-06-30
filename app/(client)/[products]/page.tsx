@@ -4,12 +4,13 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { useGetPageProduct } from "@/managers/api-management/products/useGetPageProduct";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import BannerProduct from "./components/BannerProduct";
 import ProductSection from "./components/ProductSection";
 import SidebarFilter from "./components/SidebarFilter";
 import SidebarFilterMb from "./components/SidebarFilterMb";
 import { useProductFilter } from "./hooks/useProductFilter";
+import { FilterState } from "@/types/products/IProducts";
 
 interface ProductsPageProps {
   params: {
@@ -29,6 +30,15 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
     { label: dataPageProduct?.dtCategory?.name, href: "#" },
   ];
 
+  const productSectionRef = useRef<{ scrollToTop: () => void }>(null);
+
+  const handleFilterChangeWithScroll = (type: keyof FilterState, value: any) => {
+    handleFilterChange(type as any, value);
+    if (productSectionRef.current) {
+      productSectionRef.current.scrollToTop();
+    }
+  };
+
   return (
     <>
       <div className="container flex flex-col gap-2 xl:gap-8 pt-6">
@@ -42,9 +52,10 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
           <SidebarFilter
             filters={filters}
             filterData={filterData}
-            onFilterChange={handleFilterChange}
+            onFilterChange={handleFilterChangeWithScroll}
           />
           <ProductSection
+            ref={productSectionRef}
             slug={params.products}
             filters={filters}
             onOpenFilter={() => setShowMobileFilter(true)}
@@ -54,7 +65,7 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
               onClose={() => setShowMobileFilter(false)}
               filters={filters}
               filterData={filterData}
-              onFilterChange={handleFilterChange}
+              onFilterChange={handleFilterChangeWithScroll}
               onReset={resetFilters}
             />
           )}

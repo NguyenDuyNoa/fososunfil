@@ -236,4 +236,16 @@ const config: Config = {
   // important: true,
   plugins: [animate, require('tailwind-scrollbar-hide')],
 };
+
+module.exports = {
+  ...config,
+  plugins: [
+    animate,
+    function ({ addVariant }: { addVariant: any }) {
+      addVariant("filter-group-hover", ":merge(.filter-group):hover &");
+      addVariant("nested-filter-group-hover", ":merge(.nested-filter-group):hover &");
+    },
+  ],
+};
+
 export default config;
