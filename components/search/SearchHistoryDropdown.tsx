@@ -5,6 +5,8 @@ import { convertToSlug } from "@/utils/format/ConvertToSlug";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import MinusIcon from "../icons/MinusIcon";
+import PlusIcon from "../icons/PlusIcon";
 
 // Hàm loại bỏ dấu tiếng Việt
 const removeAccents = (str: string): string => {
@@ -48,10 +50,63 @@ const SearchHistoryDropdown = ({
 }: SearchHistoryDropdownProps) => {
   const { informationUser } = useAuthStore();
   const { handleOpenDialog } = useDialogStore();
-  const { addToCartBuyNow } = useCartStore();
-  const router = useRouter();
+  const { items, addToCartBuyNow, updateQuantityAPI } = useCartStore();
   const pathname = usePathname();
   const hasSearchResults = searchResults?.length > 0;
+console.log(items)
+  // Hàm kiểm tra sản phẩm có trong giỏ hàng không và lấy số lượng
+  const getProductFromCart = (productId: string) => {
+    return items.find((item) => item?.item_id === productId);
+  };
+
+  const isProductInCart = (productId: string) => {
+    return !!getProductFromCart(productId);
+  };
+
+  // Hàm tăng số lượng
+  const increaseQuantity = (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const cartItem = getProductFromCart(productId);
+    if (cartItem) {
+      updateQuantityAPI(cartItem.id, Number(cartItem.quantity) + 1);
+    }
+  };
+
+  // Hàm giảm số lượng
+  const decreaseQuantity = (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const cartItem = getProductFromCart(productId);
+    if (cartItem && cartItem.quantity > 1) {
+      updateQuantityAPI(cartItem.id, cartItem.quantity - 1);
+    }
+  };
+
+  // Hàm xử lý thay đổi số lượng
+  const handleQuantityChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    productId: string
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const cartItem = getProductFromCart(productId);
+    if (!cartItem) return;
+
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value > 0) {
+      updateQuantityAPI(cartItem.id, value);
+    } else if (e.target.value === "") {
+      updateQuantityAPI(cartItem.id, 1);
+    }
+  };
+
+  // Hàm xử lý focus input
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.select();
+  };
 
   const noResults =
     !isLoading && !hasSearchResults && searchQuery.trim()?.length > 0;
@@ -115,10 +170,10 @@ const SearchHistoryDropdown = ({
     }
 
     // Chỉ đóng dropdown khi không ở trang giỏ hàng
-    if (pathname !== '/cart') {
+    if (pathname !== "/cart") {
       onClose();
     }
-    
+
     await addToCartBuyNow(productId, 1);
   };
 
@@ -161,50 +216,39 @@ const SearchHistoryDropdown = ({
 
         {/* Hiển thị kết quả sản phẩm */}
         {hasSearchResults && (
-          <div className="flex flex-col gap-2 -mt-4">
+          <div className="flex flex-col gap-1 -mt-4">
             <h3 className="text-base font-bold text-primary-new capitalize px-3 pt-3 pb-2 border-b border-gray-100 sticky -top-4 bg-white z-10">
               Sản phẩm
             </h3>
             {searchResults?.map((product: any) => (
-              <Link
-                key={product.id}
-                href={`/${product.slug_category}/${convertToSlug(
-                  product?.name
-                )}-${product.id}`}
-                onClick={onClose}
-                className="flex gap-3 p-2 cursor-pointer hover:bg-gray-100 transition-colors w-full rounded-lg group"
-              >
-                <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
-                  <Image
-                    src={product.images}
-                    alt={product.name}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="flex-1 min-w-0 flex flex-col gap-1">
-                  <p className="text-sm text-[#36443F] font-medium line-clamp-2">
-                    {highlightSearchQuery(
-                      product.name,
-                      searchQuery,
-                      "text-brand-500"
+              <div key={product.id} className="relative">
+                <Link
+                  href={`/${product.slug_category}/${convertToSlug(product?.name)}-${product.id}`}
+                  onClick={onClose}
+                  className="flex gap-3 p-2 cursor-pointer hover:bg-gray-100 transition-colors w-full rounded-lg group"
+                >
+                  <div className="flex-shrink-0 w-20 h-20 bg-gray-100 rounded-lg overflow-hidden">
+                    <Image
+                      src={product.images}
+                      alt={product.name}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col gap-1">
+                    <p className="text-sm text-[#36443F] font-medium line-clamp-2">
+                      {highlightSearchQuery(product.name, searchQuery, "text-brand-500")}
+                    </p>
+                    {product?.dtKeyWord?.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        {product?.dtKeyWord?.map((item: string, index: number) => (
+                          <span key={index} className="text-xs text-primary-new">
+                            #{highlightSearchQuery(item, searchQuery, "text-brand-500")}
+                          </span>
+                        ))}
+                      </div>
                     )}
-                  </p>
-                  {product?.dtKeyWord?.length > 0 && (
-                    <div className="flex items-center gap-2">
-                      {product?.dtKeyWord?.map((item: string, index: number) => (
-                        <span key={index} className="text-xs text-primary-new">
-                          #{highlightSearchQuery(
-                            item,
-                            searchQuery,
-                            "text-brand-500"
-                          )}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="flex items-center gap-2 justify-between">
                     {product.price_promotion == 0 ? (
                       <span className="text-base text-error-dark font-semibold">
                         Liên hệ
@@ -215,29 +259,53 @@ const SearchHistoryDropdown = ({
                           {Number(product.price).toLocaleString()}{" "}
                           <span className="underline">đ</span>
                         </p>
-                        {product.price_promotion &&
-                          product.price_promotion < product.price && (
-                            <div className="flex items-center gap-0.5 text-xs text-disable-50">
-                              <p className="line-through">
-                                {Number(
-                                  product.price_promotion
-                                ).toLocaleString()}
-                              </p>
-                              <span className="underline">đ</span>
-                            </div>
-                          )}
+                        {product.price_promotion && product.price_promotion < product.price && (
+                          <div className="flex items-center gap-0.5 text-xs text-disable-50">
+                            <p className="line-through">
+                              {Number(product.price_promotion).toLocaleString()}
+                            </p>
+                            <span className="underline">đ</span>
+                          </div>
+                        )}
                       </div>
                     )}
-                    <button
-                      className="bg-brand-500 rounded-lg py-1 px-2 text-white text-sm font-semibold hover:bg-brand-400 transition-colors duration-300"
-                      onClick={(e) => handleBuyNow(e, product.id)}
-                      disabled={isLoading}
-                    >
-                      Đặt hàng
-                    </button>
                   </div>
-                </div>
-              </Link>
+                </Link>
+
+                {!isProductInCart(product.id) ? (
+                  <button
+                    className="absolute bottom-2 right-2 bg-brand-500 rounded-lg py-1 px-2 text-white text-sm font-semibold hover:bg-brand-400 transition-colors duration-300"
+                    onClick={(e) => handleBuyNow(e, product.id)}
+                    disabled={isLoading}
+                  >
+                    Đặt hàng
+                  </button>
+                ) : (
+                  <div className="absolute bottom-2 right-2">
+                    <div className="bg-white h-[34px] w-fit p-1 flex items-center border border-[#919EAB33] rounded-full">
+                      <button
+                        className="p-1 group rounded-full hover:bg-gray-100 transition-all duration-300"
+                        onClick={(e) => decreaseQuantity(e, product.id)}
+                      >
+                        <MinusIcon className="size-4" />
+                      </button>
+                      <input
+                        type="text"
+                        className="w-10 text-center text-sm font-semibold text-primary-new focus:outline-none bg-transparent"
+                        value={getProductFromCart(product.id)?.quantity || 1}
+                        onChange={(e) => handleQuantityChange(e, product.id)}
+                        onFocus={handleFocus}
+                      />
+                      <button
+                        className="p-1 group rounded-full hover:bg-gray-100 transition-all duration-300"
+                        onClick={(e) => increaseQuantity(e, product.id)}
+                      >
+                        <PlusIcon className="size-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}

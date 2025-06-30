@@ -1,5 +1,6 @@
 import Link from "next/link";
-import React, { useRef, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Product {
   id: number | string;
@@ -27,10 +28,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   const [bottomPosition, setBottomPosition] = useState<number>(128);
   const summaryRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // Tính tổng tiền
   const totalPrice = products.reduce(
-    (sum, product) => sum + (product.type_gift == 0 ? (product.price_discount || 0) * product.quantity : 0),
+    (sum, product) =>
+      sum +
+      (product.type_gift == 0
+        ? (product.price_discount || 0) * product.quantity
+        : 0),
     0
   );
 
@@ -155,9 +161,20 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           {isLoading
             ? "Đang xử lý..."
             : type === "cart"
-            ? "Mua hàng"
+            ? "Tiếp tục"
             : "Đặt hàng"}
         </button>
+        {type === "checkout" && (
+          <button
+            onClick={() => router.push("/cart")}
+            disabled={isLoading}
+          className={`-mt-4 w-full bg-brand-200 hover:bg-brand-500 text-white py-3 rounded-lg text-base font-bold text-center ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
+          >
+            Trở về
+          </button>
+        )}
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white xl:hidden py-[18px] px-5 flex justify-between items-center gap-2.5 rounded-t-xl shadow-[0_4px_32px_0_#00000028]">

@@ -6,6 +6,7 @@ import TableDetailCodeProduct from './TableDetailCodeProduct';
 import { X } from 'lucide-react';
 
 import { motion } from 'framer-motion'
+import { useCartStore } from '@/stores/useCartStore';
 
 type Props = {
     data: IDetailCodeProduct
@@ -27,24 +28,39 @@ const SectionDetailInfoProduct = ({ data }: Props) => {
         }
     };
 
-    return (
+    const { addToCartBuyNow } = useCartStore();
+    
+    const handleBuyNow = async () => {
+        if (data && data.id) {
+          await addToCartBuyNow(data.id, 1);
+        }
+      };
+    
+      return (
         <div className='flex flex-col md:gap-6 gap-8 w-full'>
             <div className='text-title-detail-product font-bold w-fit'>
                 {data?.name ?? ""}
             </div>
 
-            <div className='bg-white 3xl:p-12 md:p-10 p-4 grid grid-cols-12 md:gap-0 gap-6'>
+            <div className='bg-white 3xl:p-12 md:p-10 p-4 grid grid-cols-12 md:gap-0 gap-6 h-fit'>
                 <div
-                    className='md:col-span-3 col-span-12 w-full h-auto md:min-h-[200px] min-h-[230px] relative cursor-pointer'
-                    onClick={() => handleTogglePreview('on', data)}
+                    className='md:col-span-3 col-span-12 flex flex-col gap-4 w-full h-auto md:min-h-[200px] min-h-[230px] xl:h-full relative cursor-pointer'
                 >
                     <Image
+                        onClick={() => handleTogglePreview('on', data)}
                         src={data?.images ?? "/default/default.png"}
                         width={600}
                         height={400}
                         alt="image"
-                        className='absolute size-full object-contain'
+                        className='relative size-full object-cover'
                     />
+                    <button
+                        className="bg-brand-500 rounded-lg w-full py-2 px-2 text-white text-sm xl:text-base font-bold hover:bg-brand-400 transition-colors duration-300"
+                        onClick={handleBuyNow}
+                        // disabled={isLoading}
+                    >
+                        Đặt hàng
+                    </button>
                 </div>
                 <div className='md:col-span-9 col-span-12 flex flex-col 3xl:gap-6 gap-4 md:pl-20 '>
                     <div className='flex flex-col gap-4'>

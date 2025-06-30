@@ -205,9 +205,9 @@ const SearchBar = ({
             </svg>
           </button>
         )}
-        <button type="button" className="mr-2">
+        {/* <button type="button" className="mr-2">
           <IconCameraHeader fill="#041F2F" />
-        </button>
+        </button> */}
         <button
           // type="submit"
           className="bg-blue-600 rounded-full xxl:py-2 xxl:px-5 py-[6px] px-4"

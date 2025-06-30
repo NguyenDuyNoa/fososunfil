@@ -8,6 +8,7 @@ export interface CartItem {
   slug_category?: string;
   slug?: string;
   price_discount?: number;
+  item_id?: string;
 }
 
 export interface ICartStore {
