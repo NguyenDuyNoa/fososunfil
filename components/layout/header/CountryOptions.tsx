@@ -4,7 +4,6 @@ import { SelectContent } from "@/components/ui/selectCustom";
 import { useLanguage } from "@/context/LanguageProvider";
 import { useStateHeader } from "@/states/Header/useStateHeader";
 import useCookieStore from "@/stores/useCookieStore";
-import { useResizeStore } from "@/stores/useResizeStore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -40,11 +39,13 @@ const CountryOptions = ({
   );
 
   useEffect(() => {
-    queryKeyIsStateHeader({
-      selectedCodeCountry: dataCountryOptions[0].code,
-    });
-
-    setLanguage(dataCountryOptions[0].code);
+    // Chỉ khởi tạo ngôn ngữ mặc định nếu chưa có ngôn ngữ nào được chọn
+    if (!isStateHeader.selectedCodeCountry) {
+      queryKeyIsStateHeader({
+        selectedCodeCountry: dataCountryOptions[0].code,
+      });
+      setLanguage(dataCountryOptions[0].code);
+    }
   }, []);
 
   const handleCodeChange = (value: string) => {
@@ -53,6 +54,11 @@ const CountryOptions = ({
     });
     setLanguage(value);
     setCookie("googletranslate", value);
+
+    // Reload trang khi chuyển từ tiếng Anh sang tiếng Việt (ai code sau có cách tốt hơn thì sửa nha)
+    if (isStateHeader.selectedCodeCountry === "en" && value === "vi") {
+      window.location.reload();
+    }
   };
 
   return (

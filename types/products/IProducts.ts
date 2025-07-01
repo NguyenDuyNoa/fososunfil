@@ -29,6 +29,7 @@ interface IDetailCodeProduct {
   type_items: string | null;
   create_by: string | null;
   date_create: string | null;
+  product_id: string | null;
   tag_code: string[] | [];
   specification: {
     name: string | null;

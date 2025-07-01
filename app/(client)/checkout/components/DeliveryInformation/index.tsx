@@ -9,6 +9,7 @@ import {
 import { useGetListDistrict } from "@/managers/api-management/order/useGetListDistrict";
 import { useGetListProvince } from "@/managers/api-management/order/useGetListProvince";
 import { useGetListWard } from "@/managers/api-management/order/useGetListWard";
+import { useAuthStore } from "@/stores/useAuthStores";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { z } from "zod";
 
@@ -32,13 +33,16 @@ const deliverySchema = z.object({
 type DeliveryFormData = z.infer<typeof deliverySchema>;
 
 const DeliveryInformation = forwardRef((props, ref) => {
-  const [selectedCity, setSelectedCity] = useState<string>("");
-  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
-  const [selectedWard, setSelectedWard] = useState<string>("");
-  const [customerName, setCustomerName] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
+  const { informationUser } = useAuthStore();
+
+  // Khởi tạo state với giá trị từ informationUser
+  const [selectedCity, setSelectedCity] = useState<string>(informationUser?.shipping?.city_shipping || "");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>(informationUser?.shipping?.district_shipping || "");
+  const [selectedWard, setSelectedWard] = useState<string>(informationUser?.shipping?.ward_shipping || "");
+  const [customerName, setCustomerName] = useState<string>(informationUser?.shipping?.name || "");
+  const [phone, setPhone] = useState<string>(informationUser?.shipping?.phone || "");
+  const [email, setEmail] = useState<string>(informationUser?.shipping?.email || "");
+  const [address, setAddress] = useState<string>(informationUser?.shipping?.address || "");
   const [note, setNote] = useState<string>("");
   const [needInvoice, setNeedInvoice] = useState<boolean>(false);
   const [errors, setErrors] = useState<
@@ -49,6 +53,44 @@ const DeliveryInformation = forwardRef((props, ref) => {
   const { data: listDistrict } = useGetListDistrict(selectedCity);
   const { data: listWard } = useGetListWard(selectedDistrict);
 
+  // Cập nhật state khi informationUser thay đổi
+  useEffect(() => {
+    if (informationUser?.shipping) {
+      setCustomerName(informationUser.shipping.name || "");
+      setPhone(informationUser.shipping.phone || "");
+      setEmail(informationUser.shipping.email || "");
+      setAddress(informationUser.shipping.address || "");
+      setSelectedCity(informationUser.shipping.city_shipping || "");
+      setSelectedDistrict(informationUser.shipping.district_shipping || "");
+      setSelectedWard(informationUser.shipping.ward_shipping || "");
+    }
+  }, [informationUser]);
+
+  // Cập nhật quận/huyện khi thành phố thay đổi
+  useEffect(() => {
+    if (selectedCity) {
+      // Nếu đổi tỉnh/thành phố, reset quận/huyện và phường/xã
+      if (selectedCity !== informationUser?.shipping?.city_shipping) {
+        setSelectedDistrict("");
+        setSelectedWard("");
+      }
+    } else {
+      // Nếu không có tỉnh/thành phố, cũng reset quận/huyện và phường/xã
+      setSelectedDistrict("");
+      setSelectedWard("");
+    }
+  }, [selectedCity, informationUser?.shipping?.city_shipping]);
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      if (selectedDistrict !== informationUser?.shipping?.district_shipping) {
+        setSelectedWard("");
+      }
+    } else {
+      setSelectedWard("");
+    }
+  }, [selectedDistrict, informationUser?.shipping?.district_shipping]);
+  
   // Hàm xác thực từng trường riêng lẻ
   const validateField = (field: keyof DeliveryFormData, value: any) => {
     try {
@@ -156,26 +198,6 @@ const DeliveryInformation = forwardRef((props, ref) => {
       };
     },
   }));
-
-  // Cập nhật quận/huyện khi thành phố thay đổi
-  useEffect(() => {
-    if (selectedCity) {
-      setSelectedDistrict("");
-      setSelectedWard("");
-    } else {
-      setSelectedDistrict("");
-      setSelectedWard("");
-    }
-  }, [selectedCity]);
-
-  // Cập nhật phường/xã khi quận/huyện thay đổi
-  useEffect(() => {
-    if (selectedDistrict) {
-      setSelectedWard("");
-    } else {
-      setSelectedWard("");
-    }
-  }, [selectedDistrict]);
 
   // CSS chung cho input
   const inputClassName =

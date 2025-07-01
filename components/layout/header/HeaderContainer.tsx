@@ -94,14 +94,6 @@ const HeaderContainer = () => {
     }
   }, [isStateHeader?.isShowMenuScreen]);
 
-  useEffect(() => {
-    queryKeyIsStateHeader({
-      selectedCodeCountry: dataCountryOptions[0].code,
-    });
-
-    setLanguage(dataCountryOptions[0].code);
-  }, []);
-
   const handleToggleMenu = (action: string): void => {
     if (action === "on") {
       queryKeyIsStateHeader({

@@ -42,12 +42,14 @@ const ProductListCheckout: React.FC<ProductListCheckoutProps> = ({
                       x{product.quantity}
                     </span>
                     <div className="flex items-center gap-2">
-                      <p className="text-xs font-normal text-disable-50 line-through">
-                        {product.price.toLocaleString()}{" "}
-                        <span className="underline">đ</span>
-                      </p>
+                      {product.price_discount !== product.price && (
+                        <p className="text-xs font-normal text-disable-50 line-through">
+                          {Number(product.price_discount).toLocaleString()}{" "}
+                          <span className="underline">đ</span>
+                        </p>
+                      )}
                       <p className="text-base font-normal text-error-dark">
-                        {product.price.toLocaleString()}{" "}
+                        {Number(product.price).toLocaleString()}{" "}
                         <span className="underline">đ</span>
                       </p>
                     </div>

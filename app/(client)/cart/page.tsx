@@ -130,7 +130,7 @@ const CartPage = () => {
         </div>
       ) : products?.length > 0 ? (
         <div
-          className={`flex flex-col xl:flex-row gap-10 w-full ${
+          className={`flex flex-col xl:flex-row gap-6 2xl:gap-10 w-full ${
             isVisibleMobile || isVisibleTablet ? "" : "container"
           }`}
         >

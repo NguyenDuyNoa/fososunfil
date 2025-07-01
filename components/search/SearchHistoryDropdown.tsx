@@ -53,7 +53,7 @@ const SearchHistoryDropdown = ({
   const { items, addToCartBuyNow, updateQuantityAPI } = useCartStore();
   const pathname = usePathname();
   const hasSearchResults = searchResults?.length > 0;
-console.log(items)
+
   // Hàm kiểm tra sản phẩm có trong giỏ hàng không và lấy số lượng
   const getProductFromCart = (productId: string) => {
     return items.find((item) => item?.item_id === productId);

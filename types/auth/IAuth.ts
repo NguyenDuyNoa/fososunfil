@@ -44,7 +44,17 @@ interface IInformationUser {
     birtday: string | null,
     gender: string,
     is_register: string,
-    status_sunfil: string
+    status_sunfil: string,
+    shipping: {
+        address: string,
+        city_shipping: string,
+        district_shipping: string,
+        email: string,
+        id: string,
+        name: string,
+        phone: string,
+        ward_shipping: string,
+    }
 }
 // interface IInformationUser {
 //     fullname: string;

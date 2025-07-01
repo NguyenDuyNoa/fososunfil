@@ -29,10 +29,10 @@ const SectionDetailInfoProduct = ({ data }: Props) => {
     };
 
     const { addToCartBuyNow } = useCartStore();
-    
+
     const handleBuyNow = async () => {
-        if (data && data.id) {
-          await addToCartBuyNow(data.id, 1);
+        if (data && data.product_id) {
+          await addToCartBuyNow(data?.product_id , 1);
         }
       };
     

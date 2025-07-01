@@ -154,7 +154,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         <button
           onClick={onClick}
           disabled={isLoading}
-          className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-base font-bold text-center ${
+          className={`w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg text-base font-bold text-center transition-all duration-300 ${
             isLoading ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >
@@ -168,7 +168,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           <button
             onClick={() => router.push("/cart")}
             disabled={isLoading}
-          className={`-mt-4 w-full bg-brand-200 hover:bg-brand-500 text-white py-3 rounded-lg text-base font-bold text-center ${
+          className={`-mt-4 w-full bg-gray-200 hover:bg-gray-500 text-gray-800 hover:text-white py-3 rounded-lg text-base font-bold text-center transition-all duration-300 ${
             isLoading ? "opacity-70 cursor-not-allowed" : ""
           }`}
           >
