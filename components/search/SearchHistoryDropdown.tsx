@@ -170,9 +170,9 @@ const SearchHistoryDropdown = ({
     }
 
     // Chỉ đóng dropdown khi không ở trang giỏ hàng
-    if (pathname !== "/cart") {
-      onClose();
-    }
+    // if (pathname !== "/cart") {
+    //   onClose();
+    // }
 
     await addToCartBuyNow(productId, 1);
   };
@@ -284,7 +284,7 @@ const SearchHistoryDropdown = ({
                   <div className="absolute bottom-2 right-2">
                     <div className="bg-white h-[34px] w-fit p-1 flex items-center border border-[#919EAB33] rounded-full">
                       <button
-                        className="p-1 group rounded-full hover:bg-gray-100 transition-all duration-300"
+                        className="p-1 group rounded-full hover:bg-brand-100 transition-all duration-300"
                         onClick={(e) => decreaseQuantity(e, product.id)}
                       >
                         <MinusIcon className="size-4" />
@@ -297,7 +297,7 @@ const SearchHistoryDropdown = ({
                         onFocus={handleFocus}
                       />
                       <button
-                        className="p-1 group rounded-full hover:bg-gray-100 transition-all duration-300"
+                        className="p-1 group rounded-full hover:bg-brand-100 transition-all duration-300"
                         onClick={(e) => increaseQuantity(e, product.id)}
                       >
                         <PlusIcon className="size-4" />
