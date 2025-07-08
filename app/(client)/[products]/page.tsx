@@ -10,7 +10,7 @@ import ProductSection from "./components/ProductSection";
 import SidebarFilter from "./components/SidebarFilter";
 import SidebarFilterMb from "./components/SidebarFilterMb";
 import { useProductFilter } from "./hooks/useProductFilter";
-import { FilterState } from "@/types/products/IProducts";
+import { FilterState } from "./hooks/useProductFilter";
 
 interface ProductsPageProps {
   params: {

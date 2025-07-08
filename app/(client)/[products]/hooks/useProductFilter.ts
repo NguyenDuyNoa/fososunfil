@@ -11,6 +11,9 @@ export interface FilterState {
   product_for_you: number;
   product_new: number;
   product_not_bought: number;
+  price: number;
+  is_new?: number;
+  is_hot?: number;
 }
 
 export interface CategoryFilter {
@@ -38,6 +41,9 @@ export const useProductFilter = (slug: string) => {
     product_for_you: 0,
     product_new: 0,
     product_not_bought: 0,
+    price: 0,
+    is_new: 0,
+    is_hot: 0
   });
 
   const { data: apiResponse, isLoading: apiLoading } = useGetCategoryFilter(slug);
@@ -98,6 +104,9 @@ export const useProductFilter = (slug: string) => {
       product_for_you: 0,
       product_new: 0,
       product_not_bought: 0,
+      price: 0,
+      is_new: 0,
+      is_hot: 0
     });
   };
 
