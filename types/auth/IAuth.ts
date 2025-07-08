@@ -45,6 +45,7 @@ interface IInformationUser {
     gender: string,
     is_register: string,
     status_sunfil: string,
+    debt_sunfil: string,
     shipping: {
         address: string,
         city_shipping: string,

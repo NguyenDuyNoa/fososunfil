@@ -1,8 +1,7 @@
-import { FilterData, CategoryPrice } from "../../hooks/useProductFilter";
-import { Brand, Origin, YearManu } from "@/types/products/IProducts";
+import { FilterData } from "../../hooks/useProductFilter";
 
 export const mockFilterData: FilterData = {
-  categoryPrice: [
+  productFilters: [
     {
       id: 1,
       name: "Sản phẩm đã mua",
@@ -11,7 +10,7 @@ export const mockFilterData: FilterData = {
     },
     {
       id: 2,
-      name: "Sản phẩm bán chạy",
+      name: "Sản phẩm dành cho bạn",
       min: 0,
       max: 0
     },
@@ -28,102 +27,6 @@ export const mockFilterData: FilterData = {
       max: 0
     }
   ],
-  brand: [
-    {
-      id: "1",
-      code: "toyota",
-      name: "Toyota",
-      count: 120
-    },
-    {
-      id: "2",
-      code: "honda",
-      name: "Honda",
-      count: 98
-    },
-    {
-      id: "3",
-      code: "bmw",
-      name: "BMW",
-      count: 76
-    },
-    {
-      id: "4",
-      code: "mercedes",
-      name: "Mercedes-Benz",
-      count: 85
-    },
-    {
-      id: "5",
-      code: "audi",
-      name: "Audi",
-      count: 62
-    },
-    {
-      id: "6",
-      code: "ford",
-      name: "Ford",
-      count: 71
-    }
-  ],
-  yearManu: [
-    {
-      name: 2023,
-      count: 45
-    },
-    {
-      name: 2022,
-      count: 78
-    },
-    {
-      name: 2021,
-      count: 92
-    },
-    {
-      name: 2020,
-      count: 103
-    },
-    {
-      name: 2019,
-      count: 87
-    },
-    {
-      name: 2018,
-      count: 65
-    }
-  ],
-  origin: [
-    {
-      id: "1",
-      code: "sedan",
-      name: "Sedan",
-      count: 89
-    },
-    {
-      id: "2",
-      code: "suv",
-      name: "SUV",
-      count: 112
-    },
-    {
-      id: "3",
-      code: "hatchback",
-      name: "Hatchback",
-      count: 67
-    },
-    {
-      id: "4",
-      code: "crossover",
-      name: "Crossover",
-      count: 54
-    },
-    {
-      id: "5",
-      code: "coupe",
-      name: "Coupe",
-      count: 32
-    }
-  ]
 };
 
 // Dữ liệu bổ sung cho Hãng, Model, Năm, Động cơ, Thân xe

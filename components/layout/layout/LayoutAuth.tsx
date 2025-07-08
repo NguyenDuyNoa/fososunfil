@@ -20,27 +20,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 // import { useTranslate } from '@/contexts/TranslateContext'
 // import { usePostChangeAvatar } from '@/managers/api-management/auth/account/usePostChangeAvatar'
 // import { useGetInfoByToken } from '@/managers/api-management/auth/info/useGetInfoByToken'
+import { usePostChangeAvatar } from "@/managers/api-management/auth/account/usePostChangeAvatar";
+import { useGetInfoByToken } from "@/managers/api-management/auth/info/useGetInfoByToken";
+import { useStateHeader } from "@/states/Header/useStateHeader";
 import { useAlertDialogStore } from "@/stores/useAlertDialogStore";
+import { useAuthStore } from "@/stores/useAuthStores";
 import { useResizeStore } from "@/stores/useResizeStore";
 import {
   Camera,
   Gift,
-  Heart,
-  Location,
   Lock,
-  Lock1,
-  MessageQuestion,
-  Note,
+  Money,
   SearchNormal,
   ShoppingBag,
-  Tag,
-  UserSquare,
+  TruckFast,
+  UserSquare
 } from "iconsax-react";
-import { Separator } from "@/components/ui/separator";
-import { useAuthStore } from "@/stores/useAuthStores";
-import { usePostChangeAvatar } from "@/managers/api-management/auth/account/usePostChangeAvatar";
-import { useGetInfoByToken } from "@/managers/api-management/auth/info/useGetInfoByToken";
-import { useStateHeader } from "@/states/Header/useStateHeader";
 
 const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -88,6 +83,18 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
           name: `Lịch sử đơn hàng`,
           icon: ShoppingBag,
           link: "/auth/information/order-history",
+        },
+        {
+          id: 2,
+          name: `Lịch sử giao hàng`,
+          icon: TruckFast,
+          link: "/auth/information/delivery-history",
+        },
+        {
+          id: 3,
+          name: `Lịch sử thu tiền`,
+          icon: Money,
+          link: "/auth/information/payment-history",
         },
       ],
     },
@@ -206,6 +213,16 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
                   Chưa xác thực
                 </p>
               )}
+              {/* {Number(informationUser?.debt_sunfil) > 0 && ( */}
+                <div className="flex items-center gap-2 bg-[#F5F8FF] rounded-lg px-3 py-1 shadow-sm border border-[#E3EAFD] mt-1">
+                  <span className="text-[#07A6FF] font-bold text-base">
+                    Công nợ:
+                  </span>
+                  <span className="text-[#333538] font-semibold text-base">
+                    {Number(informationUser?.debt_sunfil || 0).toLocaleString("vi-VN")} <span className="text-sm font-medium">đ</span>
+                  </span>
+                </div>
+              {/* )} */}
             </div>
 
             {isVisibleTablet ? (

@@ -25,6 +25,10 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [sortPrice, setSortPrice] = useState<"asc" | "desc" | number>(-1);
+  const [page, setPage] = useState(1);
+  const [allProducts, setAllProducts] = useState<ProductItem[]>([]);
+  const [hasMore, setHasMore] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useImperativeHandle(ref, () => ({
     scrollToTop: () => {
@@ -69,12 +73,59 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
     }
   };
 
-  const { data: dataListItemProduct, isLoading } = useGetListItemProduct(
+  const { data: dataListItemProduct, isLoading, isNext } = useGetListItemProduct(
     slug,
     filters,
     getSort(),
-    sortPrice
+    sortPrice,
+    page,
+    9
   );
+
+  // Cập nhật danh sách sản phẩm khi có dữ liệu mới
+  useEffect(() => {
+    if (dataListItemProduct) {
+      if (page === 1) {
+        // Nếu là trang đầu tiên, thay thế hoàn toàn danh sách
+        setAllProducts(dataListItemProduct);
+        setIsExpanded(false);
+      } else {
+        // Nếu không phải trang đầu, thêm vào danh sách hiện có
+        setAllProducts(prev => [...prev, ...dataListItemProduct]);
+        setIsExpanded(true);
+      }
+      
+      // Cập nhật trạng thái hasMore từ isNext
+      setHasMore(isNext);
+    }
+  }, [dataListItemProduct, page, isNext]);
+
+  // Reset lại trang và danh sách sản phẩm khi thay đổi bộ lọc hoặc sắp xếp
+  useEffect(() => {
+    setPage(1);
+    setAllProducts([]);
+    setIsExpanded(false);
+  }, [filters, activeFilter, sortPrice]);
+
+  const handleLoadMore = () => {
+    if (hasMore) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const handleCollapse = () => {
+    // Quay lại trang 1 và reset sản phẩm
+    setPage(1);
+    setIsExpanded(false);
+    // Cuộn lên đầu phần sản phẩm
+    if (sectionRef.current) {
+      const yOffset = sectionRef.current.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: yOffset,
+        behavior: "smooth"
+      });
+    }
+  };
 
   const handleFilterChange = (filter: string) => {
     if (activeFilter === filter) {
@@ -138,7 +189,7 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
                               d="M9.24663 3.46751C9.40264 3.60372 9.41871 3.84061 9.2825 3.99663L5.35393 8.49663C5.28271 8.5782 5.17972 8.62501 5.07143 8.62501C4.96315 8.62501 4.86015 8.5782 4.78894 8.49663L3.21751 6.69663C3.08131 6.54061 3.09737 6.30372 3.25338 6.16751C3.4094 6.03131 3.64629 6.04737 3.7825 6.20338L5.07143 7.6798L8.71751 3.50338C8.85372 3.34737 9.09061 3.33131 9.24663 3.46751Z"
                               fill="white"
                               stroke="white"
-                              stroke-linecap="round"
+                              strokeLinecap="round"
                             />
                           </svg>
                         </div>
@@ -203,13 +254,13 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 xxl:grid-cols-4 gap-y-2 gap-x-3 xl:gap-4">
-        {isLoading ? (
+        {isLoading && page === 1 ? (
           Array.from({ length: 8 }).map((_, index) => (
             <ProductCardSkeleton key={index} />
           ))
-        ) : dataListItemProduct?.length > 0 ? (
-          dataListItemProduct?.map((item: ProductItem, index: number) => (
-            <ProductCardWithAuthCheck key={index} product={item} />
+        ) : allProducts?.length > 0 ? (
+          allProducts.map((item: ProductItem, index: number) => (
+            <ProductCardWithAuthCheck key={`${item.id}-${index}`} product={item} />
           ))
         ) : (
           <div className="flex flex-col col-span-4 row-span-4 h-full justify-center items-center gap-y-2 gap-x-3 xl:gap-4 min-h-[500px]">
@@ -225,7 +276,46 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
           </div>
         )}
       </div>
-      {/* {showFilter && <SidebarFilterMb onClose={() => setShowFilter(false)} />} */}
+      {allProducts?.length > 0 && (
+        <div className="flex flex-col items-center justify-center">
+          {isExpanded && !isNext ? (
+            <button 
+              className="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-gray-600 rounded-full border border-gray-200 shadow-md transition-all duration-300 ease-in-out hover:bg-gray-50 hover:shadow-lg"
+              onClick={handleCollapse}
+              disabled={isLoading}
+            >
+              <span className="absolute left-0 w-0 h-full bg-gray-100 -z-10 group-hover:w-full transition-all duration-300 ease-in-out"></span>
+              <span className="flex items-center gap-2 font-semibold">
+                Thu gọn
+                <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 15L12 9L6 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          ) : hasMore && (
+            <button 
+              className="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white rounded-full bg-brand-500 shadow-md transition-all duration-300 ease-in-out hover:shadow-lg"
+              onClick={handleLoadMore}
+              disabled={isLoading}
+            >
+              <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform rotate-12 translate-x-1 bg-white opacity-10 group-hover:-translate-x-40"></span>
+              {isLoading && page > 1 ? (
+                <span className="flex items-center gap-2 font-semibold">
+                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"></span>
+                  Đang tải...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2 font-semibold">
+                  Xem thêm sản phẩm
+                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              )}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 });

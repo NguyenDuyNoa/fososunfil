@@ -172,6 +172,7 @@ export interface Origin {
   count: number;
 }
 
+
 export interface YearManu {
   name: number;
   count: number;

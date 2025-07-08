@@ -100,7 +100,7 @@ const BannerProduct = ({
         </>
       )}
 
-      {dataProduct?.length > 0 && (
+      {/* {dataProduct?.length > 0 && (
         <div className=" py-4 px-3 xl:p-12 xl:pb-10">
           <SwiperCarousel
             items={dataProduct}
@@ -111,7 +111,7 @@ const BannerProduct = ({
             breakpoints={breakpoints}
           />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -18,6 +18,8 @@ import {
   SearchNormal,
   ShoppingBag,
   UserSquare,
+  TruckFast,
+  Money,
 } from "iconsax-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -47,6 +49,18 @@ const dataTabProfile = [
     name: `Lịch sử đơn hàng`,
     icon: ShoppingBag,
     link: "/auth/information/order-history",
+  },
+  {
+    id: 2,
+    name: `Lịch sử giao hàng`,
+    icon: TruckFast,
+    link: "/auth/information/delivery-history",
+  },
+  {
+    id: 3,
+    name: `Lịch sử thu tiền`,
+    icon: Money,
+    link: "/auth/information/payment-history",
   },
   {
     id: 323,
@@ -171,7 +185,7 @@ const Account = ({
 
                 return (
                   <React.Fragment key={`tab-profile-${item.id}`}>
-                    {index === 4 && <Separator />}
+                    {index === 6 && <Separator />}
                     <Link
                       href={item.link ?? ""}
                       className="flex items-center gap-2 group"

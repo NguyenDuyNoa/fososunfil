@@ -1,14 +1,14 @@
 import { CustomCheckbox } from "@/components/customCheckbox";
 import ArrowUpIcon from "@/components/icons/ArrowUpIcon";
 import { IMAGES } from "@/constants/Images";
-import { Brand, Origin } from "@/types/products/IProducts";
+import { Brand, Category } from "@/types/products/IProducts";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import {
-  CategoryPrice,
+  CategoryFilter,
   FilterData,
-  FilterState,
+  FilterState
 } from "../../hooks/useProductFilter";
 import { additionalFilterData, mockFilterData } from "./filterData";
 
@@ -29,7 +29,9 @@ export const FilterSection = ({
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h3 className="text-xl font-semibold text-primary-new filter-group-hover:text-brand-700 transition-colors">{title}</h3>
+        <h3 className="text-xl font-semibold text-primary-new filter-group-hover:text-brand-700 transition-colors">
+          {title}
+        </h3>
         <motion.div
           animate={{ rotate: isOpen ? 0 : 180 }}
           transition={{ duration: 0.3 }}
@@ -69,14 +71,22 @@ export const FilterNestedSection = ({
   return (
     <div className="nested-filter-group">
       <div
-        className={`flex items-center justify-between cursor-pointer px-2 py-2 rounded-md hover:bg-gray-50 transition-colors ${isOpen ? 'bg-gray-50' : ''}`}
+        className={`flex items-center justify-between cursor-pointer px-2 py-2 rounded-md hover:bg-gray-50 transition-colors ${
+          isOpen ? "bg-gray-50" : ""
+        }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center">
-          <h4 className="font-medium text-gray-800 nested-filter-group-hover:text-brand-600 transition-colors">{title}</h4>
+          <h4 className="font-medium text-gray-800 nested-filter-group-hover:text-brand-600 transition-colors">
+            {title}
+          </h4>
         </div>
-        <motion.div 
-          className={`flex items-center justify-center w-5 h-5 rounded-full transition-colors ${isOpen ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-500 nested-filter-group-hover:bg-brand-100'}`}
+        <motion.div
+          className={`flex items-center justify-center w-5 h-5 rounded-full transition-colors ${
+            isOpen
+              ? "bg-brand-500 text-white"
+              : "bg-gray-100 text-gray-500 nested-filter-group-hover:bg-brand-100"
+          }`}
           animate={{ rotate: isOpen ? 0 : 180 }}
           transition={{ duration: 0.3 }}
         >
@@ -123,8 +133,40 @@ const SidebarFilter = ({
     }
   };
 
+  // Map dữ liệu năm từ API vào additionalFilterData
+  if (filterData?.yearManu && additionalFilterData.years) {
+    additionalFilterData.years.data = filterData.yearManu.map((year, index) => ({
+      id: index.toString(),
+      name: year.name.toString(),
+      count: year.count
+    }));
+  }
+
+  // Map between filter ID and its corresponding filter type
+  const getProductFilterType = (id: number): keyof FilterState | null => {
+    switch (id) {
+      case 1:
+        return "product_sold";
+      case 2:
+        return "product_for_you";
+      case 3:
+        return "product_new";
+      case 4:
+        return "product_not_bought";
+      default:
+        return null;
+    }
+  };
+
+  // Helper to check if a product filter is active
+  const isProductFilterActive = (id: number): boolean => {
+    const filterType = getProductFilterType(id);
+    if (!filterType) return false;
+    return filters[filterType] === 1;
+  };
+
   return (
-    <div 
+    <div
       ref={filterRef}
       className="hidden sticky top-[100px] bg-white rounded-lg xl:flex flex-col gap-2 2xl:gap-4 min-w-[315px] max-w-[315px] h-fit overflow-y-auto max-h-[calc(100vh-120px)]"
     >
@@ -133,30 +175,39 @@ const SidebarFilter = ({
         <h2 className="text-2xl font-bold text-brand-500">Bộ Lọc</h2>
       </div>
 
-      {/* {filterData?.categoryPrice && filterData.categoryPrice.length > 0 && ( */}
-      {mockFilterData && mockFilterData?.categoryPrice && mockFilterData?.categoryPrice.length > 0 && (
-        <>
-          <FilterSection title="Sản phẩm dành cho bạn" isOpen={true}>
-            <div className="space-y-2">
-              {mockFilterData.categoryPrice &&
-                mockFilterData.categoryPrice.map((price: CategoryPrice) => (
-                  <button
-                    key={price.id}
-                    className={`w-full p-2 rounded text-center transition-colors ${
-                      filters.price === price.id
-                        ? "bg-brand-500 text-white border border-brand-500"
-                        : "border border-[#919EAB3D] hover:border-brand-500"
-                    }`}
-                    onClick={() => handleFilterChange("price", price.id.toString())}
-                  >
-                    {price.name}
-                  </button>
-                ))}
-            </div>
-          </FilterSection>
-          <hr className="border-[#919EAB33]" />
-        </>
-      )}
+      {mockFilterData &&
+        mockFilterData?.productFilters &&
+        mockFilterData?.productFilters.length > 0 && (
+          <>
+            <FilterSection title="Bộ lọc sản phẩm" isOpen={true}>
+              <div className="space-y-2">
+                {mockFilterData.productFilters &&
+                  mockFilterData.productFilters.map(
+                    (filter: CategoryFilter) => {
+                      const filterType = getProductFilterType(filter.id);
+                      if (!filterType) return null;
+                      return (
+                        <button
+                          key={filter.id}
+                          className={`w-full p-2 rounded text-center transition-colors ${
+                            isProductFilterActive(filter.id)
+                              ? "bg-brand-500 text-white border border-brand-500"
+                              : "border border-[#919EAB3D] hover:border-brand-500"
+                          }`}
+                          onClick={() => 
+                            handleFilterChange(filterType, "1")
+                          }
+                        >
+                          {filter.name}
+                        </button>
+                      );
+                    }
+                  )}
+              </div>
+            </FilterSection>
+            <hr className="border-[#919EAB33]" />
+          </>
+        )}
 
       {filterData?.brand && filterData.brand.length > 0 && (
         <>
@@ -178,20 +229,18 @@ const SidebarFilter = ({
         </>
       )}
 
-      {filterData?.origin && filterData.origin.length > 0 && (
+      {filterData?.category && filterData.category.length > 0 && (
         <>
           <FilterSection title="Nhóm sản phẩm" isOpen={false}>
             <div className="space-y-3">
-              {filterData.origin.map((origin: Origin) => (
+              {filterData.category.map((category: Category) => (
                 <CustomCheckbox
-                  key={origin.id}
-                  id={origin.id}
-                  label={origin.name.toString()}
-                  count={origin.count}
-                  checked={filters.origin_id.includes(origin.id)}
-                  onChange={() =>
-                    handleFilterChange("origin_id", origin.id)
-                  }
+                  key={category.id}
+                  id={category.id}
+                  label={category.name.toString()}
+                  count={category.count}
+                  checked={filters.category_id.includes(category.id)}
+                  onChange={() => handleFilterChange("category_id", category.id)}
                 />
               ))}
             </div>
@@ -212,8 +261,16 @@ const SidebarFilter = ({
                       id={`${key}-${item.id}`}
                       label={item.name}
                       count={item.count}
-                      checked={key === 'bodyTypes' ? filters.origin_id.includes(item.id) : false}
-                      onChange={() => key === 'bodyTypes' ? handleFilterChange("origin_id", item.id) : {}}
+                      checked={
+                        key === "bodyTypes"
+                          ? filters.origin_id.includes(item.id)
+                          : false
+                      }
+                      onChange={() =>
+                        key === "bodyTypes"
+                          ? handleFilterChange("origin_id", item.id)
+                          : {}
+                      }
                     />
                   ))}
                 </div>
