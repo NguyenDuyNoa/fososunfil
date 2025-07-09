@@ -4,30 +4,31 @@ import { IMAGES } from "@/constants/Images";
 import { Brand, Category } from "@/types/products/IProducts";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useRef, useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CategoryFilter,
   FilterData,
   FilterState,
 } from "../../hooks/useProductFilter";
 import { additionalFilterData, mockFilterData } from "./filterData";
-import Link from "next/link";
-import { convertToSlug } from "@/utils/format/ConvertToSlug";
-import { useRouter, usePathname } from "next/navigation";
 
 export const FilterSection = ({
   title,
   children,
+  className,
   isOpen: initialIsOpen = true,
 }: {
   title: string;
   children: React.ReactNode;
   isOpen?: boolean;
+  className?: string;
 }) => {
   const [isOpen, setIsOpen] = useState(initialIsOpen);
 
   return (
-    <div className="p-3 flex flex-col gap-4 filter-group">
+    <div className={`p-3 flex flex-col gap-4 filter-group ${className}`}>
       <div
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
@@ -296,7 +297,7 @@ const SidebarFilter = ({
       )}
 
       {additionalFilterData && (
-        <FilterSection title="Dòng xe" isOpen={false}>
+        <FilterSection title="Dòng xe" isOpen={false} className="pb-5 2xl:pb-6">
           <div className="space-y-1">
             {Object.entries(additionalFilterData).map(([key, filterGroup]) => (
               <FilterNestedSection key={key} title={filterGroup.label}>
