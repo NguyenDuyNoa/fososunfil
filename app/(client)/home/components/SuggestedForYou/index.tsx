@@ -41,7 +41,7 @@ const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemR
           </div> */}
         </div>
         <div className="flex gap-2 xl:gap-6 w-full h-full xl:h-[600px] relative">
-          <div className="w-[40%] xl:w-[23%] flex-1">
+          <div className="w-[40%] xl:w-[23%]">
             <Image
               src={imageForYou?.image || IMAGES.banner2}
               alt=""

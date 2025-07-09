@@ -4,13 +4,16 @@ import { IMAGES } from "@/constants/Images";
 import { Brand, Category } from "@/types/products/IProducts";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   CategoryFilter,
   FilterData,
-  FilterState
+  FilterState,
 } from "../../hooks/useProductFilter";
 import { additionalFilterData, mockFilterData } from "./filterData";
+import Link from "next/link";
+import { convertToSlug } from "@/utils/format/ConvertToSlug";
+import { useRouter, usePathname } from "next/navigation";
 
 export const FilterSection = ({
   title,
@@ -125,6 +128,32 @@ const SidebarFilter = ({
   onScrollToTop,
 }: SidebarFilterProps) => {
   const filterRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentSlug = pathname.replace('/', '');
+
+  useEffect(() => {
+    // Kiểm tra nếu có flag trong localStorage
+    const shouldScroll = localStorage.getItem('scrollToProducts');
+    if (shouldScroll) {
+      // Xóa flag
+      localStorage.removeItem('scrollToProducts');
+      
+      // Đợi một chút để DOM được render đầy đủ
+      const timer = setTimeout(() => {
+        const productSection = document.querySelector('[data-section="products"]');
+        if (productSection) {
+          const yOffset = productSection.getBoundingClientRect().top + window.scrollY - 100;
+          window.scrollTo({
+            top: yOffset,
+            behavior: "smooth"
+          });
+        }
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const handleFilterChange = (type: keyof FilterState, value: string) => {
     onFilterChange(type, value);
@@ -133,13 +162,24 @@ const SidebarFilter = ({
     }
   };
 
+  const handleCategoryClick = (categoryName: string, categorySlug: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    // Đặt flag trong localStorage để biết cần cuộn sau khi chuyển trang
+    localStorage.setItem('scrollToProducts', 'true');
+    
+    // Chuyển trang
+    router.push(`/${categorySlug}`);
+  };
+
   // Map dữ liệu năm từ API vào additionalFilterData
   if (filterData?.yearManu && additionalFilterData.years) {
-    additionalFilterData.years.data = filterData.yearManu.map((year, index) => ({
-      id: index.toString(),
-      name: year.name.toString(),
-      count: year.count
-    }));
+    additionalFilterData.years.data = filterData.yearManu.map(
+      (year, index) => ({
+        id: index.toString(),
+        name: year.name.toString(),
+        count: year.count,
+      })
+    );
   }
 
   // Map between filter ID and its corresponding filter type
@@ -168,9 +208,9 @@ const SidebarFilter = ({
   return (
     <div
       ref={filterRef}
-      className="hidden sticky top-[100px] bg-white rounded-lg xl:flex flex-col gap-2 2xl:gap-4 min-w-[315px] max-w-[315px] h-fit overflow-y-auto max-h-[calc(100vh-120px)]"
+      className="hidden sticky top-[100px] bg-white rounded-lg xl:flex flex-col gap-2 2xl:gap-4 min-w-[315px] max-w-[315px] h-fit"
     >
-      <div className="p-3 pt-4 flex items-center gap-3 sticky top-0 bg-white z-50 border-b border-[#919EAB33]">
+      <div className="p-3 pt-4 flex items-center gap-3 sticky top-0 bg-white z-50 border-b border-[#919EAB33] rounded-t-lg">
         <Image src={IMAGES.filter} alt="filter" width={24} height={24} />
         <h2 className="text-2xl font-bold text-brand-500">Bộ Lọc</h2>
       </div>
@@ -194,9 +234,7 @@ const SidebarFilter = ({
                               ? "bg-brand-500 text-white border border-brand-500"
                               : "border border-[#919EAB3D] hover:border-brand-500"
                           }`}
-                          onClick={() => 
-                            handleFilterChange(filterType, "1")
-                          }
+                          onClick={() => handleFilterChange(filterType, "1")}
                         >
                           {filter.name}
                         </button>
@@ -232,16 +270,24 @@ const SidebarFilter = ({
       {filterData?.category && filterData.category.length > 0 && (
         <>
           <FilterSection title="Nhóm sản phẩm" isOpen={false}>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3">
               {filterData.category.map((category: Category) => (
-                <CustomCheckbox
+                <Link
                   key={category.id}
-                  id={category.id}
-                  label={category.name.toString()}
-                  count={category.count}
-                  checked={filters.category_id.includes(category.id)}
-                  onChange={() => handleFilterChange("category_id", category.id)}
-                />
+                  href={`/${category.slug}`}
+                  onClick={(e) => handleCategoryClick(category.name, category.slug, e)}
+                  className="cursor-pointer"
+                >
+                  <CustomCheckbox
+                    id={category.id}
+                    label={category.name.toString()}
+                    count={category.count}
+                    checked={category.slug === currentSlug || filters.category_id.includes(category.id)}
+                    onChange={() =>
+                      handleFilterChange("category_id", category.id)
+                    }
+                  />
+                </Link>
               ))}
             </div>
           </FilterSection>
@@ -264,11 +310,15 @@ const SidebarFilter = ({
                       checked={
                         key === "bodyTypes"
                           ? filters.origin_id.includes(item.id)
+                          : key === "years"
+                          ? filters.year_manu.includes(item.name)
                           : false
                       }
                       onChange={() =>
                         key === "bodyTypes"
                           ? handleFilterChange("origin_id", item.id)
+                          : key === "years"
+                          ? handleFilterChange("year_manu", item.name)
                           : {}
                       }
                     />

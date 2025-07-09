@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ServiceHighlights from "@/components/serviceHighlights";
 import StoreLocatorBanner from "@/components/storeLocatorBanner";
 import { useGetPageProduct } from "@/managers/api-management/products/useGetPageProduct";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import BannerProduct from "./components/BannerProduct";
 import ProductSection from "./components/ProductSection";
 import SidebarFilter from "./components/SidebarFilter";
@@ -31,6 +31,24 @@ const ProductsPage = ({ params }: ProductsPageProps) => {
   ];
 
   const productSectionRef = useRef<{ scrollToTop: () => void }>(null);
+
+  useEffect(() => {
+    // Kiểm tra nếu có flag trong localStorage
+    const shouldScroll = localStorage.getItem('scrollToProducts');
+    if (shouldScroll) {
+      // Xóa flag
+      localStorage.removeItem('scrollToProducts');
+      
+      // Chờ một chút để trang load hoàn chỉnh
+      const timer = setTimeout(() => {
+        if (productSectionRef.current) {
+          productSectionRef.current.scrollToTop();
+        }
+      }, 800);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const handleFilterChangeWithScroll = (type: keyof FilterState, value: any) => {
     handleFilterChange(type as any, value);

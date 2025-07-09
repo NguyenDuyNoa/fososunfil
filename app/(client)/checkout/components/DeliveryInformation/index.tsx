@@ -56,9 +56,9 @@ const DeliveryInformation = forwardRef((props, ref) => {
   // Cập nhật state khi informationUser thay đổi
   useEffect(() => {
     if (informationUser?.shipping) {
-      setCustomerName(informationUser.shipping.name || "");
-      setPhone(informationUser.shipping.phone || "");
-      setEmail(informationUser.shipping.email || "");
+      setCustomerName(informationUser.shipping.name || informationUser.company || "");
+      setPhone(informationUser.shipping.phone || informationUser.phonenumber || "");
+      setEmail(informationUser.shipping.email || informationUser.email_client || "");
       setAddress(informationUser.shipping.address || "");
       setSelectedCity(informationUser.shipping.city_shipping || "");
       setSelectedDistrict(informationUser.shipping.district_shipping || "");

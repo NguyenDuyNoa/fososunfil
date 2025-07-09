@@ -47,6 +47,7 @@ export const IMAGES = {
   messenger: "/product/messenger.svg",
   money: "/product/money.png",
   // n
+  no_image: "/no_image.png",
   // o
   // p
   package: "/home/package.png",

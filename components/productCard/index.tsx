@@ -7,7 +7,7 @@ import { convertToSlug } from "@/utils/format/ConvertToSlug";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface ProductCardProps {
   imageSrc?: string;
@@ -25,7 +25,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({
-  imageSrc = IMAGES.product,
+  imageSrc = IMAGES.no_image,
   classNameImage,
   isBanner = false,
   className,
@@ -43,8 +43,14 @@ const ProductCard = ({
   const router = useRouter();
   const { setOpenDialogCustom, setStatusDialog, setProductData } =
     useDialogStore();
+  
+  const [imgSrc, setImgSrc] = useState(product?.images || imageSrc);
 
   const productSlug = product?.slug || convertToSlug(product?.name) || "";
+
+  const handleImageError = useCallback(() => {
+    setImgSrc(IMAGES.no_image);
+  }, []);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -76,28 +82,6 @@ const ProductCard = ({
     // Đối với desktop, tiếp tục hành vi mua ngay trực tiếp
     if (window.innerWidth >= 1280) {
       if (product) {
-        // try {
-        //   const response = await apiOrder.addCart({
-        //     item_id: product.id,
-        //     quantity: product?.quantity || 1,
-        //   });
-        //   if (response?.data?.result === true) {
-        //     setToast(true, "success", response?.data?.message, 2500);
-        //     await fetchCart();
-        //     closeCart();
-        //     router.push("/cart");
-        //   } else {
-        //     setToast(
-        //       true,
-        //       "error",
-        //       "Thất bại",
-        //       2500,
-        //       response?.data?.message,
-        //     );
-        //   }
-        // } catch (error) {
-        //   console.error("Lỗi khi thêm vào giỏ hàng:", error);
-        // }
         await addToCartBuyNow(product.id, product?.quantity || 1);
       }
     }
@@ -136,11 +120,12 @@ const ProductCard = ({
       >
         <div className="overflow-hidden w-full aspect-square rounded-sm">
           <Image
-            src={product?.images || imageSrc}
+            src={imgSrc}
             alt="product"
             width={400}
             height={400}
             className="w-full aspect-square object-cover rounded-sm transition-transform duration-300 group-hover:-translate-y-2"
+            onError={handleImageError}
           />
         </div>
       </Link>

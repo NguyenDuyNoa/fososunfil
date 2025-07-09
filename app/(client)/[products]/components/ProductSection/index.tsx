@@ -103,7 +103,7 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
   // Reset lại trang và danh sách sản phẩm khi thay đổi bộ lọc hoặc sắp xếp
   useEffect(() => {
     setPage(1);
-    setAllProducts([]);
+    // setAllProducts([]);
     setIsExpanded(false);
   }, [filters, activeFilter, sortPrice]);
 
@@ -136,7 +136,7 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
   };
 
   return (
-    <div ref={sectionRef} className="flex w-full flex-col gap-5">
+    <div ref={sectionRef} className="flex w-full flex-col gap-5" data-section="products">
       <div className="w-full flex gap-1 flex-col xl:flex-row xl:items-center xl:justify-between pb-2">
         <h2 className="text-base xl:text-xl font-semibold text-primary-new">
           Danh sách sản phẩm

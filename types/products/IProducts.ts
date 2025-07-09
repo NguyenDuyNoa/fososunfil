@@ -156,6 +156,7 @@ export interface Category {
   code: string;
   name: string;
   count: number;
+  slug: string;
 }
 
 export interface Brand {
