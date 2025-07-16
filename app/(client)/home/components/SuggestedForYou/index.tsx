@@ -11,9 +11,15 @@ const breakpoints = {
   1280: { slidesPerView: 3.5 },
 };
 
-const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemRelated: any }) => {
+const SuggestedForYou = ({
+  imageForYou,
+  itemRelated,
+}: {
+  imageForYou: any;
+  itemRelated: any;
+}) => {
   const { isVisibleMobile } = useResizeStore();
-
+  if (itemRelated?.length === 0) return null;
   return (
     <div className="relative container w-full rounded-md">
       <div className="flex flex-col gap-3 xl:gap-5">
@@ -62,7 +68,6 @@ const SuggestedForYou = ({ imageForYou, itemRelated }: { imageForYou: any, itemR
             />
           </div>
           <div className="hidden xl:block absolute right-0 top-0 w-[200px] h-full bg-gradient-to-r from-[#F4F6F800] to-[#F4F6F8] z-10 pointer-events-none"></div>
-
         </div>
       </div>
     </div>

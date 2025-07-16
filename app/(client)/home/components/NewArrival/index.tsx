@@ -13,7 +13,7 @@ const breakpoints = {
 
 const NewArrival = ({ itemNew }: { itemNew: any }) => {
   const { isVisibleMobile, isVisibleTablet } = useResizeStore();
-
+  if (itemNew?.length === 0) return null;
   return (
     <div className={`${!isVisibleMobile && !isVisibleTablet ? "container" : ""}`}>
       <div className="relative p-3 xl:p-12 bg-brand-600 w-full h-fit xl:rounded-xl overflow-hidden">

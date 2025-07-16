@@ -52,12 +52,12 @@ const formatDateToString = (date: Date | null): string => {
   return format(date, "dd/MM/yyyy");
 };
 
-// Lấy ngày hiện tại và ngày 30 ngày trước
-const getCurrentDateAndPast30Days = (): { current: Date; past30: Date } => {
+// Lấy ngày hiện tại và ngày 1 năm trước
+const getCurrentDateAndPastYear = (): { current: Date; pastYear: Date } => {
   const currentDate = new Date();
-  const past30Days = new Date();
-  past30Days.setDate(currentDate.getDate() - 30);
-  return { current: currentDate, past30: past30Days };
+  const pastYear = new Date();
+  pastYear.setFullYear(currentDate.getFullYear() - 1);
+  return { current: currentDate, pastYear: pastYear };
 };
 
 // Hàm parse ngày từ string với nhiều định dạng
@@ -108,11 +108,11 @@ const parseDateFromString = (dateStr: string): Date | null => {
 
 const PaymentHistoryPage = () => {
   const { isVisibleMobile, isVisibleTablet } = useResizeStore();
-  const { current, past30 } = getCurrentDateAndPast30Days();
-  const [dateFrom, setDateFrom] = useState<Date | undefined>(past30);
+  const { current, pastYear } = getCurrentDateAndPastYear();
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(pastYear);
   const [dateTo, setDateTo] = useState<Date | undefined>(current);
   const [dateFromInput, setDateFromInput] = useState(
-    format(past30, "dd/MM/yyyy")
+    format(pastYear, "dd/MM/yyyy")
   );
   const [dateToInput, setDateToInput] = useState(format(current, "dd/MM/yyyy"));
 
@@ -138,7 +138,7 @@ const PaymentHistoryPage = () => {
   const { data, isLoading, refetch } = useGetOrderCashDebtAmount({
     datefrom: dateFrom
       ? formatDateToString(dateFrom)
-      : formatDateToString(past30),
+      : formatDateToString(pastYear),
     dateto: dateTo ? formatDateToString(dateTo) : formatDateToString(current),
   });
 
@@ -173,14 +173,9 @@ const PaymentHistoryPage = () => {
     }
   };
 
-  // Xử lý khi lọc theo ngày
-  // const handleFilter = () => {
-  //   refetch();
-  // };
-
   return (
     <div className="w-full p-2 sm:p-4 rounded-lg h-full max-w-full">
-      <h2 className="text-xl font-bold mb-4">Lịch sử công nợ</h2>
+      <h2 className="text-xl font-bold mb-4">Phiếu ghi công nợ</h2>
 
       {/* Bộ lọc */}
       <Card className="mb-4">
@@ -249,10 +244,6 @@ const PaymentHistoryPage = () => {
                 </Popover>
               </div>
             </div>
-
-            {/* <Button onClick={handleFilter} className="w-full sm:w-auto">
-              Lọc
-            </Button> */}
           </div>
         </CardContent>
       </Card>
@@ -273,81 +264,82 @@ const PaymentHistoryPage = () => {
           <CardContent className="p-2 sm:p-4">
             <div className="w-full overflow-x-auto">
               <div className="min-w-[900px]">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-gray-50">
-                      <TableHead className="font-semibold w-[60px] text-center">
-                        STT
-                      </TableHead>
-                      <TableHead className="font-semibold">Ngày</TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Đầu kỳ
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Đơn hàng
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Hàng trả
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Đã trả tiền
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Giảm trừ
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Hoàn trả tiền
-                      </TableHead>
-                      <TableHead className="font-semibold text-right">
-                        Cuối kỳ
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data.items.map((item: IDebtHistory, index: number) => (
-                      <TableRow key={item.Idx} className="hover:bg-gray-50">
-                        <TableCell className="text-center">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell>
-                          {format(
-                            new Date(item.Date.split("/").reverse().join("-")),
-                            "dd/MM/yyyy"
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.DauKy)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.DonHang)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.HangTra)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.DaTraTien)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.GiamTru)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {formatNumber(item.HoanTraTien)}
-                        </TableCell>
-                        <TableCell className="text-right font-medium">
-                          {formatNumber(item.CuoiKy)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    <TableRow className="bg-gray-50">
-                      <TableCell colSpan={8} className="text-right font-bold">
-                        Tổng cộng:
-                      </TableCell>
-                      <TableCell className="text-right font-bold">
-                        {formatNumber(totalAmount)}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                <div className="max-h-[600px] overflow-auto">
+                  <table className="w-full border-separate border-spacing-0 bg-white text-sm">
+                    <thead className="sticky top-0 z-10 shadow-sm">
+                      <tr>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-center w-[60px] font-semibold">
+                          STT
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-left font-semibold">
+                          Ngày
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Đầu kỳ
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Đơn hàng
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Hàng trả
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Đã trả tiền
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Giảm trừ
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Hoàn trả tiền
+                        </th>
+                        <th className="border-b border-gray-200 bg-gray-50 p-2 text-right font-semibold">
+                          Cuối kỳ
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.items.map((item: IDebtHistory, index: number) => (
+                        <tr
+                          key={item.Idx}
+                          className="transition-colors hover:bg-gray-50"
+                        >
+                          <td className="border-b border-gray-200 p-2 text-center">
+                            {index + 1}
+                          </td>
+                          <td className="border-b border-gray-200 p-2">
+                            {format(
+                              new Date(
+                                item.Date.split("/").reverse().join("-")
+                              ),
+                              "dd/MM/yyyy"
+                            )}
+                          </td>
+                          <td className={`border-b border-gray-200 p-2 text-right ${index === 0 ? "font-bold" : ""}`}>
+                            {formatNumber(item.DauKy)}
+                          </td>
+                          <td className="border-b border-gray-200 p-2 text-right text-success-dark">
+                            {formatNumber(item.DonHang)}
+                          </td>
+                          <td className="border-b border-gray-200 p-2 text-right text-error-dark">
+                            {formatNumber(item.HangTra)}
+                          </td>
+                          <td className="border-b border-gray-200 p-2 text-right text-error-dark">
+                            {formatNumber(item.DaTraTien)}
+                          </td>
+                          <td className="border-b border-gray-200 p-2 text-right text-error-dark">
+                            {formatNumber(item.GiamTru)}
+                          </td>
+                          <td className="border-b border-gray-200 p-2 text-right text-success-dark">
+                            {formatNumber(item.HoanTraTien)}
+                          </td>
+                          <td className={`border-b border-gray-200 p-2 text-right ${index === data.items.length - 1 ? "font-bold" : ""}`}>
+                            {formatNumber(item.CuoiKy)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -356,7 +348,12 @@ const PaymentHistoryPage = () => {
         <Card>
           <CardContent className="p-6">
             <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
-              <Image src={IMAGES.noData} alt="no data" width={300} height={300} />
+              <Image
+                src={IMAGES.noData}
+                alt="no data"
+                width={300}
+                height={300}
+              />
               <p className="text-gray-500">Không có dữ liệu công nợ</p>
             </div>
           </CardContent>

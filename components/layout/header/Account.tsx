@@ -58,7 +58,7 @@ const dataTabProfile = [
   },
   {
     id: 3,
-    name: `Công nợ`,
+    name: `Phiếu ghi công nợ`,
     icon: DollarCircle,
     link: "/auth/information/debt",
   },

@@ -92,7 +92,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
         },
         {
           id: 3,
-          name: `Công nợ`,
+          name: `Phiếu ghi công nợ`,
           icon: DollarCircle,
           link: "/auth/information/debt",
         },
@@ -146,7 +146,7 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
     },
     {
       id: 3,
-      name: `Công nợ`,
+      name: `Phiếu ghi công nợ`,
       icon: DollarCircle,
       link: "/auth/information/debt",
     },
@@ -227,10 +227,10 @@ const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
               )}
               {/* {Number(informationUser?.debt_sunfil) > 0 && ( */}
                 <div className="flex items-center gap-2 bg-[#F5F8FF] rounded-lg px-3 py-1 shadow-sm border border-[#E3EAFD] mt-1">
-                  <span className="text-[#07A6FF] font-bold text-base">
+                  <span className="text-[#07A6FF] font-bold text-base whitespace-nowrap">
                     Công nợ:
                   </span>
-                  <span className="text-[#333538] font-semibold text-base">
+                  <span className="text-[#333538] font-semibold text-base whitespace-nowrap">
                     {Number(informationUser?.debt_sunfil || 0).toLocaleString("vi-VN")} <span className="text-sm font-medium">đ</span>
                   </span>
                 </div>
