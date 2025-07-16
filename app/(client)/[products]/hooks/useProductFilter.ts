@@ -14,6 +14,10 @@ export interface FilterState {
   price: number;
   is_new?: number;
   is_hot?: number;
+  company_id: string[];
+  model_id: string[];
+  engine_id: string[];
+  body_id: string[];
 }
 
 export interface CategoryFilter {
@@ -23,12 +27,45 @@ export interface CategoryFilter {
   max: number;
 }
 
+export interface CompanyItem {
+  id: string;
+  code: string;
+  name: string;
+  count: number;
+}
+
+export interface ModelItem {
+  id: string;
+  code: string;
+  name: string;
+  count: number;
+}
+
+export interface EngineItem {
+  id: string;
+  code: string;
+  name: string;
+  count: number;
+}
+
+export interface BodyItem {
+  id: string;
+  code: string;
+  name: string;
+  count: number;
+}
+
+
 export interface FilterData {
   category?: Category[];
   productFilters?: CategoryFilter[];
   brand?: Brand[];
   origin?: Origin[];
   yearManu?: YearManu[];
+  company?: CompanyItem[];
+  model?: ModelItem[];
+  engine?: EngineItem[];
+  body?: BodyItem[];
 }
 
 export const useProductFilter = (slug: string) => {
@@ -43,7 +80,11 @@ export const useProductFilter = (slug: string) => {
     product_not_bought: 0,
     price: 0,
     is_new: 0,
-    is_hot: 0
+    is_hot: 0,
+    company_id: [],
+    model_id: [],
+    engine_id: [],
+    body_id: [],
   });
 
   const { data: apiResponse, isLoading: apiLoading } = useGetCategoryFilter(slug);
@@ -56,7 +97,11 @@ export const useProductFilter = (slug: string) => {
     categoryPrice: [],
     brand: [],
     origin: [],
-    yearManu: []
+    yearManu: [],
+    company: [],
+    model: [],
+    engine: [],
+    body: []
   };
   const isLoading = apiLoading || !apiResponse;
 
@@ -106,7 +151,11 @@ export const useProductFilter = (slug: string) => {
       product_not_bought: 0,
       price: 0,
       is_new: 0,
-      is_hot: 0
+      is_hot: 0,
+      company_id: [],
+      model_id: [],
+      engine_id: [],
+      body_id: [],
     });
   };
 

@@ -19,7 +19,7 @@ import {
   ShoppingBag,
   UserSquare,
   TruckFast,
-  Money,
+  DollarCircle,
 } from "iconsax-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -58,9 +58,9 @@ const dataTabProfile = [
   },
   {
     id: 3,
-    name: `Lịch sử thu tiền`,
-    icon: Money,
-    link: "/auth/information/payment-history",
+    name: `Công nợ`,
+    icon: DollarCircle,
+    link: "/auth/information/debt",
   },
   {
     id: 323,

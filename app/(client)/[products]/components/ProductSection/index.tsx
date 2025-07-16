@@ -79,7 +79,7 @@ const ProductSection = forwardRef<{ scrollToTop: () => void }, ProductSectionPro
     getSort(),
     sortPrice,
     page,
-    9
+    12
   );
 
   // Cập nhật danh sách sản phẩm khi có dữ liệu mới

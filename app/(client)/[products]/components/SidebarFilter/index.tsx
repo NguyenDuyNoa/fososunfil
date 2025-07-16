@@ -12,7 +12,7 @@ import {
   FilterData,
   FilterState,
 } from "../../hooks/useProductFilter";
-import { additionalFilterData, mockFilterData } from "./filterData";
+import { mockFilterData } from "./filterData";
 
 export const FilterSection = ({
   title,
@@ -105,7 +105,7 @@ export const FilterNestedSection = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             style={{ overflow: "hidden" }}
-            className="pl-3 mt-2 ml-4 border-l-2 border-gray-100"
+            className="pl-6 mt-2 xl:ml-4 flex flex-col gap-2.5 relative before:absolute before:left-6 before:top-0 before:h-[calc(100%-20px)] before:border-l-2 before:border-gray-100"
           >
             {children}
           </motion.div>
@@ -131,27 +131,30 @@ const SidebarFilter = ({
   const filterRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
-  const currentSlug = pathname.replace('/', '');
+  const currentSlug = pathname.replace("/", "");
 
   useEffect(() => {
     // Kiểm tra nếu có flag trong localStorage
-    const shouldScroll = localStorage.getItem('scrollToProducts');
+    const shouldScroll = localStorage.getItem("scrollToProducts");
     if (shouldScroll) {
       // Xóa flag
-      localStorage.removeItem('scrollToProducts');
-      
+      localStorage.removeItem("scrollToProducts");
+
       // Đợi một chút để DOM được render đầy đủ
       const timer = setTimeout(() => {
-        const productSection = document.querySelector('[data-section="products"]');
+        const productSection = document.querySelector(
+          '[data-section="products"]'
+        );
         if (productSection) {
-          const yOffset = productSection.getBoundingClientRect().top + window.scrollY - 100;
+          const yOffset =
+            productSection.getBoundingClientRect().top + window.scrollY - 100;
           window.scrollTo({
             top: yOffset,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 500);
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -163,25 +166,18 @@ const SidebarFilter = ({
     }
   };
 
-  const handleCategoryClick = (categoryName: string, categorySlug: string, e: React.MouseEvent) => {
+  const handleCategoryClick = (
+    categoryName: string,
+    categorySlug: string,
+    e: React.MouseEvent
+  ) => {
     e.preventDefault();
     // Đặt flag trong localStorage để biết cần cuộn sau khi chuyển trang
-    localStorage.setItem('scrollToProducts', 'true');
-    
+    localStorage.setItem("scrollToProducts", "true");
+
     // Chuyển trang
     router.push(`/${categorySlug}`);
   };
-
-  // Map dữ liệu năm từ API vào additionalFilterData
-  if (filterData?.yearManu && additionalFilterData.years) {
-    additionalFilterData.years.data = filterData.yearManu.map(
-      (year, index) => ({
-        id: index.toString(),
-        name: year.name.toString(),
-        count: year.count,
-      })
-    );
-  }
 
   // Map between filter ID and its corresponding filter type
   const getProductFilterType = (id: number): keyof FilterState | null => {
@@ -276,14 +272,19 @@ const SidebarFilter = ({
                 <Link
                   key={category.id}
                   href={`/${category.slug}`}
-                  onClick={(e) => handleCategoryClick(category.name, category.slug, e)}
+                  onClick={(e) =>
+                    handleCategoryClick(category.name, category.slug, e)
+                  }
                   className="cursor-pointer"
                 >
                   <CustomCheckbox
                     id={category.id}
                     label={category.name.toString()}
                     count={category.count}
-                    checked={category.slug === currentSlug || filters.category_id.includes(category.id)}
+                    checked={
+                      category.slug === currentSlug ||
+                      filters.category_id.includes(category.id)
+                    }
                     onChange={() =>
                       handleFilterChange("category_id", category.id)
                     }
@@ -296,37 +297,109 @@ const SidebarFilter = ({
         </>
       )}
 
-      {additionalFilterData && (
+      {filterData && (
         <FilterSection title="Dòng xe" isOpen={false} className="pb-5 2xl:pb-6">
           <div className="space-y-1">
-            {Object.entries(additionalFilterData).map(([key, filterGroup]) => (
-              <FilterNestedSection key={key} title={filterGroup.label}>
+            {/* Hãng xe */}
+            {filterData.company && filterData.company.length > 0 && (
+              <FilterNestedSection title="Hãng">
                 <div className="space-y-2.5">
-                  {filterGroup.data.map((item) => (
-                    <CustomCheckbox
-                      key={item.id}
-                      id={`${key}-${item.id}`}
-                      label={item.name}
-                      count={item.count}
-                      checked={
-                        key === "bodyTypes"
-                          ? filters.origin_id.includes(item.id)
-                          : key === "years"
-                          ? filters.year_manu.includes(item.name)
-                          : false
-                      }
-                      onChange={() =>
-                        key === "bodyTypes"
-                          ? handleFilterChange("origin_id", item.id)
-                          : key === "years"
-                          ? handleFilterChange("year_manu", item.name)
-                          : {}
-                      }
-                    />
+                  {filterData.company.map((item) => (
+                    <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                      <CustomCheckbox
+                        id={`company-${item.id}`}
+                        label={item.name}
+                        count={item.count}
+                        checked={filters.company_id.includes(item.id)}
+                        onChange={() => handleFilterChange("company_id", item.id)}
+                      />
+                    </div>
                   ))}
                 </div>
               </FilterNestedSection>
-            ))}
+            )}
+
+            {/* Model xe */}
+            {filterData.model && filterData.model.length > 0 && (
+              <FilterNestedSection title="Model">
+                <div className="space-y-2.5">
+                  {filterData.model.map((item) => (
+                    <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                      <CustomCheckbox
+                        key={item.id}
+                        id={`model-${item.id}`}
+                        label={item.name}
+                        count={item.count}
+                        checked={filters.model_id.includes(item.id)}
+                        onChange={() => handleFilterChange("model_id", item.id)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </FilterNestedSection>
+            )}
+
+            {/* Năm sản xuất */}
+            {filterData.yearManu && filterData.yearManu.length > 0 && (
+              <FilterNestedSection title="Năm sản xuất">
+                <div className="space-y-2.5">
+                  {filterData.yearManu.map((item, index) => (
+                    <div key={index} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                      <CustomCheckbox
+                        key={index}
+                        id={`year-${index}`}
+                        label={item.name.toString()}
+                        count={item.count}
+                        checked={filters.year_manu.includes(item.name.toString())}
+                        onChange={() =>
+                          handleFilterChange("year_manu", item.name.toString())
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </FilterNestedSection>
+            )}
+
+            {/* Động cơ */}
+            {filterData.engine && filterData.engine.length > 0 && (
+              <FilterNestedSection title="Động cơ">
+                <div className="space-y-2.5">
+                  {filterData.engine.map((item) => (
+                    <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                      <CustomCheckbox
+                        key={item.id}
+                        id={`engine-${item.id}`}
+                        label={item.name}
+                        count={item.count}
+                        checked={filters.engine_id.includes(item.id)}
+                        onChange={() => handleFilterChange("engine_id", item.id)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </FilterNestedSection>
+            )}
+
+            {/* Body type */}
+            {filterData.body && filterData.body.length > 0 && (
+              <FilterNestedSection title="Dòng xe">
+                <div className="space-y-2.5">
+                  {filterData.body.map((item) => (
+                    <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                      <CustomCheckbox
+                        key={item.id}
+                        id={`body-${item.id}`}
+                        label={item.name}
+                        count={item.count}
+                        checked={filters.body_id.includes(item.id)}
+                        onChange={() => handleFilterChange("body_id", item.id)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </FilterNestedSection>
+            )}
           </div>
         </FilterSection>
       )}

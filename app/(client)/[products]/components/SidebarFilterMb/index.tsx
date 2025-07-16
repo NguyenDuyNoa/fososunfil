@@ -172,38 +172,109 @@ const SidebarFilterMb = ({
           )}
 
           {/* Dòng xe */}
-          {additionalFilterData && (
+          {filterData && (
             <FilterSection title="Dòng xe" isOpen={true} className="pb-5">
               <div className="space-y-1">
-                {Object.entries(additionalFilterData).map(
-                  ([key, filterGroup]) => (
-                    <FilterNestedSection
-                      key={key}
-                      title={filterGroup.label}
-                      isOpen={true}
-                    >
-                      <div className="space-y-2.5">
-                        {filterGroup.data.map((item) => (
+                {/* Hãng xe */}
+                {filterData.company && filterData.company.length > 0 && (
+                  <FilterNestedSection title="Hãng" isOpen={true}>
+                    <div className="space-y-2.5">
+                      {filterData.company.map((item) => (
+                        <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
                           <CustomCheckbox
                             key={item.id}
-                            id={`mb-${key}-${item.id}`}
+                            id={`mb-company-${item.id}`}
                             label={item.name}
                             count={item.count}
-                            checked={
-                              key === "bodyTypes"
-                                ? filters.origin_id.includes(item.id)
-                                : false
-                            }
+                            checked={filters.company_id.includes(item.id)}
+                            onChange={() => onFilterChange("company_id", item.id)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </FilterNestedSection>
+                )}
+
+                {/* Model xe */}
+                {filterData.model && filterData.model.length > 0 && (
+                  <FilterNestedSection title="Model" isOpen={true}>
+                    <div className="space-y-2.5">
+                      {filterData.model.map((item) => (
+                        <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                          <CustomCheckbox
+                            key={item.id}
+                            id={`mb-model-${item.id}`}
+                            label={item.name}
+                            count={item.count}
+                            checked={filters.model_id.includes(item.id)}
+                            onChange={() => onFilterChange("model_id", item.id)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </FilterNestedSection>
+                )}
+
+                {/* Năm sản xuất */}
+                {filterData.yearManu && filterData.yearManu.length > 0 && (
+                  <FilterNestedSection title="Năm sản xuất" isOpen={true}>
+                    <div className="space-y-2.5">
+                      {filterData.yearManu.map((item, index) => (
+                        <div key={index} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                          <CustomCheckbox
+                            key={index}
+                            id={`mb-year-${index}`}
+                            label={item.name.toString()}
+                            count={item.count}
+                            checked={filters.year_manu.includes(item.name.toString())}
                             onChange={() =>
-                              key === "bodyTypes"
-                                ? onFilterChange("origin_id", item.id)
-                                : {}
+                              onFilterChange("year_manu", item.name.toString())
                             }
                           />
-                        ))}
-                      </div>
-                    </FilterNestedSection>
-                  )
+                        </div>
+                      ))}
+                    </div>
+                  </FilterNestedSection>
+                )}
+
+                {/* Động cơ */}
+                {filterData.engine && filterData.engine.length > 0 && (
+                  <FilterNestedSection title="Động cơ" isOpen={true}>
+                    <div className="space-y-2.5">
+                      {filterData.engine.map((item) => (
+                        <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                          <CustomCheckbox
+                            key={item.id}
+                            id={`mb-engine-${item.id}`}
+                            label={item.name}
+                            count={item.count}
+                            checked={filters.engine_id.includes(item.id)}
+                            onChange={() => onFilterChange("engine_id", item.id)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </FilterNestedSection>
+                )}
+
+                {/* Body type */}
+                {filterData.body && filterData.body.length > 0 && (
+                  <FilterNestedSection title="Dòng xe" isOpen={true}>
+                    <div className="space-y-2.5">
+                      {filterData.body.map((item) => (
+                        <div key={item.id} className="relative pl-4 before:absolute before:left-0 before:top-1/3 before:-translate-y-1/2 before:w-4 before:h-4 before:border-l-2 before:border-b-2 before:border-gray-100 before:rounded-bl-xl">
+                          <CustomCheckbox
+                            key={item.id}
+                            id={`mb-body-${item.id}`}
+                            label={item.name}
+                            count={item.count}
+                            checked={filters.body_id.includes(item.id)}
+                            onChange={() => onFilterChange("body_id", item.id)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </FilterNestedSection>
                 )}
               </div>
             </FilterSection>
@@ -212,7 +283,10 @@ const SidebarFilterMb = ({
 
         <div className="p-4 border-t border-[#919EAB33] flex gap-3">
           <button
-            onClick={onReset}
+            onClick={() => {
+              onReset();
+              onClose();
+            }}
             className="flex-1 py-2 border border-[#919EAB3D] rounded-lg font-medium text-gray-700 hover:border-brand-400"
           >
             Xóa bộ lọc

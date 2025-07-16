@@ -90,6 +90,16 @@ const apiAuth = {
     async postUpdateLastTime() {
         return await instance.get("/api_web/Api_Clients/updateLastTime");
     },
+
+    // api post get order and sale return amount
+    async getOrderAndSaleReturnAmount(data: any) {
+        return await instance.post("/api_web/Api_clients/sendWebGetOrderAndSaleReturnAmount", data);
+    },
+
+    // api post get order cash debt amount
+    async getOrderCashDebtAmount(data: any) {
+        return await instance.post("/api_web/Api_clients/sendWebGetOrderCashDebtAmount", data);
+    },
 };
 
 export default apiAuth;
