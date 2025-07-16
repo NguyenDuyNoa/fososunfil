@@ -25,6 +25,9 @@ import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useResizeStore } from "@/stores/useResizeStore";
+import Image from "next/image";
+import { IMAGES } from "@/constants/Images";
+import DeliveryHistorySkeleton from "@/components/skeleton/delivery-history/DeliveryHistorySkeleton";
 
 // Định nghĩa kiểu dữ liệu
 interface DeliveryItem {
@@ -273,13 +276,7 @@ const DeliveryHistoryPage = () => {
       </Card>
 
       {isLoading ? (
-        <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="w-full h-20 flex justify-center items-center">
-              Đang tải dữ liệu...
-            </div>
-          </CardContent>
-        </Card>
+        <DeliveryHistorySkeleton />
       ) : data?.result && data.items.length > 0 ? (
         <Card
           className="w-full"
@@ -497,8 +494,9 @@ const DeliveryHistoryPage = () => {
       ) : (
         <Card>
           <CardContent className="p-6">
-            <div className="w-full h-20 flex justify-center items-center font-medium text-gray-500">
-              Không có dữ liệu giao dịch
+            <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
+              <Image src={IMAGES.noData} alt="no data" width={300} height={300} />
+              <p className="text-gray-500">Không có dữ liệu giao hàng</p>
             </div>
           </CardContent>
         </Card>

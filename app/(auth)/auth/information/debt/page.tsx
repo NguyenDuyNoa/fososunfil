@@ -25,6 +25,9 @@ import { vi } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
+import DebtHistorySkeleton from "@/components/skeleton/debt/DebtHistorySkeleton";
+import Image from "next/image";
+import { IMAGES } from "@/constants/Images";
 
 interface IDebtHistory {
   Date: string;
@@ -255,13 +258,7 @@ const PaymentHistoryPage = () => {
       </Card>
 
       {isLoading ? (
-        <Card>
-          <CardContent className="p-4 sm:p-6">
-            <div className="w-full h-20 flex justify-center items-center">
-              Đang tải dữ liệu...
-            </div>
-          </CardContent>
-        </Card>
+        <DebtHistorySkeleton />
       ) : data?.result && data.items.length > 0 ? (
         <Card
           className="w-full"
@@ -358,8 +355,9 @@ const PaymentHistoryPage = () => {
       ) : (
         <Card>
           <CardContent className="p-6">
-            <div className="w-full h-20 flex justify-center items-center font-medium text-gray-500">
-              Không có dữ liệu công nợ
+            <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
+              <Image src={IMAGES.noData} alt="no data" width={300} height={300} />
+              <p className="text-gray-500">Không có dữ liệu công nợ</p>
             </div>
           </CardContent>
         </Card>
