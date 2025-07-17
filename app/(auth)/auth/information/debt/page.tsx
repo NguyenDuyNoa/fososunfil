@@ -349,7 +349,7 @@ const PaymentHistoryPage = () => {
           <CardContent className="p-6">
             <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
               <Image
-                src={IMAGES.noData}
+                src={IMAGES.productEmpty}
                 alt="no data"
                 width={300}
                 height={300}

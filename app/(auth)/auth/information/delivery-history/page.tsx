@@ -495,7 +495,7 @@ const DeliveryHistoryPage = () => {
         <Card>
           <CardContent className="p-6">
             <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
-              <Image src={IMAGES.noData} alt="no data" width={300} height={300} />
+              <Image src={IMAGES.productEmpty} alt="no data" width={300} height={300} />
               <p className="text-gray-500">Không có dữ liệu giao hàng</p>
             </div>
           </CardContent>

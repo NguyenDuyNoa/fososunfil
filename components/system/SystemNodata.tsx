@@ -16,13 +16,13 @@ const SystemNodata = ({ type, className, classNameTitle }: { type: string, class
     useEffect(() => {
         switch (type) {
             case 'search-history':
-                quertyState({ title: 'No history!', image: '/system/no-data.webp' })
+                quertyState({ title: 'No history!', image: '/product/productEmpty.png' })
                 break;
             case 'gift-history':
-                quertyState({ title: 'No history!', image: '/system/no-data.webp' })
+                quertyState({ title: 'No history!', image: '/product/productEmpty.png' })
                 break;
             default:
-                quertyState({ title: '', image: '/system/no-data.webp' })
+                quertyState({ title: '', image: '/product/productEmpty.png' })
                 break;
         }
     }, [type])
@@ -31,7 +31,7 @@ const SystemNodata = ({ type, className, classNameTitle }: { type: string, class
         <div className={`${className} flex flex-col gap-2 items-center justify-center h-full`}>
             <Image
                 alt='nodata'
-                src={data.image ? data.image : "/system/no-data.webp"}
+                src={data.image ? data.image : "/product/productEmpty.png"}
                 unoptimized
                 width={1280}
                 height={1024}
