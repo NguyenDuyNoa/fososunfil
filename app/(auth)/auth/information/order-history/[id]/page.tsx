@@ -59,11 +59,10 @@ const OrderDetailPage = () => {
   // Xác định màu sắc cho trạng thái
   const getStatusColor = (status: string) => {
     const colorMap: Record<string, string> = {
-      un_approved: "bg-yellow-50 text-yellow-700",
-      approved: "bg-blue-50 text-blue-700",
-      delivering: "bg-orange-50 text-orange-700",
-      delivered: "bg-green-50 text-green-700",
-      cancelled: "bg-red-50 text-red-700",
+      "Đã đặt hàng": "bg-blue-50 text-blue-700",
+      "Đang xử lý": "bg-yellow-50 text-yellow-700",
+      "Đã giao": "bg-green-50 text-green-700", 
+      "Từ chối": "bg-red-50 text-red-700",
     };
     return colorMap[status] || "bg-gray-50 text-gray-700";
   };
