@@ -28,6 +28,7 @@ import { useResizeStore } from "@/stores/useResizeStore";
 import Image from "next/image";
 import { IMAGES } from "@/constants/Images";
 import DeliveryHistorySkeleton from "@/components/skeleton/delivery-history/DeliveryHistorySkeleton";
+import { useRouter } from "next/navigation";
 
 // Định nghĩa kiểu dữ liệu
 interface DeliveryItem {
@@ -133,6 +134,9 @@ const DeliveryHistoryPage = () => {
     format(past30, "dd/MM/yyyy")
   );
   const [dateToInput, setDateToInput] = useState(format(current, "dd/MM/yyyy"));
+  const [isDateFromOpen, setIsDateFromOpen] = useState(false);
+  const [isDateToOpen, setIsDateToOpen] = useState(false);
+  const router = useRouter();
 
   // Sử dụng use-debounce
   const [debouncedDateFromInput] = useDebounce(dateFromInput, 500);
@@ -195,6 +199,7 @@ const DeliveryHistoryPage = () => {
     if (date) {
       setDateFromInput(format(date, "dd/MM/yyyy"));
     }
+    setIsDateFromOpen(false);
   };
 
   const handleDateToSelect = (date: Date | undefined) => {
@@ -202,6 +207,15 @@ const DeliveryHistoryPage = () => {
     if (date) {
       setDateToInput(format(date, "dd/MM/yyyy"));
     }
+    setIsDateToOpen(false);
+  };
+
+  // Hàm xử lý khi bấm vào item trong bảng
+  const handleRowClick = (item: DeliveryItem) => {
+    const params = new URLSearchParams({
+      typeId: item.TypeId.toString(),
+    });
+    router.push(`/auth/information/delivery-history/${item.OrderId}?${params.toString()}`);
   };
 
   return (
@@ -215,19 +229,27 @@ const DeliveryHistoryPage = () => {
             <div className="flex flex-col gap-2 w-full sm:w-auto">
               <Label>Từ ngày</Label>
               <div className="flex gap-2">
-                <Input
-                  type="text"
-                  value={dateFromInput}
-                  onChange={(e) => handleDateFromInputChange(e.target.value)}
-                  placeholder="DD/MM/YYYY"
-                  className="w-full sm:w-[150px]"
-                />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("w-[50px] p-0 flex-shrink-0")}>
-                      <CalendarIcon className="h-4 w-4" />
-                    </Button>
-                  </PopoverTrigger>
+                <Popover open={isDateFromOpen} onOpenChange={setIsDateFromOpen}>
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <Input
+                        type="text"
+                        value={dateFromInput}
+                        onChange={(e) => handleDateFromInputChange(e.target.value)}
+                        placeholder="DD/MM/YYYY"
+                        className="w-full sm:w-[150px] cursor-pointer"
+                        readOnly
+                      />
+                    </PopoverTrigger>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-[50px] p-0 flex-shrink-0")}
+                      >
+                        <CalendarIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                  </div>
                   <PopoverContent className="w-auto p-0" align="end">
                     <Calendar
                       mode="single"
@@ -244,19 +266,27 @@ const DeliveryHistoryPage = () => {
             <div className="flex flex-col gap-2 w-full sm:w-auto">
               <Label>Đến ngày</Label>
               <div className="flex gap-2">
-                <Input
-                  type="text"
-                  value={dateToInput}
-                  onChange={(e) => handleDateToInputChange(e.target.value)}
-                  placeholder="DD/MM/YYYY"
-                  className="w-full sm:w-[150px]"
-                />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("w-[50px] p-0 flex-shrink-0")}>
-                      <CalendarIcon className="h-4 w-4" />
-                    </Button>
-                  </PopoverTrigger>
+                <Popover open={isDateToOpen} onOpenChange={setIsDateToOpen}>
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <Input
+                        type="text"
+                        value={dateToInput}
+                        onChange={(e) => handleDateToInputChange(e.target.value)}
+                        placeholder="DD/MM/YYYY"
+                        className="w-full sm:w-[150px] cursor-pointer"
+                        readOnly
+                      />
+                    </PopoverTrigger>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-[50px] p-0 flex-shrink-0")}
+                      >
+                        <CalendarIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                  </div>
                   <PopoverContent className="w-auto p-0" align="end">
                     <Calendar
                       mode="single"
@@ -294,11 +324,17 @@ const DeliveryHistoryPage = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-gray-50">
-                      <TableHead className="font-semibold w-[60px] text-center">STT</TableHead>
+                      <TableHead className="font-semibold w-[60px] text-center">
+                        STT
+                      </TableHead>
                       <TableHead className="font-semibold">Loại</TableHead>
                       <TableHead className="font-semibold">Ngày</TableHead>
-                      <TableHead className="font-semibold">Mã đơn hàng</TableHead>
-                      <TableHead className="font-semibold">Số đơn hàng</TableHead>
+                      <TableHead className="font-semibold">
+                        Mã đơn hàng
+                      </TableHead>
+                      <TableHead className="font-semibold">
+                        Số đơn hàng
+                      </TableHead>
                       <TableHead className="font-semibold text-right">
                         Giá trị đơn hàng
                       </TableHead>
@@ -317,9 +353,12 @@ const DeliveryHistoryPage = () => {
                     {data.items.map((item: DeliveryItem, index: number) => (
                       <TableRow
                         key={`${item.TypeId}-${item.OrderId}-${index}`}
-                        className="hover:bg-gray-50"
+                        className="hover:bg-gray-50 cursor-pointer transition-colors"
+                        onClick={() => handleRowClick(item)}
                       >
-                        <TableCell className="text-center">{index + 1}</TableCell>
+                        <TableCell className="text-center">
+                          {index + 1}
+                        </TableCell>
                         <TableCell>{item.label}</TableCell>
                         <TableCell>{item.Date}</TableCell>
                         <TableCell>{item.OrderId}</TableCell>
@@ -495,12 +534,19 @@ const DeliveryHistoryPage = () => {
         <Card>
           <CardContent className="p-6">
             <div className="w-full flex flex-col justify-center items-center font-medium text-gray-500">
-              <Image src={IMAGES.productEmpty} alt="no data" width={300} height={300} />
+              <Image
+                src={IMAGES.productEmpty}
+                alt="no data"
+                width={300}
+                height={300}
+              />
               <p className="text-gray-500">Không có dữ liệu giao hàng</p>
             </div>
           </CardContent>
         </Card>
       )}
+
+
     </div>
   );
 };

@@ -115,6 +115,8 @@ const PaymentHistoryPage = () => {
     format(pastYear, "dd/MM/yyyy")
   );
   const [dateToInput, setDateToInput] = useState(format(current, "dd/MM/yyyy"));
+  const [isDateFromOpen, setIsDateFromOpen] = useState(false);
+  const [isDateToOpen, setIsDateToOpen] = useState(false);
 
   // Sử dụng use-debounce
   const [debouncedDateFromInput] = useDebounce(dateFromInput, 500);
@@ -164,6 +166,7 @@ const PaymentHistoryPage = () => {
     if (date) {
       setDateFromInput(format(date, "dd/MM/yyyy"));
     }
+    setIsDateFromOpen(false);
   };
 
   const handleDateToSelect = (date: Date | undefined) => {
@@ -171,6 +174,7 @@ const PaymentHistoryPage = () => {
     if (date) {
       setDateToInput(format(date, "dd/MM/yyyy"));
     }
+    setIsDateToOpen(false);
   };
 
   return (
@@ -184,22 +188,27 @@ const PaymentHistoryPage = () => {
             <div className="flex flex-col gap-2 w-full sm:w-auto">
               <Label>Từ ngày</Label>
               <div className="flex gap-2">
-                <Input
-                  type="text"
-                  value={dateFromInput}
-                  onChange={(e) => handleDateFromInputChange(e.target.value)}
-                  placeholder="DD/MM/YYYY"
-                  className="w-full sm:w-[150px]"
-                />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn("w-[50px] p-0 flex-shrink-0")}
-                    >
-                      <CalendarIcon className="h-4 w-4" />
-                    </Button>
-                  </PopoverTrigger>
+                <Popover open={isDateFromOpen} onOpenChange={setIsDateFromOpen}>
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <Input
+                        type="text"
+                        value={dateFromInput}
+                        onChange={(e) => handleDateFromInputChange(e.target.value)}
+                        placeholder="DD/MM/YYYY"
+                        className="w-full sm:w-[150px] cursor-pointer"
+                        readOnly
+                      />
+                    </PopoverTrigger>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-[50px] p-0 flex-shrink-0")}
+                      >
+                        <CalendarIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                  </div>
                   <PopoverContent className="w-auto p-0" align="end">
                     <Calendar
                       mode="single"
@@ -216,22 +225,27 @@ const PaymentHistoryPage = () => {
             <div className="flex flex-col gap-2 w-full sm:w-auto">
               <Label>Đến ngày</Label>
               <div className="flex gap-2">
-                <Input
-                  type="text"
-                  value={dateToInput}
-                  onChange={(e) => handleDateToInputChange(e.target.value)}
-                  placeholder="DD/MM/YYYY"
-                  className="w-full sm:w-[150px]"
-                />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn("w-[50px] p-0 flex-shrink-0")}
-                    >
-                      <CalendarIcon className="h-4 w-4" />
-                    </Button>
-                  </PopoverTrigger>
+                <Popover open={isDateToOpen} onOpenChange={setIsDateToOpen}>
+                  <div className="flex gap-2">
+                    <PopoverTrigger asChild>
+                      <Input
+                        type="text"
+                        value={dateToInput}
+                        onChange={(e) => handleDateToInputChange(e.target.value)}
+                        placeholder="DD/MM/YYYY"
+                        className="w-full sm:w-[150px] cursor-pointer"
+                        readOnly
+                      />
+                    </PopoverTrigger>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn("w-[50px] p-0 flex-shrink-0")}
+                      >
+                        <CalendarIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                  </div>
                   <PopoverContent className="w-auto p-0" align="end">
                     <Calendar
                       mode="single"
